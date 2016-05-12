@@ -8,8 +8,8 @@ using TiTag.Repository.Base;
 
 namespace TigTag.Repository.IModelRepository
 {
-    public interface IBasePageRepository : IGenericRepository<BasePage> {
+    public interface IFollowMenuRepository : IGenericRepository<FollowMenu> {
 
-     
+       
     }
 }

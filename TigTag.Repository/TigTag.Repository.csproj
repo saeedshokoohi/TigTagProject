@@ -49,9 +49,21 @@
     <Compile Include="Base\GenericRepository.cs" />
     <Compile Include="Base\IGenericRepository.cs" />
     <Compile Include="Class1.cs" />
-    <Compile Include="IModelRepository\IBasePageRepository.cs" />
+    <Compile Include="IModelRepository\IPageRepository.cs" />
+    <Compile Include="IModelRepository\IImageTableRepository.cs" />
+    <Compile Include="IModelRepository\IFollowRepository.cs" />
+    <Compile Include="IModelRepository\IFollowMenuRepository.cs" />
+    <Compile Include="IModelRepository\IFollowConditionRepository.cs" />
+    <Compile Include="IModelRepository\IMenuRepository.cs" />
+    <Compile Include="IModelRepository\IFollowMenuPackageRepository.cs" />
     <Compile Include="IModelRepository\IUserRepository.cs" />
-    <Compile Include="ModelRepository\BasePageRepository.cs" />
+    <Compile Include="ModelRepository\PageRepository.cs" />
+    <Compile Include="ModelRepository\MenuRepository.cs" />
+    <Compile Include="ModelRepository\FollowConditionRepository.cs" />
+    <Compile Include="ModelRepository\FollowMenuPackageRepository.cs" />
+    <Compile Include="ModelRepository\ImageTableRepository.cs" />
+    <Compile Include="ModelRepository\FollowRepository.cs" />
+    <Compile Include="ModelRepository\FollowMenuRepository.cs" />
     <Compile Include="ModelRepository\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

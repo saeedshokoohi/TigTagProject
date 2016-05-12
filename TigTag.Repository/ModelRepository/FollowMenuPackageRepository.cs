@@ -9,12 +9,12 @@ using TiTag.Repository.Base;
 
 namespace TigTag.Repository.ModelRepository {
 
-    public class BasePageRepository : 
-        GenericRepository<DataModelContext, BasePage>, IBasePageRepository  {
+    public class FollowMenuPackageRepository : 
+        GenericRepository<DataModelContext, FollowMenuPackage>, IFollowMenuPackageRepository  {
 
-        public BasePage GetSingle(Guid Id) {
+        public FollowMenuPackage GetSingle(Guid Id) {
 
-            var query = Context.BasePages.FirstOrDefault(x => x.Id ==Id );
+            var query = Context.FollowMenuPackages.FirstOrDefault(x => x.Id ==Id );
             return query;
         }
     }
