@@ -12,29 +12,29 @@ namespace TigTag.DataModel.model
     using System;
     using System.Collections.Generic;
     
-    public partial class User : BaseEntity
+    public partial class Page : BaseEntity
     {
-        public User()
+        public Page()
         {
             this.Follows = new HashSet<Follow>();
-            this.FollowMenus = new HashSet<FollowMenu>();
-            this.Pages = new HashSet<Page>();
+            this.Menus = new HashSet<Menu>();
+            this.Page1 = new HashSet<Page>();
         }
     
         public System.Guid Id { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool IsActive { get; set; }
+        public string PageTitle { get; set; }
+        public string Description { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public string EmailAddress { get; set; }
-        public Nullable<System.DateTime> LastLoginDate { get; set; }
-        public string ProfileInfo { get; set; }
-        public Nullable<System.Guid> ProfileImageId { get; set; }
+        public bool PageType { get; set; }
+        public System.Guid UserId { get; set; }
+        public Nullable<System.Guid> PageId { get; set; }
+        public Nullable<System.Guid> ImageId { get; set; }
     
         public virtual ICollection<Follow> Follows { get; set; }
-        public virtual ICollection<FollowMenu> FollowMenus { get; set; }
         public virtual ImageTable ImageTable { get; set; }
-        public virtual ICollection<Page> Pages { get; set; }
+        public virtual ICollection<Menu> Menus { get; set; }
+        public virtual ICollection<Page> Page1 { get; set; }
+        public virtual Page Page2 { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -12,12 +12,13 @@ namespace TigTag.DataModel.model
     using System;
     using System.Collections.Generic;
     
-    public partial class BasePage : BaseEntity
+    public partial class FollowMenuPackage : BaseEntity
     {
         public System.Guid Id { get; set; }
-        public string Title { get; set; }
-        public Nullable<System.Guid> UserRef { get; set; }
+        public System.Guid FollowMenuId { get; set; }
+        public System.Guid MenuId { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual FollowMenu FollowMenu { get; set; }
+        public virtual Menu Menu { get; set; }
     }
 }

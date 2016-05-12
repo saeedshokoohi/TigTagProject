@@ -19,9 +19,15 @@ namespace TigTag.DataModel.model
             {
                
             }
+        public DbSet<Follow> Follows { get; set; }
+        public DbSet<FollowCondition> FollowConditions { get; set; }
+        public DbSet<FollowMenu> FollowMenus { get; set; }
+        public DbSet<FollowMenuPackage> FollowMenuPackages { get; set; }
+        public DbSet<ImageTable> ImageTables { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Page> Pages { get; set; }
+        public DbSet<User> Users { get; set; }
 
-            public DbSet<User> Users { get; set; }
-            public DbSet<BasePage> BasePages { get; set; }
-        }
+    }
     
 }
