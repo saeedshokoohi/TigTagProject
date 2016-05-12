@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Swashbuckle;
 
 
 namespace TigTag.WebApi
 {
+
     public static class WebApiConfig
     {
 
@@ -15,7 +17,7 @@ namespace TigTag.WebApi
           //to enable the CORS (cross original ...)
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
-          
+           
             config.Routes.MapHttpRoute(
                 name: "ApiById",
                 routeTemplate: "api/{controller}/{id}",

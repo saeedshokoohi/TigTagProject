@@ -1,11 +1,11 @@
 using System.Web.Http;
 using WebActivatorEx;
-using TigTag.WebApi;
+using TigTag.Repository;
 using Swashbuckle.Application;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace TigTag.WebApi
+namespace TigTag.Repository
 {
     public class SwaggerConfig
     {
@@ -32,7 +32,7 @@ namespace TigTag.WebApi
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "TigTag.WebApi");
+                        c.SingleApiVersion("v1", "TigTag.Repository");
 
                         // If your API has multiple versions, use "MultipleApiVersions" instead of "SingleApiVersion".
                         // In this case, you must provide a lambda that tells Swashbuckle which actions should be
