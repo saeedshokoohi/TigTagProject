@@ -25,22 +25,33 @@ namespace TigTag.WebApi.Controllers
         {
             
             ResultDto returnResult = new ResultDto();
+            AutoMapper.Mapper.CreateMap<UserDto, User>();
             User UserModel = AutoMapper.Mapper.Map<User>(user);
             UserModel.Id = Guid.NewGuid();
-            try
+            UserModel.CreateDate = DateTime.Now;
+            UserModel.IsActive = true;
+            returnResult=userRepo.validateUser(UserModel);
+            if (returnResult.isDone)
             {
-                userRepo.Add(UserModel);
-                returnResult.isDone = true;
-                returnResult.message = "new user added successfully";
-                returnResult.returnId = UserModel.Id.ToString();
+                try
+                {
+                    userRepo.Add(UserModel);
+                    userRepo.Save();
+                    returnResult.isDone = true;
+                    returnResult.message = "new user added successfully";
+                    returnResult.returnId = UserModel.Id.ToString();
+                }
+                catch (Exception ex)
+                {
+                    returnResult.isDone = false;
+                    returnResult.message = ex.Message;
+
+                }
             }
-            catch (Exception ex)
+            else
             {
-                returnResult.isDone = false;
-                returnResult.message = ex.Message;
-
+                returnResult.message = "input is not valid. check the validation messages";
             }
-
             return returnResult;
         }
         /// <summary>
@@ -50,11 +61,32 @@ namespace TigTag.WebApi.Controllers
         public List<UserDto> getRegisteredUser()
         {
           List<User> users=  userRepo.GetAll().ToList();
-          List<UserDto> UserdtoList = AutoMapper.Mapper.Map<List<UserDto>>(users);
+            AutoMapper.Mapper.CreateMap<User, UserDto>();
+            List<UserDto> UserdtoList = AutoMapper.Mapper.Map<List<UserDto>>(users);
 
           return UserdtoList;
 
             
+        }
+        /// <summary>
+        /// this service check user name and password and return result
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public ResultDto login([FromBody]UserDto user)
+        {
+            ResultDto returnResult;
+            try
+            {
+                returnResult = userRepo.login(user.UserName, user.Password);
+            }catch(Exception ex)
+            {
+                returnResult = new ResultDto();
+                returnResult.isDone = false;
+                returnResult.message = ex.Message+ex.StackTrace;
+            }
+            return returnResult;
         }
 
   

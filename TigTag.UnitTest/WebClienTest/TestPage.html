@@ -9,8 +9,17 @@
     <ul>
         <li>
             UserRegisterTest 
-            <input type="button" value="RehisterService" onclick="callUserSegisterApi()" />
+            <input type="text" title="user Name" id="username" />
+            <input type="password" title="password" id="password" />
+             <input type="button" value="RehisterService" onclick="callUserSegisterApi()" />
+            <input type="button" value="login" onclick="login()" />
         </li>
+        <li>
+            message :<p id="message" ></p>
+        </li>
+    </ul>
+    <ul id="userlist">
+
     </ul>
 
     <script src="../Scripts/jquery-2.2.3.js"></script>

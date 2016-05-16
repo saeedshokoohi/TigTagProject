@@ -12,21 +12,15 @@ namespace TigTag.DataModel.model
     using System;
     using System.Collections.Generic;
     
-    public partial class Follow : BaseEntity
+    public partial class CommentReply : BaseEntity
     {
-        public Follow()
-        {
-            this.FollowConditions = new HashSet<FollowCondition>();
-        }
-    
         public System.Guid Id { get; set; }
-        public System.Guid FollowerUserId { get; set; }
-        public System.Guid FollowingPageId { get; set; }
-        public string lastVisitDate { get; set; }
+        public System.Guid AutherId { get; set; }
+        public System.Guid PageCommentId { get; set; }
         public System.DateTime CreateDate { get; set; }
+        public string ReplyText { get; set; }
     
         public virtual Page Page { get; set; }
-        public virtual User User { get; set; }
-        public virtual ICollection<FollowCondition> FollowConditions { get; set; }
+        public virtual PageComment PageComment { get; set; }
     }
 }

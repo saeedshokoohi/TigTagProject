@@ -135,6 +135,10 @@
       <Project>{69c5be02-f0df-4796-85b1-7b044a98906d}</Project>
       <Name>TigTag.DataModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TigTag.DTO\TigTag.DTO.csproj">
+      <Project>{40dbff48-8f06-444e-a8b1-891cb29cce9d}</Project>
+      <Name>TigTag.DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

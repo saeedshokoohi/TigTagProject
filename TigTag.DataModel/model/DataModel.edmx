@@ -5,47 +5,59 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="tigtag_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CommentReply">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AutherId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageCommentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="ReplyText" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Follow">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="UserId" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="PageId" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="CreateDate" Nullable="false" Type="date" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FollowerUserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FollowingPageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="lastVisitDate" Type="nchar" MaxLength="10" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="FollowCondition">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="FollowId" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="MenuId" Nullable="false" Type="uniqueidentifier" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FollowId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MenuId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="FollowMenu">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="title" Nullable="false" MaxLength="500" Type="nvarchar" />
-          <Property Name="date" Nullable="false" Type="date" />
-          <Property Name="userId" Nullable="false" Type="uniqueidentifier" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="lastVisitDate" Type="nchar" MaxLength="10" />
+          <Property Name="FollowerUserId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="FollowMenuPackage">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="FollowMenuId" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="MenuId" Nullable="false" Type="uniqueidentifier" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FollowMenuId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MenuId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="ImageTable">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="ImageName" MaxLength="100" Type="nvarchar" />
-          <Property Name="ImageType" MaxLength="50" Type="nvarchar" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ImageName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ImageType" Type="nvarchar" MaxLength="50" />
           <Property Name="ImageData" Type="varbinary(max)" />
           <Property Name="ThumbnailData" Type="varbinary(max)" />
         </EntityType>
@@ -53,67 +65,111 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="MenuTitle" Nullable="false" MaxLength="500" Type="nvarchar" />
-          <Property Name="Score" Nullable="false" Type="bigint" />
-          <Property Name="PageId" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="CreateDate" Nullable="false" Type="date" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MenuTitle" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Score" Type="bigint" Nullable="false" />
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Page">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="PageTitle" Nullable="false" MaxLength="500" Type="nvarchar" />
-          <Property Name="Description" Nullable="false" MaxLength="255" Type="nvarchar" />
-          <Property Name="CreateDate" Nullable="false" Type="date" />
-          <Property Name="PageType" Nullable="false" Type="bit" />
-          <Property Name="UserId" Nullable="false" Type="uniqueidentifier" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageTitle" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="PageType" Type="bit" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PageId" Type="uniqueidentifier" />
           <Property Name="ImageId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="PageComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AutherId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="CommentText" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="uniqueidentifier" />
-          <Property Name="UserName" Nullable="false" MaxLength="500" Type="nvarchar" />
-          <Property Name="Password" Nullable="false" MaxLength="500" Type="nvarchar" />
-          <Property Name="PhoneNumber" MaxLength="50" Type="nvarchar" />
-          <Property Name="IsActive" Nullable="false" Type="bit" />
-          <Property Name="CreateDate" Nullable="false" Type="date" />
-          <Property Name="EmailAddress" MaxLength="100" Type="varchar" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="100" />
           <Property Name="LastLoginDate" Type="date" />
           <Property Name="ProfileInfo" Type="text" />
           <Property Name="ProfileImageId" Type="uniqueidentifier" />
         </EntityType>
+        <Association Name="FK_CommentReply_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="CommentReply" Type="Self.CommentReply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CommentReply">
+              <PropertyRef Name="AutherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommentReply_PageComment">
+          <End Role="PageComment" Type="Self.PageComment" Multiplicity="1" />
+          <End Role="CommentReply" Type="Self.CommentReply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageComment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CommentReply">
+              <PropertyRef Name="PageCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Follow_Page">
-          <End Type="Self.Page" Multiplicity="1" Role="Page" />
-          <End Type="Self.Follow" Multiplicity="*" Role="Follow" />
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Page">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Follow">
-              <PropertyRef Name="PageId" />
+              <PropertyRef Name="FollowingPageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Follow_Users">
-          <End Type="Self.User" Multiplicity="1" Role="User" />
-          <End Type="Self.Follow" Multiplicity="*" Role="Follow" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Follow">
-              <PropertyRef Name="UserId" />
+              <PropertyRef Name="FollowerUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowCondition_Follow">
-          <End Type="Self.Follow" Multiplicity="1" Role="Follow" />
-          <End Type="Self.FollowCondition" Multiplicity="*" Role="FollowCondition" />
+          <End Role="Follow" Type="Self.Follow" Multiplicity="1" />
+          <End Role="FollowCondition" Type="Self.FollowCondition" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Follow">
               <PropertyRef Name="Id" />
@@ -124,8 +180,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowCondition_Menu">
-          <End Type="Self.Menu" Multiplicity="1" Role="Menu" />
-          <End Type="Self.FollowCondition" Multiplicity="*" Role="FollowCondition" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="FollowCondition" Type="Self.FollowCondition" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Menu">
               <PropertyRef Name="Id" />
@@ -136,20 +192,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowMenu_Users">
-          <End Type="Self.User" Multiplicity="1" Role="User" />
-          <End Type="Self.FollowMenu" Multiplicity="*" Role="FollowMenu" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="FollowMenu" Type="Self.FollowMenu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="FollowMenu">
-              <PropertyRef Name="userId" />
+              <PropertyRef Name="FollowerUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowMenuPackage_FollowMenu">
-          <End Type="Self.FollowMenu" Multiplicity="1" Role="FollowMenu" />
-          <End Type="Self.FollowMenuPackage" Multiplicity="*" Role="FollowMenuPackage" />
+          <End Role="FollowMenu" Type="Self.FollowMenu" Multiplicity="1" />
+          <End Role="FollowMenuPackage" Type="Self.FollowMenuPackage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FollowMenu">
               <PropertyRef Name="Id" />
@@ -160,8 +216,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowMenuPackage_Menu">
-          <End Type="Self.Menu" Multiplicity="1" Role="Menu" />
-          <End Type="Self.FollowMenuPackage" Multiplicity="*" Role="FollowMenuPackage" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="FollowMenuPackage" Type="Self.FollowMenuPackage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Menu">
               <PropertyRef Name="Id" />
@@ -172,8 +228,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Menu_Page">
-          <End Type="Self.Page" Multiplicity="1" Role="Page" />
-          <End Type="Self.Menu" Multiplicity="*" Role="Menu" />
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Page">
               <PropertyRef Name="Id" />
@@ -184,8 +240,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Page_ImageTable">
-          <End Type="Self.ImageTable" Multiplicity="0..1" Role="ImageTable" />
-          <End Type="Self.Page" Multiplicity="*" Role="Page" />
+          <End Role="ImageTable" Type="Self.ImageTable" Multiplicity="0..1" />
+          <End Role="Page" Type="Self.Page" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImageTable">
               <PropertyRef Name="Id" />
@@ -196,8 +252,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Page_Page">
-          <End Type="Self.Page" Multiplicity="0..1" Role="Page" />
-          <End Type="Self.Page" Multiplicity="*" Role="Page1" />
+          <End Role="Page" Type="Self.Page" Multiplicity="0..1" />
+          <End Role="Page1" Type="Self.Page" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Page">
               <PropertyRef Name="Id" />
@@ -208,8 +264,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Page_Users">
-          <End Type="Self.User" Multiplicity="1" Role="User" />
-          <End Type="Self.Page" Multiplicity="*" Role="Page" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Page" Type="Self.Page" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -219,9 +275,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PageComment_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="PageComment" Type="Self.PageComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageComment">
+              <PropertyRef Name="AutherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageComment_Page1">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="PageComment" Type="Self.PageComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageComment">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_ImageTable">
-          <End Type="Self.ImageTable" Multiplicity="0..1" Role="ImageTable" />
-          <End Type="Self.User" Multiplicity="*" Role="User" />
+          <End Role="ImageTable" Type="Self.ImageTable" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImageTable">
               <PropertyRef Name="Id" />
@@ -232,6 +312,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="tigtag_dbModelStoreContainer">
+          <EntitySet Name="CommentReply" EntityType="Self.CommentReply" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Follow" EntityType="Self.Follow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FollowCondition" EntityType="Self.FollowCondition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FollowMenu" EntityType="Self.FollowMenu" Schema="dbo" store:Type="Tables" />
@@ -239,54 +320,72 @@
           <EntitySet Name="ImageTable" EntityType="Self.ImageTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageComment" EntityType="Self.PageComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CommentReply_Page" Association="Self.FK_CommentReply_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="CommentReply" EntitySet="CommentReply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommentReply_PageComment" Association="Self.FK_CommentReply_PageComment">
+            <End Role="PageComment" EntitySet="PageComment" />
+            <End Role="CommentReply" EntitySet="CommentReply" />
+          </AssociationSet>
           <AssociationSet Name="FK_Follow_Page" Association="Self.FK_Follow_Page">
-            <End EntitySet="Page" Role="Page" />
-            <End EntitySet="Follow" Role="Follow" />
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Follow" EntitySet="Follow" />
           </AssociationSet>
           <AssociationSet Name="FK_Follow_Users" Association="Self.FK_Follow_Users">
-            <End EntitySet="User" Role="User" />
-            <End EntitySet="Follow" Role="Follow" />
+            <End Role="User" EntitySet="User" />
+            <End Role="Follow" EntitySet="Follow" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowCondition_Follow" Association="Self.FK_FollowCondition_Follow">
-            <End EntitySet="Follow" Role="Follow" />
-            <End EntitySet="FollowCondition" Role="FollowCondition" />
+            <End Role="Follow" EntitySet="Follow" />
+            <End Role="FollowCondition" EntitySet="FollowCondition" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowCondition_Menu" Association="Self.FK_FollowCondition_Menu">
-            <End EntitySet="Menu" Role="Menu" />
-            <End EntitySet="FollowCondition" Role="FollowCondition" />
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="FollowCondition" EntitySet="FollowCondition" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenu_Users" Association="Self.FK_FollowMenu_Users">
-            <End EntitySet="User" Role="User" />
-            <End EntitySet="FollowMenu" Role="FollowMenu" />
+            <End Role="User" EntitySet="User" />
+            <End Role="FollowMenu" EntitySet="FollowMenu" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenuPackage_FollowMenu" Association="Self.FK_FollowMenuPackage_FollowMenu">
-            <End EntitySet="FollowMenu" Role="FollowMenu" />
-            <End EntitySet="FollowMenuPackage" Role="FollowMenuPackage" />
+            <End Role="FollowMenu" EntitySet="FollowMenu" />
+            <End Role="FollowMenuPackage" EntitySet="FollowMenuPackage" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenuPackage_Menu" Association="Self.FK_FollowMenuPackage_Menu">
-            <End EntitySet="Menu" Role="Menu" />
-            <End EntitySet="FollowMenuPackage" Role="FollowMenuPackage" />
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="FollowMenuPackage" EntitySet="FollowMenuPackage" />
           </AssociationSet>
           <AssociationSet Name="FK_Menu_Page" Association="Self.FK_Menu_Page">
-            <End EntitySet="Page" Role="Page" />
-            <End EntitySet="Menu" Role="Menu" />
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Menu" EntitySet="Menu" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_ImageTable" Association="Self.FK_Page_ImageTable">
-            <End EntitySet="ImageTable" Role="ImageTable" />
-            <End EntitySet="Page" Role="Page" />
+            <End Role="ImageTable" EntitySet="ImageTable" />
+            <End Role="Page" EntitySet="Page" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_Page" Association="Self.FK_Page_Page">
-            <End EntitySet="Page" Role="Page" />
-            <End EntitySet="Page" Role="Page1" />
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Page1" EntitySet="Page" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_Users" Association="Self.FK_Page_Users">
-            <End EntitySet="User" Role="User" />
-            <End EntitySet="Page" Role="Page" />
+            <End Role="User" EntitySet="User" />
+            <End Role="Page" EntitySet="Page" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageComment_Page" Association="Self.FK_PageComment_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="PageComment" EntitySet="PageComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageComment_Page1" Association="Self.FK_PageComment_Page1">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="PageComment" EntitySet="PageComment" />
           </AssociationSet>
           <AssociationSet Name="FK_User_ImageTable" Association="Self.FK_User_ImageTable">
-            <End EntitySet="ImageTable" Role="ImageTable" />
-            <End EntitySet="User" Role="User" />
+            <End Role="ImageTable" EntitySet="ImageTable" />
+            <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -294,6 +393,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="tigtag_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="tigtag_dbEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="CommentReplies" EntityType="tigtag_dbModel.CommentReply" />
           <EntitySet Name="Follows" EntityType="tigtag_dbModel.Follow" />
           <EntitySet Name="FollowConditions" EntityType="tigtag_dbModel.FollowCondition" />
           <EntitySet Name="FollowMenus" EntityType="tigtag_dbModel.FollowMenu" />
@@ -301,64 +401,95 @@
           <EntitySet Name="ImageTables" EntityType="tigtag_dbModel.ImageTable" />
           <EntitySet Name="Menus" EntityType="tigtag_dbModel.Menu" />
           <EntitySet Name="Pages" EntityType="tigtag_dbModel.Page" />
+          <EntitySet Name="PageComments" EntityType="tigtag_dbModel.PageComment" />
+          <EntitySet Name="sysdiagrams" EntityType="tigtag_dbModel.sysdiagram" />
           <EntitySet Name="Users" EntityType="tigtag_dbModel.User" />
+          <AssociationSet Name="FK_CommentReply_Page" Association="tigtag_dbModel.FK_CommentReply_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="CommentReply" EntitySet="CommentReplies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommentReply_PageComment" Association="tigtag_dbModel.FK_CommentReply_PageComment">
+            <End Role="PageComment" EntitySet="PageComments" />
+            <End Role="CommentReply" EntitySet="CommentReplies" />
+          </AssociationSet>
           <AssociationSet Name="FK_Follow_Page" Association="tigtag_dbModel.FK_Follow_Page">
-            <End EntitySet="Pages" Role="Page" />
-            <End EntitySet="Follows" Role="Follow" />
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Follow" EntitySet="Follows" />
           </AssociationSet>
           <AssociationSet Name="FK_Follow_Users" Association="tigtag_dbModel.FK_Follow_Users">
-            <End EntitySet="Users" Role="User" />
-            <End EntitySet="Follows" Role="Follow" />
+            <End Role="User" EntitySet="Users" />
+            <End Role="Follow" EntitySet="Follows" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowCondition_Follow" Association="tigtag_dbModel.FK_FollowCondition_Follow">
-            <End EntitySet="Follows" Role="Follow" />
-            <End EntitySet="FollowConditions" Role="FollowCondition" />
+            <End Role="Follow" EntitySet="Follows" />
+            <End Role="FollowCondition" EntitySet="FollowConditions" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowCondition_Menu" Association="tigtag_dbModel.FK_FollowCondition_Menu">
-            <End EntitySet="Menus" Role="Menu" />
-            <End EntitySet="FollowConditions" Role="FollowCondition" />
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="FollowCondition" EntitySet="FollowConditions" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenu_Users" Association="tigtag_dbModel.FK_FollowMenu_Users">
-            <End EntitySet="Users" Role="User" />
-            <End EntitySet="FollowMenus" Role="FollowMenu" />
+            <End Role="User" EntitySet="Users" />
+            <End Role="FollowMenu" EntitySet="FollowMenus" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenuPackage_FollowMenu" Association="tigtag_dbModel.FK_FollowMenuPackage_FollowMenu">
-            <End EntitySet="FollowMenus" Role="FollowMenu" />
-            <End EntitySet="FollowMenuPackages" Role="FollowMenuPackage" />
+            <End Role="FollowMenu" EntitySet="FollowMenus" />
+            <End Role="FollowMenuPackage" EntitySet="FollowMenuPackages" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenuPackage_Menu" Association="tigtag_dbModel.FK_FollowMenuPackage_Menu">
-            <End EntitySet="Menus" Role="Menu" />
-            <End EntitySet="FollowMenuPackages" Role="FollowMenuPackage" />
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="FollowMenuPackage" EntitySet="FollowMenuPackages" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_ImageTable" Association="tigtag_dbModel.FK_Page_ImageTable">
-            <End EntitySet="ImageTables" Role="ImageTable" />
-            <End EntitySet="Pages" Role="Page" />
+            <End Role="ImageTable" EntitySet="ImageTables" />
+            <End Role="Page" EntitySet="Pages" />
           </AssociationSet>
           <AssociationSet Name="FK_User_ImageTable" Association="tigtag_dbModel.FK_User_ImageTable">
-            <End EntitySet="ImageTables" Role="ImageTable" />
-            <End EntitySet="Users" Role="User" />
+            <End Role="ImageTable" EntitySet="ImageTables" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Menu_Page" Association="tigtag_dbModel.FK_Menu_Page">
-            <End EntitySet="Pages" Role="Page" />
-            <End EntitySet="Menus" Role="Menu" />
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Menu" EntitySet="Menus" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_Page" Association="tigtag_dbModel.FK_Page_Page">
-            <End EntitySet="Pages" Role="Page" />
-            <End EntitySet="Pages" Role="Page1" />
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Page1" EntitySet="Pages" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_Users" Association="tigtag_dbModel.FK_Page_Users">
-            <End EntitySet="Users" Role="User" />
-            <End EntitySet="Pages" Role="Page" />
+            <End Role="User" EntitySet="Users" />
+            <End Role="Page" EntitySet="Pages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageComment_Page" Association="tigtag_dbModel.FK_PageComment_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageComment" EntitySet="PageComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageComment_Page1" Association="tigtag_dbModel.FK_PageComment_Page1">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageComment" EntitySet="PageComments" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="CommentReply">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="AutherId" Type="Guid" Nullable="false" />
+          <Property Name="PageCommentId" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ReplyText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_CommentReply_Page" FromRole="CommentReply" ToRole="Page" />
+          <NavigationProperty Name="PageComment" Relationship="tigtag_dbModel.FK_CommentReply_PageComment" FromRole="CommentReply" ToRole="PageComment" />
+        </EntityType>
         <EntityType Name="Follow">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="Guid" />
-          <Property Name="UserId" Nullable="false" Type="Guid" />
-          <Property Name="PageId" Nullable="false" Type="Guid" />
-          <Property Name="CreateDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FollowerUserId" Type="Guid" Nullable="false" />
+          <Property Name="FollowingPageId" Type="Guid" Nullable="false" />
+          <Property Name="lastVisitDate" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Follow_Page" FromRole="Follow" ToRole="Page" />
           <NavigationProperty Name="User" Relationship="tigtag_dbModel.FK_Follow_Users" FromRole="Follow" ToRole="User" />
           <NavigationProperty Name="FollowConditions" Relationship="tigtag_dbModel.FK_FollowCondition_Follow" FromRole="Follow" ToRole="FollowCondition" />
@@ -367,9 +498,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="Guid" />
-          <Property Name="FollowId" Nullable="false" Type="Guid" />
-          <Property Name="MenuId" Nullable="false" Type="Guid" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FollowId" Type="Guid" Nullable="false" />
+          <Property Name="MenuId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Follow" Relationship="tigtag_dbModel.FK_FollowCondition_Follow" FromRole="FollowCondition" ToRole="Follow" />
           <NavigationProperty Name="Menu" Relationship="tigtag_dbModel.FK_FollowCondition_Menu" FromRole="FollowCondition" ToRole="Menu" />
         </EntityType>
@@ -377,10 +508,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="Guid" />
-          <Property Name="title" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="date" Nullable="false" Precision="0" Type="DateTime" />
-          <Property Name="userId" Nullable="false" Type="Guid" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="lastVisitDate" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FollowerUserId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="User" Relationship="tigtag_dbModel.FK_FollowMenu_Users" FromRole="FollowMenu" ToRole="User" />
           <NavigationProperty Name="FollowMenuPackages" Relationship="tigtag_dbModel.FK_FollowMenuPackage_FollowMenu" FromRole="FollowMenu" ToRole="FollowMenuPackage" />
         </EntityType>
@@ -388,9 +520,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="Guid" />
-          <Property Name="FollowMenuId" Nullable="false" Type="Guid" />
-          <Property Name="MenuId" Nullable="false" Type="Guid" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FollowMenuId" Type="Guid" Nullable="false" />
+          <Property Name="MenuId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="FollowMenu" Relationship="tigtag_dbModel.FK_FollowMenuPackage_FollowMenu" FromRole="FollowMenuPackage" ToRole="FollowMenu" />
           <NavigationProperty Name="Menu" Relationship="tigtag_dbModel.FK_FollowMenuPackage_Menu" FromRole="FollowMenuPackage" ToRole="Menu" />
         </EntityType>
@@ -398,11 +530,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="Guid" />
-          <Property Name="ImageName" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ImageType" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ImageData" MaxLength="Max" FixedLength="false" Type="Binary" />
-          <Property Name="ThumbnailData" MaxLength="Max" FixedLength="false" Type="Binary" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ImageType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImageData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ThumbnailData" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Pages" Relationship="tigtag_dbModel.FK_Page_ImageTable" FromRole="ImageTable" ToRole="Page" />
           <NavigationProperty Name="Users" Relationship="tigtag_dbModel.FK_User_ImageTable" FromRole="ImageTable" ToRole="User" />
         </EntityType>
@@ -410,11 +542,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="Guid" />
-          <Property Name="MenuTitle" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Score" Nullable="false" Type="Int64" />
-          <Property Name="PageId" Nullable="false" Type="Guid" />
-          <Property Name="CreateDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="MenuTitle" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Score" Type="Int64" Nullable="false" />
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="FollowConditions" Relationship="tigtag_dbModel.FK_FollowCondition_Menu" FromRole="Menu" ToRole="FollowCondition" />
           <NavigationProperty Name="FollowMenuPackages" Relationship="tigtag_dbModel.FK_FollowMenuPackage_Menu" FromRole="Menu" ToRole="FollowMenuPackage" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Menu_Page" FromRole="Menu" ToRole="Page" />
@@ -423,67 +555,117 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="Guid" />
-          <Property Name="PageTitle" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="CreateDate" Nullable="false" Precision="0" Type="DateTime" />
-          <Property Name="PageType" Nullable="false" Type="Boolean" />
-          <Property Name="UserId" Nullable="false" Type="Guid" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PageTitle" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PageType" Type="Boolean" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="PageId" Type="Guid" />
           <Property Name="ImageId" Type="Guid" />
+          <NavigationProperty Name="CommentReplies" Relationship="tigtag_dbModel.FK_CommentReply_Page" FromRole="Page" ToRole="CommentReply" />
           <NavigationProperty Name="Follows" Relationship="tigtag_dbModel.FK_Follow_Page" FromRole="Page" ToRole="Follow" />
           <NavigationProperty Name="ImageTable" Relationship="tigtag_dbModel.FK_Page_ImageTable" FromRole="Page" ToRole="ImageTable" />
           <NavigationProperty Name="Menus" Relationship="tigtag_dbModel.FK_Menu_Page" FromRole="Page" ToRole="Menu" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Page_Page" FromRole="Page" ToRole="Page1" />
           <NavigationProperty Name="Page2" Relationship="tigtag_dbModel.FK_Page_Page" FromRole="Page1" ToRole="Page" />
           <NavigationProperty Name="User" Relationship="tigtag_dbModel.FK_Page_Users" FromRole="Page" ToRole="User" />
+          <NavigationProperty Name="PageComments" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="Page" ToRole="PageComment" />
+          <NavigationProperty Name="PageComments1" Relationship="tigtag_dbModel.FK_PageComment_Page1" FromRole="Page" ToRole="PageComment" />
+        </EntityType>
+        <EntityType Name="PageComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="AutherId" Type="Guid" Nullable="false" />
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CommentText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CommentReplies" Relationship="tigtag_dbModel.FK_CommentReply_PageComment" FromRole="PageComment" ToRole="CommentReply" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="PageComment" ToRole="Page" />
+          <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_PageComment_Page1" FromRole="PageComment" ToRole="Page" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" Type="Guid" />
-          <Property Name="UserName" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Password" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PhoneNumber" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="IsActive" Nullable="false" Type="Boolean" />
-          <Property Name="CreateDate" Nullable="false" Precision="0" Type="DateTime" />
-          <Property Name="EmailAddress" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="LastLoginDate" Precision="0" Type="DateTime" />
-          <Property Name="ProfileInfo" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="0" />
+          <Property Name="ProfileInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ProfileImageId" Type="Guid" />
           <NavigationProperty Name="Follows" Relationship="tigtag_dbModel.FK_Follow_Users" FromRole="User" ToRole="Follow" />
           <NavigationProperty Name="FollowMenus" Relationship="tigtag_dbModel.FK_FollowMenu_Users" FromRole="User" ToRole="FollowMenu" />
           <NavigationProperty Name="ImageTable" Relationship="tigtag_dbModel.FK_User_ImageTable" FromRole="User" ToRole="ImageTable" />
           <NavigationProperty Name="Pages" Relationship="tigtag_dbModel.FK_Page_Users" FromRole="User" ToRole="Page" />
         </EntityType>
+        <Association Name="FK_CommentReply_Page">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.CommentReply" Role="CommentReply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CommentReply">
+              <PropertyRef Name="AutherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommentReply_PageComment">
+          <End Type="tigtag_dbModel.PageComment" Role="PageComment" Multiplicity="1" />
+          <End Type="tigtag_dbModel.CommentReply" Role="CommentReply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageComment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CommentReply">
+              <PropertyRef Name="PageCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Follow_Page">
-          <End Type="tigtag_dbModel.Page" Multiplicity="1" Role="Page" />
-          <End Type="tigtag_dbModel.Follow" Multiplicity="*" Role="Follow" />
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Follow" Role="Follow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Page">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Follow">
-              <PropertyRef Name="PageId" />
+              <PropertyRef Name="FollowingPageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Follow_Users">
-          <End Type="tigtag_dbModel.User" Multiplicity="1" Role="User" />
-          <End Type="tigtag_dbModel.Follow" Multiplicity="*" Role="Follow" />
+          <End Type="tigtag_dbModel.User" Role="User" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Follow" Role="Follow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Follow">
-              <PropertyRef Name="UserId" />
+              <PropertyRef Name="FollowerUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowCondition_Follow">
-          <End Type="tigtag_dbModel.Follow" Multiplicity="1" Role="Follow" />
-          <End Type="tigtag_dbModel.FollowCondition" Multiplicity="*" Role="FollowCondition" />
+          <End Type="tigtag_dbModel.Follow" Role="Follow" Multiplicity="1" />
+          <End Type="tigtag_dbModel.FollowCondition" Role="FollowCondition" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Follow">
               <PropertyRef Name="Id" />
@@ -494,8 +676,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowCondition_Menu">
-          <End Type="tigtag_dbModel.Menu" Multiplicity="1" Role="Menu" />
-          <End Type="tigtag_dbModel.FollowCondition" Multiplicity="*" Role="FollowCondition" />
+          <End Type="tigtag_dbModel.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="tigtag_dbModel.FollowCondition" Role="FollowCondition" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Menu">
               <PropertyRef Name="Id" />
@@ -506,20 +688,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowMenu_Users">
-          <End Type="tigtag_dbModel.User" Multiplicity="1" Role="User" />
-          <End Type="tigtag_dbModel.FollowMenu" Multiplicity="*" Role="FollowMenu" />
+          <End Type="tigtag_dbModel.User" Role="User" Multiplicity="1" />
+          <End Type="tigtag_dbModel.FollowMenu" Role="FollowMenu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="FollowMenu">
-              <PropertyRef Name="userId" />
+              <PropertyRef Name="FollowerUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowMenuPackage_FollowMenu">
-          <End Type="tigtag_dbModel.FollowMenu" Multiplicity="1" Role="FollowMenu" />
-          <End Type="tigtag_dbModel.FollowMenuPackage" Multiplicity="*" Role="FollowMenuPackage" />
+          <End Type="tigtag_dbModel.FollowMenu" Role="FollowMenu" Multiplicity="1" />
+          <End Type="tigtag_dbModel.FollowMenuPackage" Role="FollowMenuPackage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FollowMenu">
               <PropertyRef Name="Id" />
@@ -530,8 +712,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowMenuPackage_Menu">
-          <End Type="tigtag_dbModel.Menu" Multiplicity="1" Role="Menu" />
-          <End Type="tigtag_dbModel.FollowMenuPackage" Multiplicity="*" Role="FollowMenuPackage" />
+          <End Type="tigtag_dbModel.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="tigtag_dbModel.FollowMenuPackage" Role="FollowMenuPackage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Menu">
               <PropertyRef Name="Id" />
@@ -542,8 +724,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Page_ImageTable">
-          <End Type="tigtag_dbModel.ImageTable" Multiplicity="0..1" Role="ImageTable" />
-          <End Type="tigtag_dbModel.Page" Multiplicity="*" Role="Page" />
+          <End Type="tigtag_dbModel.ImageTable" Role="ImageTable" Multiplicity="0..1" />
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImageTable">
               <PropertyRef Name="Id" />
@@ -554,8 +736,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_ImageTable">
-          <End Type="tigtag_dbModel.ImageTable" Multiplicity="0..1" Role="ImageTable" />
-          <End Type="tigtag_dbModel.User" Multiplicity="*" Role="User" />
+          <End Type="tigtag_dbModel.ImageTable" Role="ImageTable" Multiplicity="0..1" />
+          <End Type="tigtag_dbModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImageTable">
               <PropertyRef Name="Id" />
@@ -566,8 +748,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Menu_Page">
-          <End Type="tigtag_dbModel.Page" Multiplicity="1" Role="Page" />
-          <End Type="tigtag_dbModel.Menu" Multiplicity="*" Role="Menu" />
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Menu" Role="Menu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Page">
               <PropertyRef Name="Id" />
@@ -578,8 +760,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Page_Page">
-          <End Type="tigtag_dbModel.Page" Multiplicity="0..1" Role="Page" />
-          <End Type="tigtag_dbModel.Page" Multiplicity="*" Role="Page1" />
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="0..1" />
+          <End Type="tigtag_dbModel.Page" Role="Page1" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Page">
               <PropertyRef Name="Id" />
@@ -590,8 +772,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Page_Users">
-          <End Type="tigtag_dbModel.User" Multiplicity="1" Role="User" />
-          <End Type="tigtag_dbModel.Page" Multiplicity="*" Role="Page" />
+          <End Type="tigtag_dbModel.User" Role="User" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -601,18 +783,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_PageComment_Page">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.PageComment" Role="PageComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageComment">
+              <PropertyRef Name="AutherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageComment_Page1">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.PageComment" Role="PageComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageComment">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="tigtag_dbModelStoreContainer" CdmEntityContainer="tigtag_dbEntities" >
+          <EntitySetMapping Name="CommentReplies">
+            <EntityTypeMapping TypeName="tigtag_dbModel.CommentReply">
+              <MappingFragment StoreEntitySet="CommentReply">
+                <ScalarProperty Name="ReplyText" ColumnName="ReplyText" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="PageCommentId" ColumnName="PageCommentId" />
+                <ScalarProperty Name="AutherId" ColumnName="AutherId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Follows">
             <EntityTypeMapping TypeName="tigtag_dbModel.Follow">
               <MappingFragment StoreEntitySet="Follow">
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="PageId" ColumnName="PageId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="lastVisitDate" ColumnName="lastVisitDate" />
+                <ScalarProperty Name="FollowingPageId" ColumnName="FollowingPageId" />
+                <ScalarProperty Name="FollowerUserId" ColumnName="FollowerUserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -629,7 +847,8 @@
           <EntitySetMapping Name="FollowMenus">
             <EntityTypeMapping TypeName="tigtag_dbModel.FollowMenu">
               <MappingFragment StoreEntitySet="FollowMenu">
-                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="FollowerUserId" ColumnName="FollowerUserId" />
+                <ScalarProperty Name="lastVisitDate" ColumnName="lastVisitDate" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -678,6 +897,28 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageComments">
+            <EntityTypeMapping TypeName="tigtag_dbModel.PageComment">
+              <MappingFragment StoreEntitySet="PageComment">
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="AutherId" ColumnName="AutherId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="tigtag_dbModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
