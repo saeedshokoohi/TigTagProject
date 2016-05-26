@@ -89,6 +89,7 @@ namespace TigTag.Repository.ModelRepository {
                 retResult.isDone = true;
                 retResult.message = "Login is Successful!";
                 retResult.statusCode = enm_STATUS_CODE.DONE_SUCCESSFULLY;
+                retResult.returnId = user[0].Id.ToString();
                 
                 user[0].LastLoginDate = DateTime.Now;
                 Context.SaveChanges();

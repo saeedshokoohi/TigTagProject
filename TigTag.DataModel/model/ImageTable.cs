@@ -19,6 +19,17 @@ namespace TigTag.DataModel.model
             this.Pages = new HashSet<Page>();
             this.Users = new HashSet<User>();
         }
+        public ImageTable(Guid _Id,string _ImageName,string _ImageType,byte[] _ThumbnailData)
+        {
+            this.Id = _Id;
+            this.ImageData = null;
+            this.ImageName = _ImageName;
+            this.ImageType = _ImageType;
+            this.ThumbnailData = _ThumbnailData;
+            this.Pages = new HashSet<Page>();
+            this.Users = new HashSet<User>();
+
+        }
     
         public System.Guid Id { get; set; }
         public string ImageName { get; set; }

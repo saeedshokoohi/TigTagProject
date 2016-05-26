@@ -18,10 +18,12 @@ namespace TigTag.DataModel.model
         {
             this.CommentReplies = new HashSet<CommentReply>();
             this.Follows = new HashSet<Follow>();
+            this.Follows1 = new HashSet<Follow>();
             this.Menus = new HashSet<Menu>();
             this.Page1 = new HashSet<Page>();
             this.PageComments = new HashSet<PageComment>();
             this.PageComments1 = new HashSet<PageComment>();
+            this.PageMenus = new HashSet<PageMenu>();
         }
     
         public System.Guid Id { get; set; }
@@ -32,9 +34,11 @@ namespace TigTag.DataModel.model
         public System.Guid UserId { get; set; }
         public Nullable<System.Guid> PageId { get; set; }
         public Nullable<System.Guid> ImageId { get; set; }
+        public string URL { get; set; }
     
         public virtual ICollection<CommentReply> CommentReplies { get; set; }
         public virtual ICollection<Follow> Follows { get; set; }
+        public virtual ICollection<Follow> Follows1 { get; set; }
         public virtual ImageTable ImageTable { get; set; }
         public virtual ICollection<Menu> Menus { get; set; }
         public virtual ICollection<Page> Page1 { get; set; }
@@ -42,5 +46,6 @@ namespace TigTag.DataModel.model
         public virtual User User { get; set; }
         public virtual ICollection<PageComment> PageComments { get; set; }
         public virtual ICollection<PageComment> PageComments1 { get; set; }
+        public virtual ICollection<PageMenu> PageMenus { get; set; }
     }
 }

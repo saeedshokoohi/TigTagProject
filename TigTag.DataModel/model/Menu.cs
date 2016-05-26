@@ -18,6 +18,7 @@ namespace TigTag.DataModel.model
         {
             this.FollowConditions = new HashSet<FollowCondition>();
             this.FollowMenuPackages = new HashSet<FollowMenuPackage>();
+            this.PageMenus = new HashSet<PageMenu>();
         }
     
         public System.Guid Id { get; set; }
@@ -29,5 +30,6 @@ namespace TigTag.DataModel.model
         public virtual ICollection<FollowCondition> FollowConditions { get; set; }
         public virtual ICollection<FollowMenuPackage> FollowMenuPackages { get; set; }
         public virtual Page Page { get; set; }
+        public virtual ICollection<PageMenu> PageMenus { get; set; }
     }
 }

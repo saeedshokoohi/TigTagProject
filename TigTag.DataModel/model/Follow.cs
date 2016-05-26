@@ -26,7 +26,7 @@ namespace TigTag.DataModel.model
         public System.DateTime CreateDate { get; set; }
     
         public virtual Page Page { get; set; }
-        public virtual User User { get; set; }
+        public virtual Page Page1 { get; set; }
         public virtual ICollection<FollowCondition> FollowConditions { get; set; }
     }
 }

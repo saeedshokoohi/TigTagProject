@@ -24,6 +24,25 @@ namespace TigTag.DTO.ModelDTO.Base
             if(!String.IsNullOrEmpty(message))
             validationMessages.Add(message);
         }
+
+        public static ResultDto failedResult(string msg)
+        {
+            ResultDto result = new ResultDto();
+            result.isDone = false;
+            result.statusCode = enm_STATUS_CODE.FAILED_WITH_ERROR;
+            result.message = msg;
+            return result;
+        }
+        public static ResultDto successResult(string returnid,string msg)
+        {
+            ResultDto result = new ResultDto();
+            result.isDone = true;
+            result.statusCode = enm_STATUS_CODE.DONE_SUCCESSFULLY;
+            result.message = msg;
+            result.returnId = returnid;
+            return result;
+        }
+
     }
     public enum enm_STATUS_CODE
     {

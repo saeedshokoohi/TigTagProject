@@ -1,6 +1,6 @@
 ﻿
-//var serverUrl = 'http://localhost:34751/api'
-var serverUrl = 'http://82.102.10.243/tigtag/api'
+var serverUrl = 'http://localhost:34751/api'
+//var serverUrl = 'http://82.102.10.243/tigtag/api'
 //var serverUrl = 'http://localhost/tigtag/api'
 function callUserSegisterApi() {
 

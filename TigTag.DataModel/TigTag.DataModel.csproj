@@ -108,7 +108,7 @@
     <Compile Include="model\PageComment.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="model\sysdiagram.cs">
+    <Compile Include="model\PageMenu.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="model\User.cs">
