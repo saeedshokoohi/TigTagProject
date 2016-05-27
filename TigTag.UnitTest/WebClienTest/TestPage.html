@@ -21,7 +21,7 @@
     <ul id="userlist">
 
     </ul>
-    <form name="form1" method="post" enctype="multipart/form-data" action="http://localhost:34751/api/image/uploadimage">
+    <form name="form1" method="post" enctype="multipart/form-data" action="http://82.102.10.243/tigtag/api/image/uploadimage">
         <div>
             <label for="caption">Image Caption</label>
             <input name="caption" type="text" />
@@ -32,6 +32,13 @@
         </div>
         <div>
             <input type="submit" value="Submit" />
+        </div>
+        <div>
+            <img id="originalimage" src="http://82.102.10.243/tigtag/api/getimage?id=f6db0fb6-ed78-4807-b46d-03d5a6347a40&size=original"/>
+            
+        </div>
+        <div>
+            <img id="thumbnailimage" src="http://localhost:34751/api/getimage?id=f170a3d4-cfbe-42da-9243-4a9baf342eac"/>
         </div>
     </form>
     <script src="../Scripts/jquery-2.2.3.js"></script>

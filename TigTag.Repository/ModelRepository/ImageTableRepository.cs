@@ -26,10 +26,11 @@ namespace TigTag.Repository.ModelRepository {
         {
             ImageTable imageTable = new ImageTable();
             var query = from i in Context.ImageTables where i.Id == imageid
-                        select new ImageTable(i.Id,i.ImageName,i.ImageType,i.ThumbnailData);
-            List<ImageTable> images= query.ToList();
+                        select new { i.Id, i.ImageName, i.ImageType, i.ThumbnailData };
+            var images= query.ToList();
+            
             if (images.Count > 0)
-                return images[0];
+                return new ImageTable( images[0].Id,images[0].ImageName,images[0].ImageType,images[0].ThumbnailData);
             else
                 return new ImageTable();
 

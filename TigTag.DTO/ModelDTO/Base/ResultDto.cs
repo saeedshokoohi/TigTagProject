@@ -43,6 +43,16 @@ namespace TigTag.DTO.ModelDTO.Base
             return result;
         }
 
+        public static ResultDto exceptionResult(Exception ex)
+        {
+            ResultDto returnResult = new ResultDto();
+            returnResult.isDone = false;
+            returnResult.statusCode = enm_STATUS_CODE.FAILED_WITH_ERROR;
+            returnResult.message = ex.Message;
+            if (ex.InnerException != null)
+                returnResult.message +=ex.InnerException.Message;
+            return returnResult;
+        }
     }
     public enum enm_STATUS_CODE
     {

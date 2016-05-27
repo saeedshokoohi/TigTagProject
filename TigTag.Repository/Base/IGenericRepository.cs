@@ -16,5 +16,6 @@ namespace TiTag.Repository.Base
         void Delete(T entity);
         void Edit(T entity);
         void Save();
+        bool isValidId(Guid id);
     }
 }

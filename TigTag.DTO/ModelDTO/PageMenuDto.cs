@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TigTag.DTO.ModelDTO
 {
-   public class BasePageDto :BaseDto
+   public class PageMenuDto:BaseDto
     {
-        public string Title { get; set; }
+        public System.Guid PageId { get; set; }
+        public System.Guid MenuId { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace TigTag.DataModel.model
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<PageMenu> PageMenus { get; set; }
 
     }
     

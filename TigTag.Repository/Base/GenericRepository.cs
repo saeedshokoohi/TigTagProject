@@ -7,6 +7,7 @@ using System.Text;
 namespace TiTag.Repository.Base{
 
     public abstract class GenericRepository<C, T> :
+
         IGenericRepository<T> where T : class where C : DbContext, new() {
 
         private C _entities = new C();
@@ -62,11 +63,19 @@ namespace TiTag.Repository.Base{
             this.disposed = true;
         }
 
+
         public void Dispose() {
 
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        public bool isValidId(Guid id)
+        {
+            if (id == null) return false;
+            var o= GetSingle(id);
+            if (o != null) return true;
+            else return false;
+        }
     }
 }

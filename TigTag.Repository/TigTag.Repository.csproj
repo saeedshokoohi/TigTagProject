@@ -105,6 +105,7 @@
     <Compile Include="Base\GenericRepository.cs" />
     <Compile Include="Base\IGenericRepository.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="IModelRepository\IPageMenuRepository.cs" />
     <Compile Include="IModelRepository\IPageRepository.cs" />
     <Compile Include="IModelRepository\IImageTableRepository.cs" />
     <Compile Include="IModelRepository\IFollowRepository.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="IModelRepository\IMenuRepository.cs" />
     <Compile Include="IModelRepository\IFollowMenuPackageRepository.cs" />
     <Compile Include="IModelRepository\IUserRepository.cs" />
+    <Compile Include="ModelRepository\PageMenuRepository.cs" />
     <Compile Include="ModelRepository\PageRepository.cs" />
     <Compile Include="ModelRepository\MenuRepository.cs" />
     <Compile Include="ModelRepository\FollowConditionRepository.cs" />

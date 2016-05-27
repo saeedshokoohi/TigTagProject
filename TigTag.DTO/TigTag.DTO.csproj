@@ -41,8 +41,10 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="ModelDTO\BaseDto.cs" />
-    <Compile Include="ModelDTO\BasePageDto.cs" />
+    <Compile Include="ModelDTO\MenuDto.cs" />
+    <Compile Include="ModelDTO\PageDto.cs" />
     <Compile Include="ModelDTO\Base\ResultDto.cs" />
+    <Compile Include="ModelDTO\PageMenuDto.cs" />
     <Compile Include="ModelDTO\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
