@@ -35,6 +35,7 @@ namespace TigTag.DataModel.model
         public Nullable<System.Guid> PageId { get; set; }
         public Nullable<System.Guid> ImageId { get; set; }
         public string URL { get; set; }
+        public Nullable<bool> IsMasterPage { get; set; }
     
         public virtual ICollection<CommentReply> CommentReplies { get; set; }
         public virtual ICollection<Follow> Follows { get; set; }

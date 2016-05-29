@@ -8,15 +8,59 @@ using TigTag.DataModel.model;
 using TigTag.DTO.ModelDTO.Base;
 using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
+using TiTag.Repository;
 
 namespace TigTag.WebApi.Controllers
 {
-    public class PageController : BaseController<User>
+    public class PageController : BaseController<Page,PageDto>
     {
         UserRepository userRepo = new UserRepository();
         PageRepository pageRepo = new PageRepository();
         PageMenuRepository pageMenuRepo = new PageMenuRepository();
         MenuRepository menuRepo = new MenuRepository();
+        public override IGenericRepository<Page> getRepository()
+        {
+            return pageRepo;
+        }
+        /// <summary>
+        /// create a master profile
+        /// if another page with IsMasterPage not available
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ResultDto CreateMasterProfile([FromBody]PageDto page)
+        {
+            if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
+            else
+            {
+                page.PageType = false;
+                page.IsMasterPage = true;
+                var masterPage=pageRepo.getMasterPage();
+                if (masterPage == null)
+                    return CreatePage(page);
+                else
+                    return ResultDto.failedResult("there is one Master Profile, only one masterProfile is valid!!!");
+            }
+        }
+        /// <summary>
+        /// return the page where IsMasterPage attribute is true
+        /// </summary>
+        /// <returns></returns>
+        public PageDto GetMasterProfile()
+        {
+            var masterPage = pageRepo.getMasterPage();
+            return Mapper<Page, PageDto>.convertToDto(masterPage); 
+        }
+        /// <summary>
+        /// return the page which is related to given userid
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public PageDto GetPageByUserId(Guid userid)
+        {
+            Page page = pageRepo.getPageByUser(userid);
+            return Mapper<Page, PageDto>.convertToDto(page);
+        }
         /// <summary>
         /// create profile for user
         /// </summary>

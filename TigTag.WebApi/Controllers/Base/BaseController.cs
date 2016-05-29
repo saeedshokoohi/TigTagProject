@@ -4,10 +4,51 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TigTag.DataModel.model;
+using TigTag.DTO.ModelDTO.Base;
+using TiTag.Repository;
+using TiTag.Repository.Base;
 
 namespace TigTag.WebApi.Controllers
 {
-    public class BaseController<T> : ApiController
+
+
+    public abstract class BaseController<MODEL,DTO>  : ApiController , IBaseController<MODEL> where MODEL : class where DTO: class
     {
+
+        public abstract IGenericRepository<MODEL> getRepository();
+       
+
+        public DTO getById(Guid id)
+        {
+           var model= getRepository().GetSingle(id);
+            
+           return Mapper<MODEL, DTO>.convertToDto(model);
+             
+        }
+        public ResultDto deleteById(Guid id)
+        {
+            try
+            {
+                var model = getRepository().GetSingle(id);
+                getRepository().Delete(model);
+            }catch(Exception ex)
+            {
+                ResultDto.exceptionResult(ex);
+            }
+            return ResultDto.successResult(id.ToString(), "entity with given id deleted successfully...");
+
+        }
+        public List<DTO> getAll()
+        {
+            List<DTO> returnList = new List<DTO>();
+            var entityList= getRepository().GetAll().ToList();
+            foreach (var item in entityList)
+            {
+                returnList.Add(Mapper<MODEL, DTO>.convertToDto(item));
+            }
+            return returnList;
+        }
+
     }
 }

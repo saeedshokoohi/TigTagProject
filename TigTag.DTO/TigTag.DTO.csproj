@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="ModelDTO\BaseDto.cs" />
+    <Compile Include="ModelDTO\ImageTableDto.cs" />
     <Compile Include="ModelDTO\MenuDto.cs" />
     <Compile Include="ModelDTO\PageDto.cs" />
     <Compile Include="ModelDTO\Base\ResultDto.cs" />

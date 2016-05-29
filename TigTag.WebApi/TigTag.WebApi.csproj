@@ -166,6 +166,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
+    <Compile Include="Controllers\Base\IBaseController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ImageHandler.ashx.cs">
       <DependentUpon>ImageHandler.ashx</DependentUpon>

@@ -84,6 +84,7 @@
           <Property Name="PageId" Type="uniqueidentifier" />
           <Property Name="ImageId" Type="uniqueidentifier" />
           <Property Name="URL" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsMasterPage" Type="bit" />
         </EntityType>
         <EntityType Name="PageComment">
           <Key>
@@ -615,6 +616,7 @@
           <NavigationProperty Name="PageComments" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="Page" ToRole="PageComment" />
           <NavigationProperty Name="PageComments1" Relationship="tigtag_dbModel.FK_PageComment_Page1" FromRole="Page" ToRole="PageComment" />
           <NavigationProperty Name="PageMenus" Relationship="tigtag_dbModel.FK_PageMenu_Page" FromRole="Page" ToRole="PageMenu" />
+          <Property Name="IsMasterPage" Type="Boolean" />
         </EntityType>
         <EntityType Name="PageComment">
           <Key>
@@ -955,6 +957,7 @@
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="tigtag_dbModel.Page">
               <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="IsMasterPage" ColumnName="IsMasterPage" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="ImageId" ColumnName="ImageId" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace TiTag.Repository.Base
+namespace TiTag.Repository
 {
 
-    public interface IGenericRepository<T> : IDisposable where T : class {
+    public interface IGenericRepository<T> {
 
         T GetSingle(Guid Id);
         IQueryable<T> GetAll();

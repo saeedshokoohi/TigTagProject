@@ -9,19 +9,22 @@ using TigTag.DTO.ModelDTO.Base;
 using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
 
+using TiTag.Repository;
+
 namespace TigTag.WebApi.Controllers
 {
-    public class MenuController : BaseController<Menu>
+    public class MenuController : BaseController<Menu,MenuDto>
     {
         UserRepository userRepo = new UserRepository();
         PageRepository pageRepo = new PageRepository();
         PageMenuRepository pageMenuRepo = new PageMenuRepository();
         MenuRepository menuRepo = new MenuRepository();
-      /// <summary>
-      /// simply create menu 
-      /// </summary>
-      /// <param name="menu"></param>
-      /// <returns></returns>
+       
+        /// <summary>
+        /// simply create menu 
+        /// </summary>
+        /// <param name="menu"></param>
+        /// <returns></returns>
         public ResultDto CreateMenu([FromBody]MenuDto menu)
         {
             if (menu == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object  ");
@@ -141,5 +144,9 @@ namespace TigTag.WebApi.Controllers
             return returnResult;
         }
 
+        public override IGenericRepository<Menu> getRepository()
+        {
+            return menuRepo;
+        }
     }
 }

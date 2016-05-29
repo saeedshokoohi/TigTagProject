@@ -10,14 +10,24 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using TigTag.DataModel.model;
+using TigTag.DTO.ModelDTO;
 using TigTag.DTO.ModelDTO.Base;
 using TigTag.Repository.ModelRepository;
+using TigTag.WebApi.Controllers;
+using TiTag.Repository;
+using TiTag.Repository.Base;
 
 namespace TigTag.WebApi.Controllers
 {
-    public class ImageController : BaseController<ImageTable>
+    public class ImageController : BaseController<ImageTable,ImageTableDto> 
     {
         ImageTableRepository imageRepo = new ImageTableRepository();
+
+        public override IGenericRepository<ImageTable> getRepository()
+        {
+            throw new NotImplementedException();
+        }
+
 
         public async Task<HttpResponseMessage> UploadImage()
         {

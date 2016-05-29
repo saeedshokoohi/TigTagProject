@@ -8,13 +8,18 @@ using TigTag.DataModel.model;
 using TigTag.DTO.ModelDTO.Base;
 using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
+using TiTag.Repository;
 
 namespace TigTag.WebApi.Controllers
 {
-    public class UserController : BaseController<User>
+   
+    public class UserController : BaseController<User,UserDto>
     {
         UserRepository userRepo = new UserRepository();
-        
+        public override IGenericRepository<User> getRepository()
+        {
+            return userRepo;
+        }
         /// <summary>
         /// this service register a new user
         /// service url : user/registerUser
