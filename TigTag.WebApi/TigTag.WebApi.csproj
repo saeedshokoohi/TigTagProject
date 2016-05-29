@@ -167,10 +167,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\Base\IBaseController.cs" />
+    <Compile Include="Controllers\CommentReplyController.cs" />
+    <Compile Include="Controllers\FollowConditionController.cs" />
+    <Compile Include="Controllers\FollowMenuPackageController.cs" />
+    <Compile Include="Controllers\FollowMenuController.cs" />
+    <Compile Include="Controllers\PageCommentController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ImageHandler.ashx.cs">
       <DependentUpon>ImageHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\FollowController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\UserController.cs" />

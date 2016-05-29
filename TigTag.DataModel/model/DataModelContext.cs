@@ -28,6 +28,10 @@ namespace TigTag.DataModel.model
         public DbSet<Page> Pages { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<PageMenu> PageMenus { get; set; }
+        public DbSet<CommentReply> CommentReplys { get; set; }
+        public DbSet<PageComment> PageComments { get; set; }
+ 
+
 
     }
     
