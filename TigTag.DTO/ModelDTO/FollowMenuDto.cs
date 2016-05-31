@@ -13,5 +13,7 @@ namespace TigTag.DTO.ModelDTO
         public System.DateTime date { get; set; }
         public string lastVisitDate { get; set; }
         public System.Guid FollowerUserId { get; set; }
+        public Guid[] menuIdList { get; set; }
+        public int newPostCount { get; set; }
     }
 }

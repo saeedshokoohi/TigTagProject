@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\TigTag.WebApi\bin\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -105,6 +108,7 @@
     <Compile Include="Base\GenericRepository.cs" />
     <Compile Include="Base\IGenericRepository.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Common\Mapper.cs" />
     <Compile Include="IModelRepository\IPageMenuRepository.cs" />
     <Compile Include="IModelRepository\IPageCommentRepository.cs" />
     <Compile Include="IModelRepository\ICommentReplyRepository.cs" />
@@ -129,9 +133,7 @@
     <Compile Include="ModelRepository\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

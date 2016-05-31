@@ -43,6 +43,15 @@ namespace TigTag.DTO.ModelDTO.Base
             return result;
         }
 
+        public static ResultDto invalidResult(string validationMessage)
+        {
+            ResultDto result = new ResultDto();
+            result.isDone = false;
+            result.statusCode = enm_STATUS_CODE.INPUT_NOT_VALID;
+            result.addValidationMessages(validationMessage);
+            return result;
+        }
+
         public static ResultDto exceptionResult(Exception ex)
         {
             ResultDto returnResult = new ResultDto();
@@ -50,7 +59,11 @@ namespace TigTag.DTO.ModelDTO.Base
             returnResult.statusCode = enm_STATUS_CODE.FAILED_WITH_ERROR;
             returnResult.message = ex.Message;
             if (ex.InnerException != null)
-                returnResult.message +=ex.InnerException.Message;
+            {
+                returnResult.message += ex.InnerException.Message;
+                if(ex.InnerException.InnerException!=null)
+                    returnResult.message += ex.InnerException.InnerException.Message;
+            }
             return returnResult;
         }
     }

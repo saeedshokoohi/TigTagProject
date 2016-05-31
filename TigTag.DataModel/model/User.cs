@@ -16,7 +16,6 @@ namespace TigTag.DataModel.model
     {
         public User()
         {
-            this.FollowMenus = new HashSet<FollowMenu>();
             this.Pages = new HashSet<Page>();
         }
     
@@ -31,7 +30,6 @@ namespace TigTag.DataModel.model
         public string ProfileInfo { get; set; }
         public Nullable<System.Guid> ProfileImageId { get; set; }
     
-        public virtual ICollection<FollowMenu> FollowMenus { get; set; }
         public virtual ImageTable ImageTable { get; set; }
         public virtual ICollection<Page> Pages { get; set; }
     }

@@ -111,6 +111,9 @@
     <Compile Include="model\PageMenu.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="model\sysdiagram.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="model\User.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

@@ -10,6 +10,7 @@ using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
 
 using TiTag.Repository;
+using TigTag.Repository;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -144,6 +145,12 @@ namespace TigTag.WebApi.Controllers
             return returnResult;
         }
 
+        public List<MenuDto> getMenuByPageId(Guid pageid)
+        {
+            List<Menu> menus= menuRepo.findByPageId(pageid);
+           List<MenuDto> retList=  Mapper<Menu, MenuDto>.convertListToDto(menus);
+            return retList;
+        }
         public override IGenericRepository<Menu> getRepository()
         {
             return menuRepo;

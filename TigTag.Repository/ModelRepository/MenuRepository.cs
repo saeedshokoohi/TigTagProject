@@ -95,5 +95,10 @@ namespace TigTag.Repository.ModelRepository {
             checkMenuId(pagemenumodel, retResult);
             return retResult;
         }
+
+        public List<Menu> findByPageId(Guid pageid)
+        {
+            return Context.PageMenus.Where(pm => pm.PageId == pageid).Select(p => p.Menu).ToList();
+        }
     }
 }

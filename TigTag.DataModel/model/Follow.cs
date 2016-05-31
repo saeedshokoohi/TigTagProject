@@ -22,7 +22,7 @@ namespace TigTag.DataModel.model
         public System.Guid Id { get; set; }
         public System.Guid FollowerUserId { get; set; }
         public System.Guid FollowingPageId { get; set; }
-        public string lastVisitDate { get; set; }
+        public Nullable<System.DateTime> lastVisitDate { get; set; }
         public System.DateTime CreateDate { get; set; }
     
         public virtual Page Page { get; set; }

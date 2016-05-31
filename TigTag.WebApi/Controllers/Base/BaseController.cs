@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using TigTag.DataModel.model;
 using TigTag.DTO.ModelDTO.Base;
+using TigTag.Repository;
 using TiTag.Repository;
 using TiTag.Repository.Base;
 

@@ -13,5 +13,6 @@ namespace TigTag.DTO.ModelDTO
         public System.Guid FollowingPageId { get; set; }
         public string lastVisitDate { get; set; }
         public System.DateTime CreateDate { get; set; }
+        public Guid[] menuIdList { get; set; }
     }
 }

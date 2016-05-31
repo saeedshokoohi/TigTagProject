@@ -9,6 +9,7 @@ using TigTag.DTO.ModelDTO.Base;
 using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
 using TiTag.Repository;
+using TigTag.Repository;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -143,6 +144,21 @@ namespace TigTag.WebApi.Controllers
                 returnResult.message = "input is not valid. check the validation messages";
             }
             return returnResult;
+        }
+        /// <summary>
+        /// return the pages and number of new posts for given user
+        /// based on his following conditions
+        /// </summary>
+        /// <param name="followerPageId"></param>
+        /// <returns></returns>
+        public List<PageDto> getNewPostCountByFollowerPageId(Guid followerPageId)
+        {
+            return pageRepo.getNewPostCountByFollowerPageId(followerPageId);
+        }
+        
+        public List<FollowMenuDto> getNewPostCountOnFollowingMenuByFollowerPageId(Guid followerPageId)
+        {
+            return pageRepo.getNewPostCountOnFollowingMenuByFollowerPageId(followerPageId);
         }
 
     }

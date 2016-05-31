@@ -22,8 +22,8 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FollowerUserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FollowingPageId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="lastVisitDate" Type="nchar" MaxLength="10" />
-          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="lastVisitDate" Type="datetime" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="FollowCondition">
           <Key>
@@ -39,8 +39,8 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="title" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="date" Type="date" Nullable="false" />
-          <Property Name="lastVisitDate" Type="nchar" MaxLength="10" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="lastVisitDate" Type="datetime" />
           <Property Name="FollowerUserId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="FollowMenuPackage">
@@ -104,6 +104,16 @@
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MenuId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -113,9 +123,9 @@
           <Property Name="Password" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="EmailAddress" Type="varchar" MaxLength="100" />
-          <Property Name="LastLoginDate" Type="date" />
+          <Property Name="LastLoginDate" Type="datetime" />
           <Property Name="ProfileInfo" Type="text" />
           <Property Name="ProfileImageId" Type="uniqueidentifier" />
         </EntityType>
@@ -192,10 +202,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowMenu_Users">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
           <End Role="FollowMenu" Type="Self.FollowMenu" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
+            <Principal Role="Page">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="FollowMenu">
@@ -346,6 +356,7 @@
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageComment" EntityType="Self.PageComment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageMenu" EntityType="Self.PageMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CommentReply_Page" Association="Self.FK_CommentReply_Page">
             <End Role="Page" EntitySet="Page" />
@@ -372,7 +383,7 @@
             <End Role="FollowCondition" EntitySet="FollowCondition" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenu_Users" Association="Self.FK_FollowMenu_Users">
-            <End Role="User" EntitySet="User" />
+            <End Role="Page" EntitySet="Page" />
             <End Role="FollowMenu" EntitySet="FollowMenu" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenuPackage_FollowMenu" Association="Self.FK_FollowMenuPackage_FollowMenu">
@@ -435,6 +446,7 @@
           <EntitySet Name="Pages" EntityType="tigtag_dbModel.Page" />
           <EntitySet Name="PageComments" EntityType="tigtag_dbModel.PageComment" />
           <EntitySet Name="PageMenus" EntityType="tigtag_dbModel.PageMenu" />
+          <EntitySet Name="sysdiagrams" EntityType="tigtag_dbModel.sysdiagram" />
           <EntitySet Name="Users" EntityType="tigtag_dbModel.User" />
           <AssociationSet Name="FK_CommentReply_Page" Association="tigtag_dbModel.FK_CommentReply_Page">
             <End Role="Page" EntitySet="Pages" />
@@ -461,7 +473,7 @@
             <End Role="FollowCondition" EntitySet="FollowConditions" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenu_Users" Association="tigtag_dbModel.FK_FollowMenu_Users">
-            <End Role="User" EntitySet="Users" />
+            <End Role="Page" EntitySet="Pages" />
             <End Role="FollowMenu" EntitySet="FollowMenus" />
           </AssociationSet>
           <AssociationSet Name="FK_FollowMenuPackage_FollowMenu" Association="tigtag_dbModel.FK_FollowMenuPackage_FollowMenu">
@@ -528,8 +540,8 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="FollowerUserId" Type="Guid" Nullable="false" />
           <Property Name="FollowingPageId" Type="Guid" Nullable="false" />
-          <Property Name="lastVisitDate" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="lastVisitDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Follow_Page" FromRole="Follow" ToRole="Page" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Follow_Page_follower" FromRole="Follow" ToRole="Page" />
           <NavigationProperty Name="FollowConditions" Relationship="tigtag_dbModel.FK_FollowCondition_Follow" FromRole="Follow" ToRole="FollowCondition" />
@@ -550,10 +562,10 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="title" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="lastVisitDate" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="lastVisitDate" Type="DateTime" Precision="3" />
           <Property Name="FollowerUserId" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="tigtag_dbModel.FK_FollowMenu_Users" FromRole="FollowMenu" ToRole="User" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_FollowMenu_Users" FromRole="FollowMenu" ToRole="Page" />
           <NavigationProperty Name="FollowMenuPackages" Relationship="tigtag_dbModel.FK_FollowMenuPackage_FollowMenu" FromRole="FollowMenu" ToRole="FollowMenuPackage" />
         </EntityType>
         <EntityType Name="FollowMenuPackage">
@@ -605,9 +617,11 @@
           <Property Name="PageId" Type="Guid" />
           <Property Name="ImageId" Type="Guid" />
           <Property Name="URL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsMasterPage" Type="Boolean" />
           <NavigationProperty Name="CommentReplies" Relationship="tigtag_dbModel.FK_CommentReply_Page" FromRole="Page" ToRole="CommentReply" />
           <NavigationProperty Name="Follows" Relationship="tigtag_dbModel.FK_Follow_Page" FromRole="Page" ToRole="Follow" />
           <NavigationProperty Name="Follows1" Relationship="tigtag_dbModel.FK_Follow_Page_follower" FromRole="Page" ToRole="Follow" />
+          <NavigationProperty Name="FollowMenus" Relationship="tigtag_dbModel.FK_FollowMenu_Users" FromRole="Page" ToRole="FollowMenu" />
           <NavigationProperty Name="ImageTable" Relationship="tigtag_dbModel.FK_Page_ImageTable" FromRole="Page" ToRole="ImageTable" />
           <NavigationProperty Name="Menus" Relationship="tigtag_dbModel.FK_Menu_Page" FromRole="Page" ToRole="Menu" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Page_Page" FromRole="Page" ToRole="Page1" />
@@ -616,7 +630,6 @@
           <NavigationProperty Name="PageComments" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="Page" ToRole="PageComment" />
           <NavigationProperty Name="PageComments1" Relationship="tigtag_dbModel.FK_PageComment_Page1" FromRole="Page" ToRole="PageComment" />
           <NavigationProperty Name="PageMenus" Relationship="tigtag_dbModel.FK_PageMenu_Page" FromRole="Page" ToRole="PageMenu" />
-          <Property Name="IsMasterPage" Type="Boolean" />
         </EntityType>
         <EntityType Name="PageComment">
           <Key>
@@ -641,6 +654,16 @@
           <NavigationProperty Name="Menu" Relationship="tigtag_dbModel.FK_PageMenu_Menu" FromRole="PageMenu" ToRole="Menu" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageMenu_Page" FromRole="PageMenu" ToRole="Page" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -650,12 +673,11 @@
           <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LastLoginDate" Type="DateTime" Precision="0" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
           <Property Name="ProfileInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ProfileImageId" Type="Guid" />
-          <NavigationProperty Name="FollowMenus" Relationship="tigtag_dbModel.FK_FollowMenu_Users" FromRole="User" ToRole="FollowMenu" />
           <NavigationProperty Name="ImageTable" Relationship="tigtag_dbModel.FK_User_ImageTable" FromRole="User" ToRole="ImageTable" />
           <NavigationProperty Name="Pages" Relationship="tigtag_dbModel.FK_Page_Users" FromRole="User" ToRole="Page" />
         </EntityType>
@@ -732,10 +754,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowMenu_Users">
-          <End Type="tigtag_dbModel.User" Role="User" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
           <End Type="tigtag_dbModel.FollowMenu" Role="FollowMenu" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
+            <Principal Role="Page">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="FollowMenu">
@@ -987,6 +1009,17 @@
                 <ScalarProperty Name="MenuId" ColumnName="MenuId" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="tigtag_dbModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
