@@ -10,6 +10,7 @@ using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
 
 using TiTag.Repository;
+using TigTag.Repository;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -22,5 +23,44 @@ namespace TigTag.WebApi.Controllers
         {
             return PageCommentRepo;
         }
+
+        public ResultDto addPageComment(PageCommentDto pageComment)
+        {
+            if (pageComment == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object  ");
+            else
+            {
+                ResultDto returnResult = new ResultDto();
+                PageComment pageCommentModel = Mapper<PageComment, PageCommentDto>.convertToModel(pageComment);
+                pageCommentModel.Id = Guid.NewGuid();
+                pageCommentModel.CreateDate = DateTime.Now;
+                returnResult = PageCommentRepo.validateMenu(pageCommentModel);
+                if (returnResult.isDone)
+                {
+                    try
+                    {
+                        PageCommentRepo.Add(pageCommentModel);
+                        PageCommentRepo.Save();
+                        returnResult.isDone = true;
+                        returnResult.message = "new Page Comment created successfully";
+                        returnResult.returnId = pageCommentModel.Id.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        returnResult = ResultDto.exceptionResult(ex);
+
+
+                    }
+
+                }
+
+                return returnResult;
+            }
+        }
+              public List<PageCommentDto> getPageCommentsByPageId(Guid pageId)
+        {
+            return PageCommentRepo.getPageCommentsByPageId(pageId);
+        }
     }
+
+      
 }

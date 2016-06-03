@@ -21,5 +21,40 @@ namespace TigTag.Repository.ModelRepository {
             return query;
         }
 
+        public ResultDto validateMenu(PageComment pageCommentModel)
+        {
+            ResultDto retResult = new ResultDto();
+            retResult.isDone = true;
+            checkPageId(pageCommentModel, retResult);
+            if (retResult.isDone)
+                retResult.statusCode = enm_STATUS_CODE.DONE_SUCCESSFULLY;
+            return retResult;
+        }
+
+        private void checkPageId(PageComment pageCommentModel, ResultDto retResult)
+        {
+            var c= Context.Pages.Count(p => p.Id == pageCommentModel.PageId);
+            if(c==0 || pageCommentModel.PageId==null)
+            {
+                retResult.addValidationMessages("pageId is not valid or is null!");
+            }
+        }
+
+        public List<PageCommentDto> getPageCommentsByPageId(Guid pageId)
+        {
+            List<PageCommentDto> retList = new List<PageCommentDto>();
+         var comments=   Context.PageComments.Where(pc => pc.PageId == pageId).OrderByDescending(c => c.CreateDate).ToList();
+            foreach (var c in comments)
+            {
+                PageCommentDto dto = Mapper<PageComment, PageCommentDto>.convertToDto(c);
+                int rc=Context.CommentReplys.Count(r => r.PageCommentId == c.Id);
+                dto.repliesCount = rc;
+                retList.Add(dto);
+
+            }
+            return retList;
+
+
+        }
     }
 }

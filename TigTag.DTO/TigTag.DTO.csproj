@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\TigTag.WebApi\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,8 +55,15 @@
     <Compile Include="ModelDTO\PageDto.cs" />
     <Compile Include="ModelDTO\Base\ResultDto.cs" />
     <Compile Include="ModelDTO\PageMenuDto.cs" />
+    <Compile Include="ModelDTO\RequestDto\BaseRequestDto.cs" />
     <Compile Include="ModelDTO\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TigTag.Common\TigTag.Common.csproj">
+      <Project>{fcd924dc-97df-478d-9ef4-a8ad20171e74}</Project>
+      <Name>TigTag.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

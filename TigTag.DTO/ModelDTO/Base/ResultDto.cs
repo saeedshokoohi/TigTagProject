@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TigTag.DTO.ModelDTO.RequestDto;
 
 namespace TigTag.DTO.ModelDTO.Base
 {
@@ -66,6 +67,8 @@ namespace TigTag.DTO.ModelDTO.Base
             }
             return returnResult;
         }
+
+      
     }
     public enum enm_STATUS_CODE
     {

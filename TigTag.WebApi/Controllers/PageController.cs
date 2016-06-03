@@ -10,6 +10,7 @@ using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
 using TiTag.Repository;
 using TigTag.Repository;
+using TigTag.DTO.ModelDTO.RequestDto;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -155,10 +156,44 @@ namespace TigTag.WebApi.Controllers
         {
             return pageRepo.getNewPostCountByFollowerPageId(followerPageId);
         }
-        
+        /// <summary>
+        /// return the followingPackageMenu List and the count of new posts for current user
+        /// </summary>
+        /// <param name="followerPageId"></param>
+        /// <returns></returns>
         public List<FollowMenuDto> getNewPostCountOnFollowingMenuByFollowerPageId(Guid followerPageId)
         {
             return pageRepo.getNewPostCountOnFollowingMenuByFollowerPageId(followerPageId);
+        }
+        public List<PageDto> findPostsByFollowerAndFollowingPageId([FromBody]BaseRequestDto request) 
+        {
+
+            Guid followingPageId = BaseRequestDto.extractParameterValueAsGuid(request,"followingPageId");
+            Guid followerPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followerPageId");
+            return pageRepo.getNewPostByFollowerAndFollowingPageId(followerPageId,followingPageId,request);
+        }
+        public List<PageDto> findPostsByFollowerAndFollowingMenuId([FromBody]BaseRequestDto request)
+        {
+
+            Guid followingPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followingMenuId");
+            Guid followerPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followerPageId");
+            return pageRepo.getNewPostByFollowerAndFollowingMenuId(followerPageId, followingPageId, request);
+        }
+        public ResultDto checkFollowingPageAsVisited([FromBody]BaseRequestDto request)
+        {
+
+            Guid followingPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followingPageId");
+            Guid followerPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followerPageId");
+            return pageRepo.checkFollowingPageAsVisited(followerPageId, followingPageId);
+
+        }
+       
+        public ResultDto checkFollowingMenuAsVisited([FromBody]BaseRequestDto request)
+        {
+            Guid followingMenuId = BaseRequestDto.extractParameterValueAsGuid(request, "followingMenuId");
+            Guid followerPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followerPageId");
+            return pageRepo.checkFollowingMenuAsVisited(followerPageId, followingMenuId);
+
         }
 
     }
