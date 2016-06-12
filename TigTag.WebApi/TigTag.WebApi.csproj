@@ -167,6 +167,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\Base\IBaseController.cs" />
+    <Compile Include="Controllers\ParticipantController.cs" />
+    <Compile Include="Controllers\PageSetting.cs" />
     <Compile Include="Controllers\CommentReplyController.cs" />
     <Compile Include="Controllers\FollowConditionController.cs" />
     <Compile Include="Controllers\FollowMenuPackageController.cs" />
@@ -206,6 +208,10 @@
     <Folder Include="Views\Image\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TigTag.Common\TigTag.Common.csproj">
+      <Project>{fcd924dc-97df-478d-9ef4-a8ad20171e74}</Project>
+      <Name>TigTag.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TigTag.DataModel\TigTag.DataModel.csproj">
       <Project>{69c5be02-f0df-4796-85b1-7b044a98906d}</Project>
       <Name>TigTag.DataModel</Name>

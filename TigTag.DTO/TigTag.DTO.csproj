@@ -55,6 +55,8 @@
     <Compile Include="ModelDTO\PageDto.cs" />
     <Compile Include="ModelDTO\Base\ResultDto.cs" />
     <Compile Include="ModelDTO\PageMenuDto.cs" />
+    <Compile Include="ModelDTO\PageSettingDto.cs" />
+    <Compile Include="ModelDTO\ParticipantDto.cs" />
     <Compile Include="ModelDTO\RequestDto\BaseRequestDto.cs" />
     <Compile Include="ModelDTO\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +66,9 @@
       <Project>{fcd924dc-97df-478d-9ef4-a8ad20171e74}</Project>
       <Name>TigTag.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

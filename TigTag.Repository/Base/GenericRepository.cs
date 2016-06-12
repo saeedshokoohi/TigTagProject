@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using TigTag.Common.Enumeration;
 
 namespace TiTag.Repository.Base{
 
@@ -10,6 +11,10 @@ namespace TiTag.Repository.Base{
 
         IGenericRepository<T> where T : class where C : DbContext, new() {
 
+        public int profileTypeCode = enmPageTypes.PROFILE.GetHashCode();
+        public int postTypeCode = enmPageTypes.POST.GetHashCode();
+        public int pageTypeCode = enmPageTypes.PAGE.GetHashCode();
+        public int teamTypeCode = enmPageTypes.TEAM.GetHashCode();
         private C _entities = new C();
         protected C Context {
 
@@ -35,6 +40,26 @@ namespace TiTag.Repository.Base{
 
         public virtual void Add(T entity) {
             _entities.Set<T>().Add(entity);
+        }
+        public virtual void AddOrUpdate(T entity)
+        {
+            T e= GetSingle(getIdField(entity));
+            if (e != null)
+                Edit(entity);
+            else
+                Add(entity);
+        }
+
+        private Guid getIdField(T entity)
+        {
+            try
+            {
+                return Guid.Parse(entity.GetType().GetProperty("Id").GetValue(entity).ToString());
+            }
+            catch
+            {
+                return Guid.Empty;
+            }
         }
 
         public virtual void Delete(T entity) {

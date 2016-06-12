@@ -12,7 +12,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AutherId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PageCommentId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="ReplyText" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Follow">
@@ -24,6 +24,7 @@
           <Property Name="FollowingPageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="lastVisitDate" Type="datetime" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="RequestStatus" Type="int" />
         </EntityType>
         <EntityType Name="FollowCondition">
           <Key>
@@ -79,7 +80,7 @@
           <Property Name="PageTitle" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CreateDate" Type="date" Nullable="false" />
-          <Property Name="PageType" Type="bit" Nullable="false" />
+          <Property Name="PageType" Type="int" Nullable="false" />
           <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PageId" Type="uniqueidentifier" />
           <Property Name="ImageId" Type="uniqueidentifier" />
@@ -93,7 +94,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AutherId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CommentText" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="PageMenu">
@@ -103,6 +104,24 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MenuId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PageSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsPublic" Type="bit" />
+        </EntityType>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ParticipantPageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RequestStatus" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -333,6 +352,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PageSetting_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="PageSetting" Type="Self.PageSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageSetting">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Participant_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="Participant" Type="Self.Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Participant_Page1">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="Participant" Type="Self.Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="ParticipantPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_ImageTable">
           <End Role="ImageTable" Type="Self.ImageTable" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -356,6 +411,8 @@
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageComment" EntityType="Self.PageComment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageMenu" EntityType="Self.PageMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageSetting" EntityType="Self.PageSetting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participant" EntityType="Self.Participant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CommentReply_Page" Association="Self.FK_CommentReply_Page">
@@ -426,6 +483,18 @@
             <End Role="Page" EntitySet="Page" />
             <End Role="PageMenu" EntitySet="PageMenu" />
           </AssociationSet>
+          <AssociationSet Name="FK_PageSetting_Page" Association="Self.FK_PageSetting_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="PageSetting" EntitySet="PageSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Participant_Page" Association="Self.FK_Participant_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Participant" EntitySet="Participant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Participant_Page1" Association="Self.FK_Participant_Page1">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Participant" EntitySet="Participant" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_ImageTable" Association="Self.FK_User_ImageTable">
             <End Role="ImageTable" EntitySet="ImageTable" />
             <End Role="User" EntitySet="User" />
@@ -446,6 +515,8 @@
           <EntitySet Name="Pages" EntityType="tigtag_dbModel.Page" />
           <EntitySet Name="PageComments" EntityType="tigtag_dbModel.PageComment" />
           <EntitySet Name="PageMenus" EntityType="tigtag_dbModel.PageMenu" />
+          <EntitySet Name="PageSettings" EntityType="tigtag_dbModel.PageSetting" />
+          <EntitySet Name="Participants" EntityType="tigtag_dbModel.Participant" />
           <EntitySet Name="sysdiagrams" EntityType="tigtag_dbModel.sysdiagram" />
           <EntitySet Name="Users" EntityType="tigtag_dbModel.User" />
           <AssociationSet Name="FK_CommentReply_Page" Association="tigtag_dbModel.FK_CommentReply_Page">
@@ -520,6 +591,18 @@
             <End Role="Page" EntitySet="Pages" />
             <End Role="PageMenu" EntitySet="PageMenus" />
           </AssociationSet>
+          <AssociationSet Name="FK_PageSetting_Page" Association="tigtag_dbModel.FK_PageSetting_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageSetting" EntitySet="PageSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Participant_Page" Association="tigtag_dbModel.FK_Participant_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Participant" EntitySet="Participants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Participant_Page1" Association="tigtag_dbModel.FK_Participant_Page1">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Participant" EntitySet="Participants" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CommentReply">
           <Key>
@@ -528,7 +611,7 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="AutherId" Type="Guid" Nullable="false" />
           <Property Name="PageCommentId" Type="Guid" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ReplyText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_CommentReply_Page" FromRole="CommentReply" ToRole="Page" />
           <NavigationProperty Name="PageComment" Relationship="tigtag_dbModel.FK_CommentReply_PageComment" FromRole="CommentReply" ToRole="PageComment" />
@@ -542,6 +625,7 @@
           <Property Name="FollowingPageId" Type="Guid" Nullable="false" />
           <Property Name="lastVisitDate" Type="DateTime" Precision="3" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RequestStatus" Type="Int32" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Follow_Page" FromRole="Follow" ToRole="Page" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Follow_Page_follower" FromRole="Follow" ToRole="Page" />
           <NavigationProperty Name="FollowConditions" Relationship="tigtag_dbModel.FK_FollowCondition_Follow" FromRole="Follow" ToRole="FollowCondition" />
@@ -612,7 +696,7 @@
           <Property Name="PageTitle" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PageType" Type="Boolean" Nullable="false" />
+          <Property Name="PageType" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="PageId" Type="Guid" />
           <Property Name="ImageId" Type="Guid" />
@@ -630,6 +714,9 @@
           <NavigationProperty Name="PageComments" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="Page" ToRole="PageComment" />
           <NavigationProperty Name="PageComments1" Relationship="tigtag_dbModel.FK_PageComment_Page1" FromRole="Page" ToRole="PageComment" />
           <NavigationProperty Name="PageMenus" Relationship="tigtag_dbModel.FK_PageMenu_Page" FromRole="Page" ToRole="PageMenu" />
+          <NavigationProperty Name="PageSettings" Relationship="tigtag_dbModel.FK_PageSetting_Page" FromRole="Page" ToRole="PageSetting" />
+          <NavigationProperty Name="Participants" Relationship="tigtag_dbModel.FK_Participant_Page" FromRole="Page" ToRole="Participant" />
+          <NavigationProperty Name="Participants1" Relationship="tigtag_dbModel.FK_Participant_Page1" FromRole="Page" ToRole="Participant" />
         </EntityType>
         <EntityType Name="PageComment">
           <Key>
@@ -638,7 +725,7 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="AutherId" Type="Guid" Nullable="false" />
           <Property Name="PageId" Type="Guid" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CommentText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CommentReplies" Relationship="tigtag_dbModel.FK_CommentReply_PageComment" FromRole="PageComment" ToRole="CommentReply" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="PageComment" ToRole="Page" />
@@ -653,6 +740,27 @@
           <Property Name="MenuId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Menu" Relationship="tigtag_dbModel.FK_PageMenu_Menu" FromRole="PageMenu" ToRole="Menu" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageMenu_Page" FromRole="PageMenu" ToRole="Page" />
+        </EntityType>
+        <EntityType Name="PageSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="IsPublic" Type="Boolean" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageSetting_Page" FromRole="PageSetting" ToRole="Page" />
+        </EntityType>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ParticipantPageId" Type="Guid" Nullable="false" />
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="RequestStatus" Type="Int32" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Participant_Page" FromRole="Participant" ToRole="Page" />
+          <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Participant_Page1" FromRole="Participant" ToRole="Page" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -897,6 +1005,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PageSetting_Page">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.PageSetting" Role="PageSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageSetting">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Participant_Page">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Participant" Role="Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Participant_Page1">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Participant" Role="Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="ParticipantPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -917,6 +1061,7 @@
           <EntitySetMapping Name="Follows">
             <EntityTypeMapping TypeName="tigtag_dbModel.Follow">
               <MappingFragment StoreEntitySet="Follow">
+                <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="lastVisitDate" ColumnName="lastVisitDate" />
                 <ScalarProperty Name="FollowingPageId" ColumnName="FollowingPageId" />
@@ -1008,6 +1153,26 @@
               <MappingFragment StoreEntitySet="PageMenu">
                 <ScalarProperty Name="MenuId" ColumnName="MenuId" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageSettings">
+            <EntityTypeMapping TypeName="tigtag_dbModel.PageSetting">
+              <MappingFragment StoreEntitySet="PageSetting">
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Participants">
+            <EntityTypeMapping TypeName="tigtag_dbModel.Participant">
+              <MappingFragment StoreEntitySet="Participant">
+                <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="ParticipantPageId" ColumnName="ParticipantPageId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

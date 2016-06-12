@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace TigTag.DTO.ModelDTO
 {
-    public class FollowDto
-        :BaseDto
+    public class ParticipantDto:BaseDto
     {
-        public System.Guid FollowerUserId { get; set; }
-        public System.Guid FollowingPageId { get; set; }
-        public string lastVisitDate { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public Guid[] menuIdList { get; set; }
+        public System.Guid ParticipantPageId { get; set; }
+        public System.Guid PageId { get; set; }
         public Nullable<int> RequestStatus { get; set; }
     }
 }

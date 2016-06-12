@@ -22,8 +22,12 @@ namespace TigTag.DTO.ModelDTO.Base
         }
         public void addValidationMessages(string message)
         {
-            if(!String.IsNullOrEmpty(message))
-            validationMessages.Add(message);
+            if (!String.IsNullOrEmpty(message))
+            {
+                validationMessages.Add(message);
+                statusCode = enm_STATUS_CODE.INPUT_NOT_VALID;
+                isDone = false;
+            }
         }
 
         public static ResultDto failedResult(string msg)

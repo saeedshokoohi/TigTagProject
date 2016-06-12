@@ -25,13 +25,16 @@ namespace TigTag.DataModel.model
             this.PageComments = new HashSet<PageComment>();
             this.PageComments1 = new HashSet<PageComment>();
             this.PageMenus = new HashSet<PageMenu>();
+            this.PageSettings = new HashSet<PageSetting>();
+            this.Participants = new HashSet<Participant>();
+            this.Participants1 = new HashSet<Participant>();
         }
     
         public System.Guid Id { get; set; }
         public string PageTitle { get; set; }
         public string Description { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public bool PageType { get; set; }
+        public int PageType { get; set; }
         public System.Guid UserId { get; set; }
         public Nullable<System.Guid> PageId { get; set; }
         public Nullable<System.Guid> ImageId { get; set; }
@@ -50,5 +53,8 @@ namespace TigTag.DataModel.model
         public virtual ICollection<PageComment> PageComments { get; set; }
         public virtual ICollection<PageComment> PageComments1 { get; set; }
         public virtual ICollection<PageMenu> PageMenus { get; set; }
+        public virtual ICollection<PageSetting> PageSettings { get; set; }
+        public virtual ICollection<Participant> Participants { get; set; }
+        public virtual ICollection<Participant> Participants1 { get; set; }
     }
 }

@@ -11,14 +11,16 @@ using TigTag.Repository.ModelRepository;
 
 using TiTag.Repository;
 using TigTag.Repository;
+using TigTag.Common.Enumeration;
 
 namespace TigTag.WebApi.Controllers
 {
-    public class FollowController : BaseController<Follow,FollowDto>
+    public class FollowController : BaseController<Follow, FollowDto>
     {
- 
+
         FollowRepository followRepo = new FollowRepository();
         MenuRepository menuRepo = new MenuRepository();
+        PageRepository pageRepo = new PageRepository();
         FollowConditionRepository followConditionRepo = new FollowConditionRepository();
 
         public override IGenericRepository<Follow> getRepository()
@@ -37,19 +39,30 @@ namespace TigTag.WebApi.Controllers
             Follow followModel = Mapper<Follow, FollowDto>.convertToModel(follow);
             followModel.Id = Guid.NewGuid();
             followModel.CreateDate = DateTime.Now;
-         
-                returnResult = followRepo.validateFollow(followModel);
+
+            returnResult = followRepo.validateFollow(followModel);
             if (returnResult.isDone)
             {
                 try
                 {
+                    var ps = pageRepo.getPageSetting(followModel.FollowingPageId);
+                    if (ps == null || ps.IsPublic == null || (bool)ps.IsPublic)
+                    {
+                        followModel.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
+                    }
+                    else
+                    {
+                        followModel.RequestStatus = enmFollowRequestStatus.REQUESTED.GetHashCode();
+                    }
+
+
                     followRepo.Add(followModel);
                     followRepo.Save();
                     //adding menu list to follow
                     if (follow.menuIdList != null)
                         foreach (var menuid in follow.menuIdList)
                         {
-                            var menu= menuRepo.GetSingle(menuid);
+                            var menu = menuRepo.GetSingle(menuid);
                             if (menu != null)
                             {
                                 FollowCondition followCondition = new FollowCondition();
@@ -78,6 +91,24 @@ namespace TigTag.WebApi.Controllers
                 returnResult.message = "input is not valid. check the validation messages";
             }
             return returnResult;
+        }
+        /// <summary>
+        /// return the list of following which are following given profile or sub pages
+        /// </summary>
+        /// <param name="profileId"></param>
+        /// <returns></returns>
+        public List<FollowDto> getFollowingRequestForProfileAndPages(Guid pageId)
+        {
+            return followRepo.getFollowingRequestForProfileAndPages(pageId);
+        }
+        /// <summary>
+        /// return the list of following which are following given profile 
+        /// </summary>
+        /// <param name="pageId"></param>
+        /// <returns></returns>
+        public List<FollowDto> getFollowingRequestForProfile(Guid pageId)
+        {
+            return followRepo.getFollowingRequestForProfile(pageId);
         }
     }
 }

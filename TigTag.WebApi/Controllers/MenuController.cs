@@ -11,6 +11,7 @@ using TigTag.Repository.ModelRepository;
 
 using TiTag.Repository;
 using TigTag.Repository;
+using TigTag.Common.Enumeration;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -94,56 +95,7 @@ namespace TigTag.WebApi.Controllers
             }
         }
 
-        /// <summary>
-        /// this service create a new page for user
-        /// </summary>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        private ResultDto CreatePage(PageDto page)
-        {
-           
-            if (page == null)return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
-            ResultDto returnResult = new ResultDto();
-            Page pageModel= Mapper<Page, PageDto>.convertToModel(page);
-            pageModel.Id = Guid.NewGuid();
-            pageModel.CreateDate = DateTime.Now;
-            pageModel.PageType = false;
-            returnResult = pageRepo.validatePage(pageModel);
-            if (returnResult.isDone)
-            {
-                try
-                {
-                    pageRepo.Add(pageModel);
-                    //adding menu list to page
-                    if(page.Menulist!=null)
-                    foreach (var menuid in page.Menulist)
-                    {
-                        //var menu= menuRepo.GetSingle(menuid);
-                        PageMenu pageMenu = new PageMenu();
-                        pageMenu.Id = Guid.NewGuid();
-                        pageMenu.MenuId = menuid;
-                        pageMenu.PageId = pageModel.Id;
-                        pageMenuRepo.Add(pageMenu);
-
-                    }
-                    pageRepo.Save();
-                    returnResult.isDone = true;
-                    returnResult.message = "new page created successfully";
-                    returnResult.returnId = pageModel.Id.ToString();
-                }
-                catch (Exception ex)
-                {
-                    returnResult= ResultDto.exceptionResult(ex);
-                   
-
-                }
-            }
-            else
-            {
-                returnResult.message = "input is not valid. check the validation messages";
-            }
-            return returnResult;
-        }
+      
 
         public List<MenuDto> getMenuByPageId(Guid pageid)
         {

@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumeration\enmFollowRequestStatus.cs" />
+    <Compile Include="Enumeration\enmPageTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="util\WrongParameterException.cs" />
   </ItemGroup>

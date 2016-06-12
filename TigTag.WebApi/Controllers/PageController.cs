@@ -11,15 +11,17 @@ using TigTag.Repository.ModelRepository;
 using TiTag.Repository;
 using TigTag.Repository;
 using TigTag.DTO.ModelDTO.RequestDto;
+using TigTag.Common.Enumeration;
 
 namespace TigTag.WebApi.Controllers
 {
-    public class PageController : BaseController<Page,PageDto>
+    public class PageController : BaseController<Page, PageDto>
     {
         UserRepository userRepo = new UserRepository();
         PageRepository pageRepo = new PageRepository();
         PageMenuRepository pageMenuRepo = new PageMenuRepository();
         MenuRepository menuRepo = new MenuRepository();
+        PageSettingRepository PageSettingRepo = new PageSettingRepository();
         public override IGenericRepository<Page> getRepository()
         {
             return pageRepo;
@@ -35,11 +37,11 @@ namespace TigTag.WebApi.Controllers
             if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
             else
             {
-                page.PageType = false;
+                page.PageType = enmPageTypes.PAGE.GetHashCode();
                 page.IsMasterPage = true;
-                var masterPage=pageRepo.getMasterPage();
+                var masterPage = pageRepo.getMasterPage();
                 if (masterPage == null)
-                    return CreatePage(page);
+                    return CreateGeneralPage(page);
                 else
                     return ResultDto.failedResult("there is one Master Profile, only one masterProfile is valid!!!");
             }
@@ -51,7 +53,7 @@ namespace TigTag.WebApi.Controllers
         public PageDto GetMasterProfile()
         {
             var masterPage = pageRepo.getMasterPage();
-            return Mapper<Page, PageDto>.convertToDto(masterPage); 
+            return Mapper<Page, PageDto>.convertToDto(masterPage);
         }
         /// <summary>
         /// return the page which is related to given userid
@@ -73,8 +75,36 @@ namespace TigTag.WebApi.Controllers
             if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
             else
             {
-                page.PageType = false;
-                return CreatePage(page);
+                page.PageType = enmPageTypes.PROFILE.GetHashCode();
+                return CreateGeneralPage(page);
+            }
+        }
+        /// <summary>
+        /// create profile for user
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ResultDto CreatePage([FromBody]PageDto page)
+        {
+            if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
+            else
+            {
+                page.PageType = enmPageTypes.PAGE.GetHashCode();
+                return CreateGeneralPage(page);
+            }
+        }
+        /// <summary>
+        /// create profile for user
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ResultDto CreateTeam([FromBody]PageDto page)
+        {
+            if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
+            else
+            {
+                page.PageType = enmPageTypes.TEAM.GetHashCode();
+                return CreateGeneralPage(page);
             }
         }
         /// <summary>
@@ -87,9 +117,9 @@ namespace TigTag.WebApi.Controllers
             if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
             else
             {
-                page.PageType = true;
-                if (String.IsNullOrEmpty(page.URL)) page.URL =pageRepo.generatePostId(page);
-                return CreatePage(page);
+                page.PageType = enmPageTypes.POST.GetHashCode();
+                if (String.IsNullOrEmpty(page.URL)) page.URL = pageRepo.generatePostId(page);
+                return CreateGeneralPage(page);
             }
         }
         /// <summary>
@@ -97,18 +127,32 @@ namespace TigTag.WebApi.Controllers
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        private ResultDto CreatePage(PageDto page)
+        private ResultDto CreateGeneralPage(PageDto page)
         {
-           
-            if (page == null)return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
+
+            if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
             ResultDto returnResult = new ResultDto();
-            Page pageModel= Mapper<Page, PageDto>.convertToModel(page);
+            Page pageModel = Mapper<Page, PageDto>.convertToModel(page);
             pageModel.Id = Guid.NewGuid();
             pageModel.CreateDate = DateTime.Now;
-           if(page.PageType)
-                returnResult = pageRepo.validatePost(pageModel);
-           else
-            returnResult = pageRepo.validatePage(pageModel);
+            enmPageTypes pageType = (enmPageTypes)page.PageType;
+            switch (pageType)
+            {
+                case enmPageTypes.PROFILE:
+              
+                    returnResult = pageRepo.validatePage(pageModel);
+                    break;
+                case enmPageTypes.PAGE:
+                case enmPageTypes.TEAM:
+                case enmPageTypes.POST:
+                    returnResult = pageRepo.validatePost(pageModel);
+                    break;
+                default:
+                    break;
+            }
+
+
+
             if (returnResult.isDone)
             {
                 try
@@ -116,27 +160,44 @@ namespace TigTag.WebApi.Controllers
                     pageRepo.Add(pageModel);
                     pageRepo.Save();
                     //adding menu list to page
-                    if (page.Menulist!=null)
-                    foreach (var menuid in page.Menulist)
-                    {
-                        //var menu= menuRepo.GetSingle(menuid);
-                        PageMenu pageMenu = new PageMenu();
-                        pageMenu.Id = Guid.NewGuid();
-                        pageMenu.MenuId = menuid;
-                        pageMenu.PageId = pageModel.Id;
-                        pageMenuRepo.Add(pageMenu);
-                        pageMenuRepo.Save();
+                    if (page.Menulist != null)
+                        foreach (var menuid in page.Menulist)
+                        {
+                            //var menu= menuRepo.GetSingle(menuid);
+                            PageMenu pageMenu = new PageMenu();
+                            ResultDto tempResult = new ResultDto();
 
+                            pageMenu.Id = Guid.NewGuid();
+                            pageMenu.MenuId = menuid;
+                            pageMenu.PageId = pageModel.Id;
+                            menuRepo.checkUnquness(pageMenu, tempResult);
+                            if (tempResult.validationMessages != null && tempResult.validationMessages.Count() == 0)
+                            {
+                                pageMenuRepo.Add(pageMenu);
+                                pageMenuRepo.Save();
+                            }
+
+                        }
+                    //adding page setting
+                    if (pageModel.PageType != enmPageTypes.POST.GetHashCode())
+                    {
+                        PageSetting pageSetting = new PageSetting();
+                        pageSetting.Id = Guid.NewGuid();
+                        if (page.IsPublic == null) page.IsPublic = true;
+                        pageSetting.IsPublic = page.IsPublic;
+                        pageSetting.PageId = pageModel.Id;
+                        PageSettingRepo.Add(pageSetting);
+                        PageSettingRepo.Save();
                     }
-                  
+
                     returnResult.isDone = true;
                     returnResult.message = "new page/post created successfully";
                     returnResult.returnId = pageModel.Id.ToString();
                 }
                 catch (Exception ex)
                 {
-                    returnResult= ResultDto.exceptionResult(ex);
-                   
+                    returnResult = ResultDto.exceptionResult(ex);
+
 
                 }
             }
@@ -165,12 +226,12 @@ namespace TigTag.WebApi.Controllers
         {
             return pageRepo.getNewPostCountOnFollowingMenuByFollowerPageId(followerPageId);
         }
-        public List<PageDto> findPostsByFollowerAndFollowingPageId([FromBody]BaseRequestDto request) 
+        public List<PageDto> findPostsByFollowerAndFollowingPageId([FromBody]BaseRequestDto request)
         {
 
-            Guid followingPageId = BaseRequestDto.extractParameterValueAsGuid(request,"followingPageId");
+            Guid followingPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followingPageId");
             Guid followerPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followerPageId");
-            return pageRepo.getNewPostByFollowerAndFollowingPageId(followerPageId,followingPageId,request);
+            return pageRepo.getNewPostByFollowerAndFollowingPageId(followerPageId, followingPageId, request);
         }
         public List<PageDto> findPostsByFollowerAndFollowingMenuId([FromBody]BaseRequestDto request)
         {
@@ -187,7 +248,7 @@ namespace TigTag.WebApi.Controllers
             return pageRepo.checkFollowingPageAsVisited(followerPageId, followingPageId);
 
         }
-       
+
         public ResultDto checkFollowingMenuAsVisited([FromBody]BaseRequestDto request)
         {
             Guid followingMenuId = BaseRequestDto.extractParameterValueAsGuid(request, "followingMenuId");
@@ -196,5 +257,30 @@ namespace TigTag.WebApi.Controllers
 
         }
 
+        public List<PageDto> getPostByPageId(Guid pageId)
+        {
+            return pageRepo.getPostByPageId(pageId, 100);
+        }
+        public List<PageDto> getPageByProfileId(Guid pageId)
+        {
+            return pageRepo.getPageByProfileId(pageId, 100);
+        }
+        public List<PageDto> getTeamByPageId(Guid pageId)
+        {
+            return pageRepo.getTeamByPageId(pageId, 100);
+        }
+        public List<PageDto> getParticipantsByPageId(Guid pageId)
+        {
+            return pageRepo.getParticipantsByPageId(pageId, 100);
+        }
+        public PageSettingDto getPageSetting(Guid pageId)
+        {
+            return pageRepo.getPageSetting(pageId);
+        }
+        public List<PageDto> filterPostsByMenuList(PageDto filter)
+        {
+           return pageRepo.filterPostsByMenuList(filter);
+          
+        }
     }
 }

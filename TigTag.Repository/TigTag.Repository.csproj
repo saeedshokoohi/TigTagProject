@@ -109,6 +109,8 @@
     <Compile Include="Base\IGenericRepository.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Common\Mapper.cs" />
+    <Compile Include="IModelRepository\IParticipantRepository.cs" />
+    <Compile Include="IModelRepository\IPageSettingRepository.cs" />
     <Compile Include="IModelRepository\IPageMenuRepository.cs" />
     <Compile Include="IModelRepository\IPageCommentRepository.cs" />
     <Compile Include="IModelRepository\ICommentReplyRepository.cs" />
@@ -120,6 +122,8 @@
     <Compile Include="IModelRepository\IMenuRepository.cs" />
     <Compile Include="IModelRepository\IFollowMenuPackageRepository.cs" />
     <Compile Include="IModelRepository\IUserRepository.cs" />
+    <Compile Include="ModelRepository\ParticipantRepository.cs" />
+    <Compile Include="ModelRepository\PageSettingRepository.cs" />
     <Compile Include="ModelRepository\CommentReplyRepository.cs" />
     <Compile Include="ModelRepository\PageMenuRepository.cs" />
     <Compile Include="ModelRepository\PageCommentRepository.cs" />
@@ -139,6 +143,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TigTag.Common\TigTag.Common.csproj">
+      <Project>{fcd924dc-97df-478d-9ef4-a8ad20171e74}</Project>
+      <Name>TigTag.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TigTag.DataModel\TigTag.DataModel.csproj">
       <Project>{69c5be02-f0df-4796-85b1-7b044a98906d}</Project>
       <Name>TigTag.DataModel</Name>

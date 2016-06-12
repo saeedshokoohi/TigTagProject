@@ -93,12 +93,21 @@ namespace TigTag.Repository.ModelRepository {
             retResult.isDone = true;
             checkPageId(pagemenumodel, retResult);
             checkMenuId(pagemenumodel, retResult);
+            checkUnquness(pagemenumodel, retResult);
             return retResult;
+        }
+
+        public void checkUnquness(PageMenu pagemenumodel, ResultDto retResult)
+        {
+            if(Context.PageMenus.Where(pm => pm.MenuId == pagemenumodel.Id && pm.PageId == pagemenumodel.PageId).Count()>0)
+            {
+                retResult.addValidationMessages("MENUID_HAS_ALREADY_ADDED_TO_PAGE");
+            }
         }
 
         public List<Menu> findByPageId(Guid pageid)
         {
-            return Context.PageMenus.Where(pm => pm.PageId == pageid).Select(p => p.Menu).ToList();
+            return Context.PageMenus.Where(pm => pm.PageId == pageid).Select(p => p.Menu).Distinct().ToList();
         }
     }
 }
