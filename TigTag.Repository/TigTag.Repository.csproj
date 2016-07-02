@@ -109,6 +109,9 @@
     <Compile Include="Base\IGenericRepository.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Common\Mapper.cs" />
+    <Compile Include="IModelRepository\IPageScoreRepository.cs" />
+    <Compile Include="IModelRepository\IPageAdminRepository.cs" />
+    <Compile Include="IModelRepository\IEventsLogRepository.cs" />
     <Compile Include="IModelRepository\IParticipantRepository.cs" />
     <Compile Include="IModelRepository\IPageSettingRepository.cs" />
     <Compile Include="IModelRepository\IPageMenuRepository.cs" />
@@ -122,6 +125,9 @@
     <Compile Include="IModelRepository\IMenuRepository.cs" />
     <Compile Include="IModelRepository\IFollowMenuPackageRepository.cs" />
     <Compile Include="IModelRepository\IUserRepository.cs" />
+    <Compile Include="ModelRepository\EventsLogRepository.cs" />
+    <Compile Include="ModelRepository\PageAdminRepository.cs" />
+    <Compile Include="ModelRepository\PageScoreRepository.cs" />
     <Compile Include="ModelRepository\ParticipantRepository.cs" />
     <Compile Include="ModelRepository\PageSettingRepository.cs" />
     <Compile Include="ModelRepository\CommentReplyRepository.cs" />

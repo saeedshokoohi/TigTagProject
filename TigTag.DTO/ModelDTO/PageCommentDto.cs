@@ -14,5 +14,6 @@ namespace TigTag.DTO.ModelDTO
         public System.DateTime CreateDate { get; set; }
         public string CommentText { get; set; }
         public int repliesCount { get; set; }
+        public Nullable<bool> IsPublic { get; set; }
     }
 }

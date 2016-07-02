@@ -167,6 +167,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\Base\IBaseController.cs" />
+    <Compile Include="Controllers\PageAdminController.cs" />
+    <Compile Include="Controllers\PageScoreController.cs" />
+    <Compile Include="Controllers\EventsLogController.cs" />
     <Compile Include="Controllers\ParticipantController.cs" />
     <Compile Include="Controllers\PageSetting.cs" />
     <Compile Include="Controllers\CommentReplyController.cs" />

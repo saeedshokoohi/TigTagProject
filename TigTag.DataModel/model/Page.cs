@@ -17,14 +17,21 @@ namespace TigTag.DataModel.model
         public Page()
         {
             this.CommentReplies = new HashSet<CommentReply>();
+            this.EventsLogs = new HashSet<EventsLog>();
+            this.EventsLogs1 = new HashSet<EventsLog>();
+            this.EventsLogs2 = new HashSet<EventsLog>();
             this.Follows = new HashSet<Follow>();
             this.Follows1 = new HashSet<Follow>();
             this.FollowMenus = new HashSet<FollowMenu>();
             this.Menus = new HashSet<Menu>();
             this.Page1 = new HashSet<Page>();
+            this.PageAdmins = new HashSet<PageAdmin>();
+            this.PageAdmins1 = new HashSet<PageAdmin>();
             this.PageComments = new HashSet<PageComment>();
             this.PageComments1 = new HashSet<PageComment>();
             this.PageMenus = new HashSet<PageMenu>();
+            this.PageScores = new HashSet<PageScore>();
+            this.PageScores1 = new HashSet<PageScore>();
             this.PageSettings = new HashSet<PageSetting>();
             this.Participants = new HashSet<Participant>();
             this.Participants1 = new HashSet<Participant>();
@@ -42,6 +49,9 @@ namespace TigTag.DataModel.model
         public Nullable<bool> IsMasterPage { get; set; }
     
         public virtual ICollection<CommentReply> CommentReplies { get; set; }
+        public virtual ICollection<EventsLog> EventsLogs { get; set; }
+        public virtual ICollection<EventsLog> EventsLogs1 { get; set; }
+        public virtual ICollection<EventsLog> EventsLogs2 { get; set; }
         public virtual ICollection<Follow> Follows { get; set; }
         public virtual ICollection<Follow> Follows1 { get; set; }
         public virtual ICollection<FollowMenu> FollowMenus { get; set; }
@@ -50,9 +60,13 @@ namespace TigTag.DataModel.model
         public virtual ICollection<Page> Page1 { get; set; }
         public virtual Page Page2 { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<PageAdmin> PageAdmins { get; set; }
+        public virtual ICollection<PageAdmin> PageAdmins1 { get; set; }
         public virtual ICollection<PageComment> PageComments { get; set; }
         public virtual ICollection<PageComment> PageComments1 { get; set; }
         public virtual ICollection<PageMenu> PageMenus { get; set; }
+        public virtual ICollection<PageScore> PageScores { get; set; }
+        public virtual ICollection<PageScore> PageScores1 { get; set; }
         public virtual ICollection<PageSetting> PageSettings { get; set; }
         public virtual ICollection<Participant> Participants { get; set; }
         public virtual ICollection<Participant> Participants1 { get; set; }

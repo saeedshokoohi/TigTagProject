@@ -12,12 +12,15 @@ namespace TigTag.DataModel.model
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram : BaseEntity
+    public partial class PageScore : BaseEntity
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid ProfileId { get; set; }
+        public System.Guid PageToScore { get; set; }
+        public Nullable<int> Score { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+    
+        public virtual Page Page { get; set; }
+        public virtual Page Page1 { get; set; }
     }
 }

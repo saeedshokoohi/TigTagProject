@@ -66,6 +66,13 @@ namespace TiTag.Repository.Base{
 
             _entities.Set<T>().Remove(entity);
         }
+        public void DeleteList(List<T> delList)
+        {
+            foreach (var item in delList)
+            {
+                Delete(item);
+            }
+        }
 
         public virtual void Edit(T entity) {
 

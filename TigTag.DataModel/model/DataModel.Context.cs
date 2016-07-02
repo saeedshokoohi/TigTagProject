@@ -26,6 +26,7 @@ namespace TigTag.DataModel.model
         }
     
         public DbSet<CommentReply> CommentReplies { get; set; }
+        public DbSet<EventsLog> EventsLogs { get; set; }
         public DbSet<Follow> Follows { get; set; }
         public DbSet<FollowCondition> FollowConditions { get; set; }
         public DbSet<FollowMenu> FollowMenus { get; set; }
@@ -33,11 +34,12 @@ namespace TigTag.DataModel.model
         public DbSet<ImageTable> ImageTables { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Page> Pages { get; set; }
+        public DbSet<PageAdmin> PageAdmins { get; set; }
         public DbSet<PageComment> PageComments { get; set; }
         public DbSet<PageMenu> PageMenus { get; set; }
+        public DbSet<PageScore> PageScores { get; set; }
         public DbSet<PageSetting> PageSettings { get; set; }
         public DbSet<Participant> Participants { get; set; }
-        public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

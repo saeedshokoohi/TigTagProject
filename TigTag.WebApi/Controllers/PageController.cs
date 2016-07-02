@@ -174,6 +174,7 @@ namespace TigTag.WebApi.Controllers
                             if (tempResult.validationMessages != null && tempResult.validationMessages.Count() == 0)
                             {
                                 pageMenuRepo.Add(pageMenu);
+                                menuRepo.increaseScore(pageMenu.MenuId);
                                 pageMenuRepo.Save();
                             }
 

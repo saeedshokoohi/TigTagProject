@@ -77,7 +77,9 @@ namespace TigTag.WebApi.Controllers
                 {
                     try
                     {
+                        
                         pageMenuRepo.Add(pagemenumodel);
+                        menuRepo.increaseScore(pagemenumodel.MenuId);
                         menuRepo.Save();
                         returnResult.isDone = true;
                         returnResult.message = "new menu added to page successfully";

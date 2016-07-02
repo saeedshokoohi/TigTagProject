@@ -12,22 +12,12 @@ namespace TigTag.DataModel.model
     using System;
     using System.Collections.Generic;
     
-    public partial class PageComment : BaseEntity
+    public partial class PageSetting : BaseEntity
     {
-        public PageComment()
-        {
-            this.CommentReplies = new HashSet<CommentReply>();
-        }
-    
         public System.Guid Id { get; set; }
-        public System.Guid AutherId { get; set; }
         public System.Guid PageId { get; set; }
-        public System.DateTime CreateDate { get; set; }
-        public string CommentText { get; set; }
         public Nullable<bool> IsPublic { get; set; }
     
-        public virtual ICollection<CommentReply> CommentReplies { get; set; }
         public virtual Page Page { get; set; }
-        public virtual Page Page1 { get; set; }
     }
 }

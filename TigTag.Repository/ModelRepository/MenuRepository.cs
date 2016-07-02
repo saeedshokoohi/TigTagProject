@@ -87,6 +87,18 @@ namespace TigTag.Repository.ModelRepository {
             }
         }
 
+        public void increaseScore(Guid menuId)
+        {
+            var me = GetSingle(menuId);
+            if(me!=null)
+            {
+                if (me.Score == null) me.Score = 0;
+                me.Score = me.Score + 1;
+                Edit(me);
+                Save();
+            }
+        }
+
         public ResultDto validatePageMenu(PageMenu pagemenumodel)
         {
             ResultDto retResult = new ResultDto();

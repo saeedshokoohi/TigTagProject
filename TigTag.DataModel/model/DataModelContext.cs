@@ -32,6 +32,9 @@ namespace TigTag.DataModel.model
         public DbSet<PageComment> PageComments { get; set; }
         public DbSet<PageSetting> PageSettings { get; set; }
         public DbSet<Participant> Participants { get; set; }
+        public DbSet<PageAdmin> PageAdmins  { get; set; }
+        public DbSet<PageScore> PageScores { get; set; }
+        public DbSet<EventsLog> EventsLogs { get; set; }
 
 
 

@@ -47,6 +47,7 @@
     <Compile Include="ModelDTO\CommentReplyDto.cs" />
     <Compile Include="ModelDTO\FollowDto.cs" />
     <Compile Include="ModelDTO\FollowConditionDto.cs" />
+    <Compile Include="ModelDTO\EventsLogDto.cs" />
     <Compile Include="ModelDTO\PageCommentDto.cs" />
     <Compile Include="ModelDTO\FollowMenuPackageDto.cs" />
     <Compile Include="ModelDTO\FollowMenuDto.cs" />
@@ -56,8 +57,11 @@
     <Compile Include="ModelDTO\Base\ResultDto.cs" />
     <Compile Include="ModelDTO\PageMenuDto.cs" />
     <Compile Include="ModelDTO\PageSettingDto.cs" />
+    <Compile Include="ModelDTO\PageAdminDto.cs" />
+    <Compile Include="ModelDTO\PageScoreDto.cs" />
     <Compile Include="ModelDTO\ParticipantDto.cs" />
     <Compile Include="ModelDTO\RequestDto\BaseRequestDto.cs" />
+    <Compile Include="ModelDTO\TotalScoreDto.cs" />
     <Compile Include="ModelDTO\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

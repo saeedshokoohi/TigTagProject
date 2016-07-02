@@ -15,6 +15,21 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="ReplyText" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="EventsLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ActorPageId" Type="uniqueidentifier" />
+          <Property Name="TargetPageId" Type="uniqueidentifier" />
+          <Property Name="ActionCode" Type="int" />
+          <Property Name="OwnerPageId" Type="uniqueidentifier" />
+          <Property Name="Status" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CustomRelatedId" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="Follow">
           <Key>
             <PropertyRef Name="Id" />
@@ -87,6 +102,16 @@
           <Property Name="URL" Type="nvarchar" MaxLength="500" />
           <Property Name="IsMasterPage" Type="bit" />
         </EntityType>
+        <EntityType Name="PageAdmin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AdminProfileId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
         <EntityType Name="PageComment">
           <Key>
             <PropertyRef Name="Id" />
@@ -96,6 +121,7 @@
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CommentText" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsPublic" Type="bit" />
         </EntityType>
         <EntityType Name="PageMenu">
           <Key>
@@ -104,6 +130,16 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MenuId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PageScore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProfileId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageToScore" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Score" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
         </EntityType>
         <EntityType Name="PageSetting">
           <Key>
@@ -123,16 +159,6 @@
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RequestStatus" Type="int" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -147,6 +173,7 @@
           <Property Name="LastLoginDate" Type="datetime" />
           <Property Name="ProfileInfo" Type="text" />
           <Property Name="ProfileImageId" Type="uniqueidentifier" />
+          <Property Name="Gender" Type="bit" />
         </EntityType>
         <Association Name="FK_CommentReply_Page">
           <End Role="Page" Type="Self.Page" Multiplicity="1" />
@@ -169,6 +196,54 @@
             </Principal>
             <Dependent Role="CommentReply">
               <PropertyRef Name="PageCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsLog_ActorPage">
+          <End Role="Page" Type="Self.Page" Multiplicity="0..1" />
+          <End Role="EventsLog" Type="Self.EventsLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsLog">
+              <PropertyRef Name="ActorPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsLog_EventsLog">
+          <End Role="EventsLog" Type="Self.EventsLog" Multiplicity="1" />
+          <End Role="EventsLog1" Type="Self.EventsLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EventsLog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsLog1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsLog_OwnerPage">
+          <End Role="Page" Type="Self.Page" Multiplicity="0..1" />
+          <End Role="EventsLog" Type="Self.EventsLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsLog">
+              <PropertyRef Name="OwnerPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsLog_TargetPage">
+          <End Role="Page" Type="Self.Page" Multiplicity="0..1" />
+          <End Role="EventsLog" Type="Self.EventsLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsLog">
+              <PropertyRef Name="TargetPageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -304,6 +379,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PageAdmin_AdminProfile">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="PageAdmin" Type="Self.PageAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageAdmin">
+              <PropertyRef Name="AdminProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageAdmin_PageToAdmin">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="PageAdmin" Type="Self.PageAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageAdmin">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PageComment_Page">
           <End Role="Page" Type="Self.Page" Multiplicity="1" />
           <End Role="PageComment" Type="Self.PageComment" Multiplicity="*" />
@@ -349,6 +448,30 @@
             </Principal>
             <Dependent Role="PageMenu">
               <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageScore_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="PageScore" Type="Self.PageScore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageScore">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageScore_Page1">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="PageScore" Type="Self.PageScore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageScore">
+              <PropertyRef Name="PageToScore" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -402,6 +525,7 @@
         </Association>
         <EntityContainer Name="tigtag_dbModelStoreContainer">
           <EntitySet Name="CommentReply" EntityType="Self.CommentReply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventsLog" EntityType="Self.EventsLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Follow" EntityType="Self.Follow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FollowCondition" EntityType="Self.FollowCondition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FollowMenu" EntityType="Self.FollowMenu" Schema="dbo" store:Type="Tables" />
@@ -409,11 +533,12 @@
           <EntitySet Name="ImageTable" EntityType="Self.ImageTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageAdmin" EntityType="Self.PageAdmin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageComment" EntityType="Self.PageComment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageMenu" EntityType="Self.PageMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageScore" EntityType="Self.PageScore" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageSetting" EntityType="Self.PageSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Participant" EntityType="Self.Participant" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CommentReply_Page" Association="Self.FK_CommentReply_Page">
             <End Role="Page" EntitySet="Page" />
@@ -422,6 +547,22 @@
           <AssociationSet Name="FK_CommentReply_PageComment" Association="Self.FK_CommentReply_PageComment">
             <End Role="PageComment" EntitySet="PageComment" />
             <End Role="CommentReply" EntitySet="CommentReply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsLog_ActorPage" Association="Self.FK_EventsLog_ActorPage">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="EventsLog" EntitySet="EventsLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsLog_EventsLog" Association="Self.FK_EventsLog_EventsLog">
+            <End Role="EventsLog" EntitySet="EventsLog" />
+            <End Role="EventsLog1" EntitySet="EventsLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsLog_OwnerPage" Association="Self.FK_EventsLog_OwnerPage">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="EventsLog" EntitySet="EventsLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsLog_TargetPage" Association="Self.FK_EventsLog_TargetPage">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="EventsLog" EntitySet="EventsLog" />
           </AssociationSet>
           <AssociationSet Name="FK_Follow_Page" Association="Self.FK_Follow_Page">
             <End Role="Page" EntitySet="Page" />
@@ -467,6 +608,14 @@
             <End Role="User" EntitySet="User" />
             <End Role="Page" EntitySet="Page" />
           </AssociationSet>
+          <AssociationSet Name="FK_PageAdmin_AdminProfile" Association="Self.FK_PageAdmin_AdminProfile">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="PageAdmin" EntitySet="PageAdmin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageAdmin_PageToAdmin" Association="Self.FK_PageAdmin_PageToAdmin">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="PageAdmin" EntitySet="PageAdmin" />
+          </AssociationSet>
           <AssociationSet Name="FK_PageComment_Page" Association="Self.FK_PageComment_Page">
             <End Role="Page" EntitySet="Page" />
             <End Role="PageComment" EntitySet="PageComment" />
@@ -482,6 +631,14 @@
           <AssociationSet Name="FK_PageMenu_Page" Association="Self.FK_PageMenu_Page">
             <End Role="Page" EntitySet="Page" />
             <End Role="PageMenu" EntitySet="PageMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageScore_Page" Association="Self.FK_PageScore_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="PageScore" EntitySet="PageScore" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageScore_Page1" Association="Self.FK_PageScore_Page1">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="PageScore" EntitySet="PageScore" />
           </AssociationSet>
           <AssociationSet Name="FK_PageSetting_Page" Association="Self.FK_PageSetting_Page">
             <End Role="Page" EntitySet="Page" />
@@ -506,6 +663,7 @@
       <Schema Namespace="tigtag_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="tigtag_dbEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="CommentReplies" EntityType="tigtag_dbModel.CommentReply" />
+          <EntitySet Name="EventsLogs" EntityType="tigtag_dbModel.EventsLog" />
           <EntitySet Name="Follows" EntityType="tigtag_dbModel.Follow" />
           <EntitySet Name="FollowConditions" EntityType="tigtag_dbModel.FollowCondition" />
           <EntitySet Name="FollowMenus" EntityType="tigtag_dbModel.FollowMenu" />
@@ -513,11 +671,12 @@
           <EntitySet Name="ImageTables" EntityType="tigtag_dbModel.ImageTable" />
           <EntitySet Name="Menus" EntityType="tigtag_dbModel.Menu" />
           <EntitySet Name="Pages" EntityType="tigtag_dbModel.Page" />
+          <EntitySet Name="PageAdmins" EntityType="tigtag_dbModel.PageAdmin" />
           <EntitySet Name="PageComments" EntityType="tigtag_dbModel.PageComment" />
           <EntitySet Name="PageMenus" EntityType="tigtag_dbModel.PageMenu" />
+          <EntitySet Name="PageScores" EntityType="tigtag_dbModel.PageScore" />
           <EntitySet Name="PageSettings" EntityType="tigtag_dbModel.PageSetting" />
           <EntitySet Name="Participants" EntityType="tigtag_dbModel.Participant" />
-          <EntitySet Name="sysdiagrams" EntityType="tigtag_dbModel.sysdiagram" />
           <EntitySet Name="Users" EntityType="tigtag_dbModel.User" />
           <AssociationSet Name="FK_CommentReply_Page" Association="tigtag_dbModel.FK_CommentReply_Page">
             <End Role="Page" EntitySet="Pages" />
@@ -526,6 +685,22 @@
           <AssociationSet Name="FK_CommentReply_PageComment" Association="tigtag_dbModel.FK_CommentReply_PageComment">
             <End Role="PageComment" EntitySet="PageComments" />
             <End Role="CommentReply" EntitySet="CommentReplies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsLog_ActorPage" Association="tigtag_dbModel.FK_EventsLog_ActorPage">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="EventsLog" EntitySet="EventsLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsLog_EventsLog" Association="tigtag_dbModel.FK_EventsLog_EventsLog">
+            <End Role="EventsLog" EntitySet="EventsLogs" />
+            <End Role="EventsLog1" EntitySet="EventsLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsLog_OwnerPage" Association="tigtag_dbModel.FK_EventsLog_OwnerPage">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="EventsLog" EntitySet="EventsLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsLog_TargetPage" Association="tigtag_dbModel.FK_EventsLog_TargetPage">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="EventsLog" EntitySet="EventsLogs" />
           </AssociationSet>
           <AssociationSet Name="FK_Follow_Page" Association="tigtag_dbModel.FK_Follow_Page">
             <End Role="Page" EntitySet="Pages" />
@@ -579,6 +754,14 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Page" EntitySet="Pages" />
           </AssociationSet>
+          <AssociationSet Name="FK_PageAdmin_AdminProfile" Association="tigtag_dbModel.FK_PageAdmin_AdminProfile">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageAdmin" EntitySet="PageAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageAdmin_PageToAdmin" Association="tigtag_dbModel.FK_PageAdmin_PageToAdmin">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageAdmin" EntitySet="PageAdmins" />
+          </AssociationSet>
           <AssociationSet Name="FK_PageComment_Page" Association="tigtag_dbModel.FK_PageComment_Page">
             <End Role="Page" EntitySet="Pages" />
             <End Role="PageComment" EntitySet="PageComments" />
@@ -590,6 +773,14 @@
           <AssociationSet Name="FK_PageMenu_Page" Association="tigtag_dbModel.FK_PageMenu_Page">
             <End Role="Page" EntitySet="Pages" />
             <End Role="PageMenu" EntitySet="PageMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageScore_Page" Association="tigtag_dbModel.FK_PageScore_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageScore" EntitySet="PageScores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageScore_Page1" Association="tigtag_dbModel.FK_PageScore_Page1">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="PageScore" EntitySet="PageScores" />
           </AssociationSet>
           <AssociationSet Name="FK_PageSetting_Page" Association="tigtag_dbModel.FK_PageSetting_Page">
             <End Role="Page" EntitySet="Pages" />
@@ -615,6 +806,26 @@
           <Property Name="ReplyText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_CommentReply_Page" FromRole="CommentReply" ToRole="Page" />
           <NavigationProperty Name="PageComment" Relationship="tigtag_dbModel.FK_CommentReply_PageComment" FromRole="CommentReply" ToRole="PageComment" />
+        </EntityType>
+        <EntityType Name="EventsLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActorPageId" Type="Guid" />
+          <Property Name="TargetPageId" Type="Guid" />
+          <Property Name="ActionCode" Type="Int32" />
+          <Property Name="OwnerPageId" Type="Guid" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CustomRelatedId" Type="Guid" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_EventsLog_ActorPage" FromRole="EventsLog" ToRole="Page" />
+          <NavigationProperty Name="EventsLog1" Relationship="tigtag_dbModel.FK_EventsLog_EventsLog" FromRole="EventsLog" ToRole="EventsLog1" />
+          <NavigationProperty Name="EventsLog2" Relationship="tigtag_dbModel.FK_EventsLog_EventsLog" FromRole="EventsLog1" ToRole="EventsLog" />
+          <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_EventsLog_OwnerPage" FromRole="EventsLog" ToRole="Page" />
+          <NavigationProperty Name="Page2" Relationship="tigtag_dbModel.FK_EventsLog_TargetPage" FromRole="EventsLog" ToRole="Page" />
         </EntityType>
         <EntityType Name="Follow">
           <Key>
@@ -703,6 +914,9 @@
           <Property Name="URL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsMasterPage" Type="Boolean" />
           <NavigationProperty Name="CommentReplies" Relationship="tigtag_dbModel.FK_CommentReply_Page" FromRole="Page" ToRole="CommentReply" />
+          <NavigationProperty Name="EventsLogs" Relationship="tigtag_dbModel.FK_EventsLog_ActorPage" FromRole="Page" ToRole="EventsLog" />
+          <NavigationProperty Name="EventsLogs1" Relationship="tigtag_dbModel.FK_EventsLog_OwnerPage" FromRole="Page" ToRole="EventsLog" />
+          <NavigationProperty Name="EventsLogs2" Relationship="tigtag_dbModel.FK_EventsLog_TargetPage" FromRole="Page" ToRole="EventsLog" />
           <NavigationProperty Name="Follows" Relationship="tigtag_dbModel.FK_Follow_Page" FromRole="Page" ToRole="Follow" />
           <NavigationProperty Name="Follows1" Relationship="tigtag_dbModel.FK_Follow_Page_follower" FromRole="Page" ToRole="Follow" />
           <NavigationProperty Name="FollowMenus" Relationship="tigtag_dbModel.FK_FollowMenu_Users" FromRole="Page" ToRole="FollowMenu" />
@@ -711,12 +925,28 @@
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Page_Page" FromRole="Page" ToRole="Page1" />
           <NavigationProperty Name="Page2" Relationship="tigtag_dbModel.FK_Page_Page" FromRole="Page1" ToRole="Page" />
           <NavigationProperty Name="User" Relationship="tigtag_dbModel.FK_Page_Users" FromRole="Page" ToRole="User" />
+          <NavigationProperty Name="PageAdmins" Relationship="tigtag_dbModel.FK_PageAdmin_AdminProfile" FromRole="Page" ToRole="PageAdmin" />
+          <NavigationProperty Name="PageAdmins1" Relationship="tigtag_dbModel.FK_PageAdmin_PageToAdmin" FromRole="Page" ToRole="PageAdmin" />
           <NavigationProperty Name="PageComments" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="Page" ToRole="PageComment" />
           <NavigationProperty Name="PageComments1" Relationship="tigtag_dbModel.FK_PageComment_Page1" FromRole="Page" ToRole="PageComment" />
           <NavigationProperty Name="PageMenus" Relationship="tigtag_dbModel.FK_PageMenu_Page" FromRole="Page" ToRole="PageMenu" />
+          <NavigationProperty Name="PageScores" Relationship="tigtag_dbModel.FK_PageScore_Page" FromRole="Page" ToRole="PageScore" />
+          <NavigationProperty Name="PageScores1" Relationship="tigtag_dbModel.FK_PageScore_Page1" FromRole="Page" ToRole="PageScore" />
           <NavigationProperty Name="PageSettings" Relationship="tigtag_dbModel.FK_PageSetting_Page" FromRole="Page" ToRole="PageSetting" />
           <NavigationProperty Name="Participants" Relationship="tigtag_dbModel.FK_Participant_Page" FromRole="Page" ToRole="Participant" />
           <NavigationProperty Name="Participants1" Relationship="tigtag_dbModel.FK_Participant_Page1" FromRole="Page" ToRole="Participant" />
+        </EntityType>
+        <EntityType Name="PageAdmin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="AdminProfileId" Type="Guid" Nullable="false" />
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageAdmin_AdminProfile" FromRole="PageAdmin" ToRole="Page" />
+          <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_PageAdmin_PageToAdmin" FromRole="PageAdmin" ToRole="Page" />
         </EntityType>
         <EntityType Name="PageComment">
           <Key>
@@ -727,6 +957,7 @@
           <Property Name="PageId" Type="Guid" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CommentText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsPublic" Type="Boolean" />
           <NavigationProperty Name="CommentReplies" Relationship="tigtag_dbModel.FK_CommentReply_PageComment" FromRole="PageComment" ToRole="CommentReply" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="PageComment" ToRole="Page" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_PageComment_Page1" FromRole="PageComment" ToRole="Page" />
@@ -740,6 +971,18 @@
           <Property Name="MenuId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Menu" Relationship="tigtag_dbModel.FK_PageMenu_Menu" FromRole="PageMenu" ToRole="Menu" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageMenu_Page" FromRole="PageMenu" ToRole="Page" />
+        </EntityType>
+        <EntityType Name="PageScore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ProfileId" Type="Guid" Nullable="false" />
+          <Property Name="PageToScore" Type="Guid" Nullable="false" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageScore_Page" FromRole="PageScore" ToRole="Page" />
+          <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_PageScore_Page1" FromRole="PageScore" ToRole="Page" />
         </EntityType>
         <EntityType Name="PageSetting">
           <Key>
@@ -762,16 +1005,6 @@
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Participant_Page" FromRole="Participant" ToRole="Page" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Participant_Page1" FromRole="Participant" ToRole="Page" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -786,6 +1019,7 @@
           <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
           <Property Name="ProfileInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ProfileImageId" Type="Guid" />
+          <Property Name="Gender" Type="Boolean" />
           <NavigationProperty Name="ImageTable" Relationship="tigtag_dbModel.FK_User_ImageTable" FromRole="User" ToRole="ImageTable" />
           <NavigationProperty Name="Pages" Relationship="tigtag_dbModel.FK_Page_Users" FromRole="User" ToRole="Page" />
         </EntityType>
@@ -810,6 +1044,54 @@
             </Principal>
             <Dependent Role="CommentReply">
               <PropertyRef Name="PageCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsLog_ActorPage">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="0..1" />
+          <End Type="tigtag_dbModel.EventsLog" Role="EventsLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsLog">
+              <PropertyRef Name="ActorPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsLog_EventsLog">
+          <End Type="tigtag_dbModel.EventsLog" Role="EventsLog" Multiplicity="1" />
+          <End Type="tigtag_dbModel.EventsLog" Role="EventsLog1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EventsLog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsLog1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsLog_OwnerPage">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="0..1" />
+          <End Type="tigtag_dbModel.EventsLog" Role="EventsLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsLog">
+              <PropertyRef Name="OwnerPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsLog_TargetPage">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="0..1" />
+          <End Type="tigtag_dbModel.EventsLog" Role="EventsLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsLog">
+              <PropertyRef Name="TargetPageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -969,6 +1251,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PageAdmin_AdminProfile">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.PageAdmin" Role="PageAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageAdmin">
+              <PropertyRef Name="AdminProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageAdmin_PageToAdmin">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.PageAdmin" Role="PageAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageAdmin">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PageComment_Page">
           <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
           <End Type="tigtag_dbModel.PageComment" Role="PageComment" Multiplicity="*" />
@@ -1002,6 +1308,30 @@
             </Principal>
             <Dependent Role="PageMenu">
               <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageScore_Page">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.PageScore" Role="PageScore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageScore">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageScore_Page1">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.PageScore" Role="PageScore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PageScore">
+              <PropertyRef Name="PageToScore" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1054,6 +1384,22 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="PageCommentId" ColumnName="PageCommentId" />
                 <ScalarProperty Name="AutherId" ColumnName="AutherId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventsLogs">
+            <EntityTypeMapping TypeName="tigtag_dbModel.EventsLog">
+              <MappingFragment StoreEntitySet="EventsLog">
+                <ScalarProperty Name="CustomRelatedId" ColumnName="CustomRelatedId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="OwnerPageId" ColumnName="OwnerPageId" />
+                <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
+                <ScalarProperty Name="TargetPageId" ColumnName="TargetPageId" />
+                <ScalarProperty Name="ActorPageId" ColumnName="ActorPageId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1137,9 +1483,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PageAdmins">
+            <EntityTypeMapping TypeName="tigtag_dbModel.PageAdmin">
+              <MappingFragment StoreEntitySet="PageAdmin">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="AdminProfileId" ColumnName="AdminProfileId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PageComments">
             <EntityTypeMapping TypeName="tigtag_dbModel.PageComment">
               <MappingFragment StoreEntitySet="PageComment">
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
                 <ScalarProperty Name="CommentText" ColumnName="CommentText" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
@@ -1153,6 +1511,17 @@
               <MappingFragment StoreEntitySet="PageMenu">
                 <ScalarProperty Name="MenuId" ColumnName="MenuId" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageScores">
+            <EntityTypeMapping TypeName="tigtag_dbModel.PageScore">
+              <MappingFragment StoreEntitySet="PageScore">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="PageToScore" ColumnName="PageToScore" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1177,20 +1546,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="tigtag_dbModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="tigtag_dbModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="ProfileImageId" ColumnName="ProfileImageId" />
                 <ScalarProperty Name="ProfileInfo" ColumnName="ProfileInfo" />
                 <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
