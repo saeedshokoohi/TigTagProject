@@ -42,6 +42,7 @@ namespace TigTag.WebApi.Controllers
                         returnResult.isDone = true;
                         returnResult.message = "new comment Reply created successfully";
                         returnResult.returnId = pageCommentModel.Id.ToString();
+                        eventLogRepo.AddCommentReply(commentReply.ProfileId, pageCommentModel);
                     }
                     catch (Exception ex)
                     {

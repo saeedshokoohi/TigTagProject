@@ -19,7 +19,6 @@ namespace TigTag.DataModel.model
             this.CommentReplies = new HashSet<CommentReply>();
             this.EventsLogs = new HashSet<EventsLog>();
             this.EventsLogs1 = new HashSet<EventsLog>();
-            this.EventsLogs2 = new HashSet<EventsLog>();
             this.Follows = new HashSet<Follow>();
             this.Follows1 = new HashSet<Follow>();
             this.FollowMenus = new HashSet<FollowMenu>();
@@ -51,7 +50,6 @@ namespace TigTag.DataModel.model
         public virtual ICollection<CommentReply> CommentReplies { get; set; }
         public virtual ICollection<EventsLog> EventsLogs { get; set; }
         public virtual ICollection<EventsLog> EventsLogs1 { get; set; }
-        public virtual ICollection<EventsLog> EventsLogs2 { get; set; }
         public virtual ICollection<Follow> Follows { get; set; }
         public virtual ICollection<Follow> Follows1 { get; set; }
         public virtual ICollection<FollowMenu> FollowMenus { get; set; }

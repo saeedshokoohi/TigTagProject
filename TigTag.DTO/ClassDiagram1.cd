@@ -1,85 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="TigTag.DTO.ModelDTO.CommentReplyDto">
-    <Position X="3.5" Y="2.5" Width="1.75" />
+    <Position X="3.5" Y="4.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>CAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAACABAAAAAAA=</HashCode>
       <FileName>ModelDTO\CommentReplyDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.FollowConditionDto">
-    <Position X="3.5" Y="1" Width="1.75" />
+    <Position X="3.5" Y="3" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAAAAAA=</HashCode>
       <FileName>ModelDTO\FollowConditionDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.FollowDto">
-    <Position X="8" Y="1" Width="1.5" />
+    <Position X="8" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAgAEAAQAAAABAAAAAAg=</HashCode>
       <FileName>ModelDTO\FollowDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.FollowMenuDto">
-    <Position X="1.75" Y="1" Width="1.5" />
+    <Position X="1.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAQAAAAABAEAAAAAAAAgAAAAAAAAAAAQAAAAg=</HashCode>
       <FileName>ModelDTO\FollowMenuDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.FollowMenuPackageDto">
-    <Position X="3.5" Y="4.5" Width="1.5" />
+    <Position X="5.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEAAAAAA=</HashCode>
       <FileName>ModelDTO\FollowMenuPackageDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.EventsLogDto">
-    <Position X="5.5" Y="1" Width="2" />
+    <Position X="5.5" Y="3" Width="2" />
     <TypeIdentifier>
-      <HashCode>AARAAAAEAAAgAAEAEAAAAAAAAAAAAAAAAAABAQAAgAA=</HashCode>
+      <HashCode>AARAAAAEAAAgAAEAEAAAQAAAAAAAAAAAAAABAQAAgAA=</HashCode>
       <FileName>ModelDTO\EventsLogDto.cs</FileName>
       <NewMemberFileName>ModelDTO\ImageTableDto.cs</NewMemberFileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.MenuDto">
-    <Position X="8" Y="3.5" Width="1.5" />
+    <Position X="8" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAiAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>ModelDTO\MenuDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageCommentDto">
-    <Position X="1.75" Y="3.5" Width="1.5" />
+    <Position X="1.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACBAAABAAAAAAAAAAAAAAAACAAAAAAAAABAAAAAgA=</HashCode>
       <FileName>ModelDTO\PageCommentDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageDto">
-    <Position X="5.75" Y="4.75" Width="1.5" />
+    <Position X="5.5" Y="6.25" Width="2" />
     <TypeIdentifier>
       <HashCode>QAACAAAAAAAgAAAAEAAAAAgAASAAAgEAAAABAIAAAAA=</HashCode>
       <FileName>ModelDTO\PageDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageMenuDto">
-    <Position X="5.75" Y="3" Width="1.5" />
+    <Position X="1.75" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
       <FileName>ModelDTO\PageMenuDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageSettingDto">
-    <Position X="8" Y="5.5" Width="1.5" />
+    <Position X="8" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ModelDTO\PageSettingDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageScoreDto">
-    <Position X="1.75" Y="6" Width="1.5" />
+    <Position X="1.75" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAgABAAAAgAA=</HashCode>
       <FileName>ModelDTO\PageScoreDto.cs</FileName>
@@ -87,14 +87,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.UserDto">
-    <Position X="8" Y="7" Width="1.5" />
+    <Position X="8" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAkEAAAAEAAAQAAAAAAAAAACAQABAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAkEAACAEAAAQAAAAAAAAAACAQABAgAAAAA=</HashCode>
       <FileName>ModelDTO\UserDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.Base.ResultDto">
-    <Position X="3.5" Y="6" Width="1.5" />
+    <Position X="3.5" Y="6.5" Width="1.75" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -104,7 +104,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageAdminDto">
-    <Position X="10.25" Y="1" Width="1.5" />
+    <Position X="10" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAEAAAAgAAAAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>ModelDTO\PageAdminDto.cs</FileName>
@@ -112,25 +112,36 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.ParticipantDto">
-    <Position X="10" Y="3.5" Width="1.5" />
+    <Position X="10" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAQAAQABAAAAAAA=</HashCode>
       <FileName>ModelDTO\ParticipantDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.TotalScoreDto">
-    <Position X="5.75" Y="8.25" Width="1.5" />
+    <Position X="10" Y="11.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>ModelDTO\TotalScoreDto.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="TigTag.DTO.ModelDTO.ImageTableDto">
+    <Position X="10" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAIAAAAAABAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ModelDTO\ImageTableDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="TigTag.DTO.ModelDTO.Base.enm_STATUS_CODE">
-    <Position X="10" Y="6" Width="1.5" />
+    <Position X="10" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAAAAAAQAAJAAAAAAAAAAAAAAAACgAAAAAA=</HashCode>
       <FileName>ModelDTO\Base\ResultDto.cs</FileName>
     </TypeIdentifier>
+  </Enum>
+  <Enum Name="TigTag.Common.Enumeration.enmEventsActionType">
+    <Position X="3.5" Y="9" Width="1.75" />
+    <TypeIdentifier />
   </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

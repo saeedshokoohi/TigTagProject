@@ -22,6 +22,7 @@ namespace TigTag.WebApi.Controllers
         PageMenuRepository pageMenuRepo = new PageMenuRepository();
         MenuRepository menuRepo = new MenuRepository();
         PageSettingRepository PageSettingRepo = new PageSettingRepository();
+        EventsLogRepository eventRepo = new EventsLogRepository();
         public override IGenericRepository<Page> getRepository()
         {
             return pageRepo;
@@ -90,7 +91,9 @@ namespace TigTag.WebApi.Controllers
             else
             {
                 page.PageType = enmPageTypes.PAGE.GetHashCode();
-                return CreateGeneralPage(page);
+                ResultDto result= CreateGeneralPage(page);
+             
+                return result;
             }
         }
         /// <summary>
@@ -190,6 +193,25 @@ namespace TigTag.WebApi.Controllers
                         PageSettingRepo.Add(pageSetting);
                         PageSettingRepo.Save();
                     }
+
+                    switch (pageType)
+                    {
+                        case enmPageTypes.PROFILE:
+                            eventRepo.AddProfileEvent(page.ProfileId, pageModel);
+                            break;
+                        case enmPageTypes.PAGE:
+                            eventRepo.AddPageEvent(page.ProfileId,pageModel);
+                            break;
+                        case enmPageTypes.TEAM:
+                            eventRepo.AddTeamEvent(page.ProfileId, pageModel);
+                            break;
+                        case enmPageTypes.POST:
+                            eventRepo.AddPostEvent(page.ProfileId, pageModel);
+                            break;
+                        default:
+                            break;
+                    }
+
 
                     returnResult.isDone = true;
                     returnResult.message = "new page/post created successfully";

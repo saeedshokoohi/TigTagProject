@@ -18,6 +18,7 @@ namespace TigTag.DTO.ModelDTO.Base
         {
             validationMessages = new List<string>();
             statusCode = enm_STATUS_CODE.NO_ACTION;
+            isDone = true;
 
         }
         public void addValidationMessages(string message)

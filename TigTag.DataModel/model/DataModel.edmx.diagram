@@ -5,28 +5,27 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ba43075977404f87858978a4c6bc6ce0" Name="Diagram1" ZoomLevel="77" >
-        <EntityTypeShape EntityType="tigtag_dbModel.CommentReply" Width="1.5" PointX="9.75" PointY="36.875" />
-        <EntityTypeShape EntityType="tigtag_dbModel.EventsLog" Width="1.5" PointX="7.5" PointY="21.75" />
-        <EntityTypeShape EntityType="tigtag_dbModel.Follow" Width="1.5" PointX="7.5" PointY="51.5" />
-        <EntityTypeShape EntityType="tigtag_dbModel.FollowCondition" Width="1.5" PointX="9.75" PointY="40.875" />
-        <EntityTypeShape EntityType="tigtag_dbModel.FollowMenu" Width="1.5" PointX="7.5" PointY="26.375" />
-        <EntityTypeShape EntityType="tigtag_dbModel.FollowMenuPackage" Width="1.5" PointX="9.75" PointY="28.375" />
-        <EntityTypeShape EntityType="tigtag_dbModel.ImageTable" Width="1.5" PointX="0.75" PointY="19.875" />
-        <EntityTypeShape EntityType="tigtag_dbModel.Menu" Width="1.5" PointX="7.5" PointY="29.5" />
-        <EntityTypeShape EntityType="tigtag_dbModel.Page" Width="1.5" PointX="5.25" PointY="32.875" />
-        <EntityTypeShape EntityType="tigtag_dbModel.PageAdmin" Width="1.5" PointX="7.5" PointY="45.25" />
-        <EntityTypeShape EntityType="tigtag_dbModel.PageComment" Width="1.5" PointX="7.5" PointY="38.625" />
-        <EntityTypeShape EntityType="tigtag_dbModel.PageMenu" Width="1.5" PointX="9.75" PointY="33.75" />
-        <EntityTypeShape EntityType="tigtag_dbModel.PageScore" Width="1.5" PointX="7.5" PointY="48.375" />
-        <EntityTypeShape EntityType="tigtag_dbModel.PageSetting" Width="1.5" PointX="7.5" PointY="33" />
-        <EntityTypeShape EntityType="tigtag_dbModel.Participant" Width="1.5" PointX="7.5" PointY="42.125" />
-        <EntityTypeShape EntityType="tigtag_dbModel.User" Width="1.5" PointX="3" PointY="49.5" />
+        <EntityTypeShape EntityType="tigtag_dbModel.CommentReply" Width="1.5" PointX="9.75" PointY="28.5" />
+        <EntityTypeShape EntityType="tigtag_dbModel.EventsLog" Width="1.5" PointX="7.5" PointY="44" />
+        <EntityTypeShape EntityType="tigtag_dbModel.Follow" Width="1.5" PointX="7.5" PointY="31.375" />
+        <EntityTypeShape EntityType="tigtag_dbModel.FollowCondition" Width="1.5" PointX="9.75" PointY="34.75" />
+        <EntityTypeShape EntityType="tigtag_dbModel.FollowMenu" Width="1.5" PointX="7.5" PointY="25.125" />
+        <EntityTypeShape EntityType="tigtag_dbModel.FollowMenuPackage" Width="1.5" PointX="9.75" PointY="31.625" />
+        <EntityTypeShape EntityType="tigtag_dbModel.ImageTable" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="tigtag_dbModel.Menu" Width="1.5" PointX="7.5" PointY="37.375" />
+        <EntityTypeShape EntityType="tigtag_dbModel.Page" Width="1.5" PointX="5.25" PointY="32.75" />
+        <EntityTypeShape EntityType="tigtag_dbModel.PageAdmin" Width="1.5" PointX="7.5" PointY="40.875" />
+        <EntityTypeShape EntityType="tigtag_dbModel.PageComment" Width="1.5" PointX="7.5" PointY="21.625" />
+        <EntityTypeShape EntityType="tigtag_dbModel.PageMenu" Width="1.5" PointX="9.75" PointY="38.5" />
+        <EntityTypeShape EntityType="tigtag_dbModel.PageScore" Width="1.5" PointX="7.5" PointY="51.625" />
+        <EntityTypeShape EntityType="tigtag_dbModel.PageSetting" Width="1.5" PointX="7.5" PointY="34.875" />
+        <EntityTypeShape EntityType="tigtag_dbModel.Participant" Width="1.5" PointX="7.5" PointY="48.5" />
+        <EntityTypeShape EntityType="tigtag_dbModel.User" Width="1.5" PointX="3" PointY="49.125" />
         <AssociationConnector Association="tigtag_dbModel.FK_CommentReply_Page" />
         <AssociationConnector Association="tigtag_dbModel.FK_CommentReply_PageComment" />
         <AssociationConnector Association="tigtag_dbModel.FK_EventsLog_ActorPage" />
         <AssociationConnector Association="tigtag_dbModel.FK_EventsLog_EventsLog" />
         <AssociationConnector Association="tigtag_dbModel.FK_EventsLog_OwnerPage" />
-        <AssociationConnector Association="tigtag_dbModel.FK_EventsLog_TargetPage" />
         <AssociationConnector Association="tigtag_dbModel.FK_Follow_Page" />
         <AssociationConnector Association="tigtag_dbModel.FK_Follow_Page_follower" />
         <AssociationConnector Association="tigtag_dbModel.FK_FollowCondition_Follow" />

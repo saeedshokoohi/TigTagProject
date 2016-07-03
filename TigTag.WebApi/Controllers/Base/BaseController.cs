@@ -7,6 +7,7 @@ using System.Web.Http;
 using TigTag.DataModel.model;
 using TigTag.DTO.ModelDTO.Base;
 using TigTag.Repository;
+using TigTag.Repository.ModelRepository;
 using TiTag.Repository;
 using TiTag.Repository.Base;
 
@@ -18,7 +19,7 @@ namespace TigTag.WebApi.Controllers
     {
 
         public abstract IGenericRepository<MODEL> getRepository();
-       
+        public EventsLogRepository eventLogRepo = new EventsLogRepository();
 
         public DTO getById(Guid id)
         {

@@ -74,6 +74,7 @@ namespace TigTag.WebApi.Controllers
                         returnResult.isDone = true;
                         returnResult.message = "new followMenu created successfully";
                         returnResult.returnId = followModel.Id.ToString();
+                        eventLogRepo.AddFollowMenuEvent(follow.ProfileId, followModel);
                     }
                 }
                 catch (Exception ex)

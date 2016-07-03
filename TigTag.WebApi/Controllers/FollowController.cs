@@ -78,6 +78,7 @@ namespace TigTag.WebApi.Controllers
                     returnResult.isDone = true;
                     returnResult.message = "new follow created successfully";
                     returnResult.returnId = followModel.Id.ToString();
+                    eventLogRepo.AddFollowPageEvent(follow.ProfileId, followModel);
                 }
                 catch (Exception ex)
                 {

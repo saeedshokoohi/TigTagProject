@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TigTag.Common.Enumeration;
 
 namespace TigTag.DTO.ModelDTO
 {
@@ -17,6 +18,9 @@ namespace TigTag.DTO.ModelDTO
         public Nullable<int> Status { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public string Description { get; set; }
+        public string ActionCodeStr {
+            get { try { return ((enmEventsActionType)ActionCode).ToString(); } catch { return ""; } }
+        }
         public Nullable<System.Guid> CustomRelatedId { get; set; }
     }
 }

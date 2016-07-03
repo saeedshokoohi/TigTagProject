@@ -22,7 +22,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="ActorPageId" Type="uniqueidentifier" />
-          <Property Name="TargetPageId" Type="uniqueidentifier" />
+          <Property Name="TargetId" Type="uniqueidentifier" />
           <Property Name="ActionCode" Type="int" />
           <Property Name="OwnerPageId" Type="uniqueidentifier" />
           <Property Name="Status" Type="int" />
@@ -232,18 +232,6 @@
             </Principal>
             <Dependent Role="EventsLog">
               <PropertyRef Name="OwnerPageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EventsLog_TargetPage">
-          <End Role="Page" Type="Self.Page" Multiplicity="0..1" />
-          <End Role="EventsLog" Type="Self.EventsLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Page">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EventsLog">
-              <PropertyRef Name="TargetPageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -560,10 +548,6 @@
             <End Role="Page" EntitySet="Page" />
             <End Role="EventsLog" EntitySet="EventsLog" />
           </AssociationSet>
-          <AssociationSet Name="FK_EventsLog_TargetPage" Association="Self.FK_EventsLog_TargetPage">
-            <End Role="Page" EntitySet="Page" />
-            <End Role="EventsLog" EntitySet="EventsLog" />
-          </AssociationSet>
           <AssociationSet Name="FK_Follow_Page" Association="Self.FK_Follow_Page">
             <End Role="Page" EntitySet="Page" />
             <End Role="Follow" EntitySet="Follow" />
@@ -698,10 +682,6 @@
             <End Role="Page" EntitySet="Pages" />
             <End Role="EventsLog" EntitySet="EventsLogs" />
           </AssociationSet>
-          <AssociationSet Name="FK_EventsLog_TargetPage" Association="tigtag_dbModel.FK_EventsLog_TargetPage">
-            <End Role="Page" EntitySet="Pages" />
-            <End Role="EventsLog" EntitySet="EventsLogs" />
-          </AssociationSet>
           <AssociationSet Name="FK_Follow_Page" Association="tigtag_dbModel.FK_Follow_Page">
             <End Role="Page" EntitySet="Pages" />
             <End Role="Follow" EntitySet="Follows" />
@@ -814,7 +794,7 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ActorPageId" Type="Guid" />
-          <Property Name="TargetPageId" Type="Guid" />
+          <Property Name="TargetId" Type="Guid" />
           <Property Name="ActionCode" Type="Int32" />
           <Property Name="OwnerPageId" Type="Guid" />
           <Property Name="Status" Type="Int32" />
@@ -825,7 +805,6 @@
           <NavigationProperty Name="EventsLog1" Relationship="tigtag_dbModel.FK_EventsLog_EventsLog" FromRole="EventsLog" ToRole="EventsLog1" />
           <NavigationProperty Name="EventsLog2" Relationship="tigtag_dbModel.FK_EventsLog_EventsLog" FromRole="EventsLog1" ToRole="EventsLog" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_EventsLog_OwnerPage" FromRole="EventsLog" ToRole="Page" />
-          <NavigationProperty Name="Page2" Relationship="tigtag_dbModel.FK_EventsLog_TargetPage" FromRole="EventsLog" ToRole="Page" />
         </EntityType>
         <EntityType Name="Follow">
           <Key>
@@ -916,7 +895,6 @@
           <NavigationProperty Name="CommentReplies" Relationship="tigtag_dbModel.FK_CommentReply_Page" FromRole="Page" ToRole="CommentReply" />
           <NavigationProperty Name="EventsLogs" Relationship="tigtag_dbModel.FK_EventsLog_ActorPage" FromRole="Page" ToRole="EventsLog" />
           <NavigationProperty Name="EventsLogs1" Relationship="tigtag_dbModel.FK_EventsLog_OwnerPage" FromRole="Page" ToRole="EventsLog" />
-          <NavigationProperty Name="EventsLogs2" Relationship="tigtag_dbModel.FK_EventsLog_TargetPage" FromRole="Page" ToRole="EventsLog" />
           <NavigationProperty Name="Follows" Relationship="tigtag_dbModel.FK_Follow_Page" FromRole="Page" ToRole="Follow" />
           <NavigationProperty Name="Follows1" Relationship="tigtag_dbModel.FK_Follow_Page_follower" FromRole="Page" ToRole="Follow" />
           <NavigationProperty Name="FollowMenus" Relationship="tigtag_dbModel.FK_FollowMenu_Users" FromRole="Page" ToRole="FollowMenu" />
@@ -1080,18 +1058,6 @@
             </Principal>
             <Dependent Role="EventsLog">
               <PropertyRef Name="OwnerPageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EventsLog_TargetPage">
-          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="0..1" />
-          <End Type="tigtag_dbModel.EventsLog" Role="EventsLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Page">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EventsLog">
-              <PropertyRef Name="TargetPageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1397,7 +1363,7 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="OwnerPageId" ColumnName="OwnerPageId" />
                 <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
-                <ScalarProperty Name="TargetPageId" ColumnName="TargetPageId" />
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
                 <ScalarProperty Name="ActorPageId" ColumnName="ActorPageId" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

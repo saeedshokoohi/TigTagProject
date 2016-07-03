@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TigTag.Common.Enumeration
 {
-    enum enmEventsActionType
+    public enum enmEventsActionType
     {
         ACTION_NOT_SET=0,
         CREATE_PROFILE=1,

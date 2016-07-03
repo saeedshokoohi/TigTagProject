@@ -9,6 +9,7 @@ namespace TigTag.DTO
    public class BaseDto
     {
         public Guid Id { get; set; }
+        public Guid ProfileId { get; set; }
        
     }
 }

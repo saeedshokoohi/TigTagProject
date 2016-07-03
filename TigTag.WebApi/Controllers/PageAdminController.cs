@@ -43,6 +43,7 @@ namespace TigTag.WebApi.Controllers
                         returnResult.isDone = true;
                         returnResult.message = "new PageAdmin created successfully";
                         returnResult.returnId = pageAdminModel.Id.ToString();
+                        eventLogRepo.addPageAdminEvent(PageAdminModelDto.ProfileId, pageAdminModel);
                     }
                     catch (Exception ex)
                     {

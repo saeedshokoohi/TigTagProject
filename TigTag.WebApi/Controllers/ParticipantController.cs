@@ -42,6 +42,7 @@ namespace TigTag.WebApi.Controllers
                         returnResult.isDone = true;
                         returnResult.message = "new participant created successfully";
                         returnResult.returnId = paticipantMOdel.Id.ToString();
+                        eventLogRepo.AddParticipantEvent(participantModelDto.ProfileId, paticipantMOdel);
                     }
                     catch (Exception ex)
                     {

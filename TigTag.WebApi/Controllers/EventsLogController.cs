@@ -23,36 +23,10 @@ namespace TigTag.WebApi.Controllers
         {
             return EventsLogRepo;
         }
-        public ResultDto addEventsLog(EventsLogDto EventsLogModelDto)
+      
+        public List<EventsLogDto> getProfileEvents(Guid pageId)
         {
-            if (EventsLogModelDto == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object  ");
-            else
-            {
-                ResultDto returnResult = new ResultDto();
-                EventsLog paticipantMOdel = Mapper<EventsLog, EventsLogDto>.convertToModel(EventsLogModelDto);
-                paticipantMOdel.Id = Guid.NewGuid();
-                paticipantMOdel.CreateDate = DateTime.Now;
-                     returnResult = EventsLogRepo.validateEventsLog(paticipantMOdel);
-                if (returnResult.isDone)
-                {
-                    try
-                    {
-                        EventsLogRepo.Add(paticipantMOdel);
-                        EventsLogRepo.Save();
-                        returnResult.isDone = true;
-                        returnResult.message = "new EventsLog created successfully";
-                        returnResult.returnId = paticipantMOdel.Id.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        returnResult = ResultDto.exceptionResult(ex);
-
-
-                    }
-
-                }
-                return returnResult;
-            }
+            return EventsLogRepo.geProfileEvents(pageId);
         }
 
      
