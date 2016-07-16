@@ -28,10 +28,10 @@ namespace TigTag.DataModel.model
             this.PageAdmins1 = new HashSet<PageAdmin>();
             this.PageComments = new HashSet<PageComment>();
             this.PageComments1 = new HashSet<PageComment>();
-            this.PageMenus = new HashSet<PageMenu>();
             this.PageScores = new HashSet<PageScore>();
             this.PageScores1 = new HashSet<PageScore>();
             this.PageSettings = new HashSet<PageSetting>();
+            this.PageMenus = new HashSet<PageMenu>();
             this.Participants = new HashSet<Participant>();
             this.Participants1 = new HashSet<Participant>();
         }
@@ -62,10 +62,10 @@ namespace TigTag.DataModel.model
         public virtual ICollection<PageAdmin> PageAdmins1 { get; set; }
         public virtual ICollection<PageComment> PageComments { get; set; }
         public virtual ICollection<PageComment> PageComments1 { get; set; }
-        public virtual ICollection<PageMenu> PageMenus { get; set; }
         public virtual ICollection<PageScore> PageScores { get; set; }
         public virtual ICollection<PageScore> PageScores1 { get; set; }
         public virtual ICollection<PageSetting> PageSettings { get; set; }
+        public virtual ICollection<PageMenu> PageMenus { get; set; }
         public virtual ICollection<Participant> Participants { get; set; }
         public virtual ICollection<Participant> Participants1 { get; set; }
     }

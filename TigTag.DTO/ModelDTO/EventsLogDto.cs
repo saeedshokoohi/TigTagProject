@@ -12,7 +12,7 @@ namespace TigTag.DTO.ModelDTO
     {
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.Guid> ActorPageId { get; set; }
-        public Nullable<System.Guid> TargetPageId { get; set; }
+        public Nullable<System.Guid> TargetId { get; set; }
         public Nullable<int> ActionCode { get; set; }
         public Nullable<System.Guid> OwnerPageId { get; set; }
         public Nullable<int> Status { get; set; }

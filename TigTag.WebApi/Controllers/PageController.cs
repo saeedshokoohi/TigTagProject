@@ -38,7 +38,7 @@ namespace TigTag.WebApi.Controllers
             if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
             else
             {
-                page.PageType = enmPageTypes.PAGE.GetHashCode();
+                page.PageType = enmPageTypes.PROFILE.GetHashCode();
                 page.IsMasterPage = true;
                 var masterPage = pageRepo.getMasterPage();
                 if (masterPage == null)

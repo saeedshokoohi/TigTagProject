@@ -96,7 +96,7 @@ namespace TigTag.Repository.ModelRepository
                 case enmEventsActionType.CREATE_POST:
 
 
-                    retResultDto= addGeneralEventWithParent(actorProfileId, page.Id, (Guid)page.PageId,actionType);
+                    retResultDto= addGeneralEventWithParent(actorProfileId, page.Id, (Guid)page.Id,actionType);
                  
                 
                     break;
@@ -232,14 +232,19 @@ namespace TigTag.Repository.ModelRepository
         {
             ResultDto retResultDto = new ResultDto();
             addGeneralEvent(actorProfileId, targetId, ownerId, actionType);
-            Guid? parentid2 = findParentPage(ownerId);
-            if (parentid2 != null)
+            Guid? parentid = findParentPage(ownerId);
+            int maxlevel = 6;
+            while (parentid != null && maxlevel>0)
             {
-
-                retResultDto = addGeneralEvent(actorProfileId, targetId, (Guid)parentid2, actionType);
-                parentid2 = findParentPage(parentid2);
-                if (parentid2 != null)
-                    retResultDto = addGeneralEvent(actorProfileId, targetId,(Guid)parentid2, actionType);
+                try
+                {
+                    retResultDto = addGeneralEvent(actorProfileId, targetId, (Guid)parentid, actionType);
+                    parentid = findParentPage(parentid);
+                    maxlevel--;
+                }catch
+                { 
+                    maxlevel = 0;
+                }
             }
             return retResultDto;
         }

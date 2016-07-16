@@ -111,7 +111,7 @@ namespace TigTag.Repository.ModelRepository {
 
         public void checkUnquness(PageMenu pagemenumodel, ResultDto retResult)
         {
-            if(Context.PageMenus.Where(pm => pm.MenuId == pagemenumodel.Id && pm.PageId == pagemenumodel.PageId).Count()>0)
+            if(Context.PageMenus.Where(pm => pm.MenuId == pagemenumodel.MenuId && pm.PageId == pagemenumodel.PageId).Count()>0)
             {
                 retResult.addValidationMessages("MENUID_HAS_ALREADY_ADDED_TO_PAGE");
             }
