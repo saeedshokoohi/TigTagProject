@@ -43,6 +43,7 @@ namespace TigTag.WebApi.Controllers
                         returnResult.isDone = true;
                         returnResult.message = "new Page Comment created successfully";
                         returnResult.returnId = pageCommentModel.Id.ToString();
+                        if (pageComment.ProfileId == Guid.Empty) pageComment.ProfileId = getCurrentProfileId();
                         eventLogRepo.AddCommentEvent(pageComment.ProfileId, pageCommentModel);
                     }
                     catch (Exception ex)

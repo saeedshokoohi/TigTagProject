@@ -193,7 +193,7 @@ namespace TigTag.WebApi.Controllers
                         PageSettingRepo.Add(pageSetting);
                         PageSettingRepo.Save();
                     }
-
+                    if (page.ProfileId == Guid.Empty) page.ProfileId = getCurrentProfileId();
                     switch (pageType)
                     {
                         case enmPageTypes.PROFILE:

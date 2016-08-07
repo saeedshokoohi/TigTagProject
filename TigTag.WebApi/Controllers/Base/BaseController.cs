@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using TigTag.DataModel.model;
 using TigTag.DTO.ModelDTO.Base;
@@ -50,6 +51,16 @@ namespace TigTag.WebApi.Controllers
                 returnList.Add(Mapper<MODEL, DTO>.convertToDto(item));
             }
             return returnList;
+        }
+        public Guid getCurrentProfileId()
+        {
+            
+            PageRepository pageRepo = new PageRepository();
+            Page p= pageRepo.findByUserName(User.Identity.Name);
+            if (p != null) return p.Id;
+            else return Guid.Empty;
+            
+            ;
         }
 
     }
