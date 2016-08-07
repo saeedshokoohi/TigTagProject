@@ -174,6 +174,7 @@
           <Property Name="ProfileInfo" Type="varchar(max)" />
           <Property Name="ProfileImageId" Type="uniqueidentifier" />
           <Property Name="Gender" Type="bit" />
+          <Property Name="ApplicationUserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <Association Name="FK_CommentReply_Page">
           <End Role="Page" Type="Self.Page" Multiplicity="1" />
@@ -1000,6 +1001,7 @@
           <Property Name="Gender" Type="Boolean" />
           <NavigationProperty Name="ImageTable" Relationship="tigtag_dbModel.FK_User_ImageTable" FromRole="User" ToRole="ImageTable" />
           <NavigationProperty Name="Pages" Relationship="tigtag_dbModel.FK_Page_User" FromRole="User" ToRole="Page" />
+          <Property Name="ApplicationUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_CommentReply_Page">
           <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
@@ -1515,6 +1517,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="tigtag_dbModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ApplicationUserId" ColumnName="ApplicationUserId" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="ProfileImageId" ColumnName="ProfileImageId" />
                 <ScalarProperty Name="ProfileInfo" ColumnName="ProfileInfo" />
