@@ -14,7 +14,7 @@ using TiTag.Repository.Base;
 namespace TigTag.WebApi.Controllers
 {
 
-
+    [Authorize]
     public abstract class BaseController<MODEL,DTO>  : ApiController , IBaseController<MODEL> where MODEL : class where DTO: class
     {
 

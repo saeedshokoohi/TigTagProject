@@ -111,5 +111,9 @@ namespace TigTag.WebApi.Controllers
         {
             return followRepo.getFollowingRequestForProfile(pageId);
         }
+        List<FollowDto> getPageFollowers(Guid pageid)
+        {
+            return followRepo.getPageFollowers(pageid);
+        }
     }
 }

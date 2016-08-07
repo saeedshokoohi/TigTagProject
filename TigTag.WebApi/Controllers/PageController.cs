@@ -280,6 +280,11 @@ namespace TigTag.WebApi.Controllers
 
         }
 
+        public PageDto getParentPage(Guid pageid)
+        {
+            return pageRepo.getParentPage(pageid);
+        }
+
         public List<PageDto> getPostByPageId(Guid pageId)
         {
             return pageRepo.getPostByPageId(pageId, 100);

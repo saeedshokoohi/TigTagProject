@@ -13,10 +13,10 @@ using TiTag.Repository;
 namespace TigTag.WebApi.Controllers
 {
    
-    public class UserController : BaseController<User,UserDto>
+    public class UserController : ApiController
     {
         UserRepository userRepo = new UserRepository();
-        public override IGenericRepository<User> getRepository()
+        public  IGenericRepository<User> getRepository()
         {
             return userRepo;
         }
@@ -26,7 +26,7 @@ namespace TigTag.WebApi.Controllers
         /// </summary>
         /// <param name="user">user data to register</param>
         /// <returns>the result service</returns>
-        public ResultDto RegisterUser([FromBody]UserDto user)
+        public ResultDto RegisterUserWithotAccess([FromBody]UserDto user)
         {
             
             ResultDto returnResult = new ResultDto();
@@ -40,6 +40,7 @@ namespace TigTag.WebApi.Controllers
             {
                 try
                 {
+                    UserModel.Password = "";
                     userRepo.Add(UserModel);
                     userRepo.Save();
                     returnResult.isDone = true;
@@ -63,6 +64,15 @@ namespace TigTag.WebApi.Controllers
         /// this service return the list of all registered users
         /// </summary>
         /// <returns> list of users </returns>
+        ///
+         public ResultDto validateUser(UserDto user)
+        {
+            ResultDto returnResult = new ResultDto();
+            AutoMapper.Mapper.CreateMap<UserDto, User>();
+            User UserModel = AutoMapper.Mapper.Map<User>(user);
+            returnResult = userRepo.validateUser(UserModel);
+            return returnResult;
+        }
         public List<UserDto> getRegisteredUser()
         {
           List<User> users=  userRepo.GetAll().ToList();
@@ -79,7 +89,7 @@ namespace TigTag.WebApi.Controllers
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public ResultDto login([FromBody]UserDto user)
+        private ResultDto login([FromBody]UserDto user)
         {
             ResultDto returnResult;
             try
