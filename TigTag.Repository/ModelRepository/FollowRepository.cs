@@ -85,5 +85,10 @@ namespace TigTag.Repository.ModelRepository {
             }
         }
 
+        public List<FollowDto> getPageFollowers(Guid pageid)
+        {
+         var fls=   Context.Follows.Where(f => f.FollowingPageId == pageid).ToList();
+            return Mapper<Follow, FollowDto>.convertListToDto(fls);
+        }
     }
 }

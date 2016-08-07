@@ -59,6 +59,15 @@ namespace TigTag.Repository.ModelRepository {
 
         }
 
+        public User findByUserName(string username)
+        {
+           List<User> users= Context.Users.Where(u => u.UserName == username).ToList();
+            if (users != null && users.Count > 0)
+                return users[0];
+            else
+                return null;
+        }
+
         private void checkEmailAddress(User userModel, ResultDto retResult)
         {
             if (userModel == null || String.IsNullOrEmpty(userModel.EmailAddress))
