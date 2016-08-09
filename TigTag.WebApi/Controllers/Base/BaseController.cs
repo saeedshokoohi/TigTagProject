@@ -22,6 +22,10 @@ namespace TigTag.WebApi.Controllers
         public abstract IGenericRepository<MODEL> getRepository();
         public EventsLogRepository eventLogRepo = new EventsLogRepository();
 
+        public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
         public DTO getById(Guid id)
         {
            var model= getRepository().GetSingle(id);

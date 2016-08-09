@@ -21,6 +21,7 @@ using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
 using TigTag.DataModel.model;
 using TigTag.DTO.ModelDTO.Base;
+using System.Net;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -53,7 +54,10 @@ namespace TigTag.WebApi.Controllers
                 _userManager = value;
             }
         }
-
+        public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo

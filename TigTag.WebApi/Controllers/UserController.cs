@@ -13,10 +13,10 @@ using TiTag.Repository;
 namespace TigTag.WebApi.Controllers
 {
    
-    public class UserController : ApiController
+    public class UserController : BaseController<User,UserDto>
     {
         UserRepository userRepo = new UserRepository();
-        public  IGenericRepository<User> getRepository()
+        public override IGenericRepository<User> getRepository()
         {
             return userRepo;
         }
@@ -104,6 +104,6 @@ namespace TigTag.WebApi.Controllers
             return returnResult;
         }
 
-  
+     
     }
 }
