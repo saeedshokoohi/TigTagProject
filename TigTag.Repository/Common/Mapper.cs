@@ -35,5 +35,18 @@ namespace TigTag.Repository
             }
             return retList;
         }
+
+        public static IQueryable<DTO> convertIquerybleToDto<MODEL>(IQueryable<MODEL> queryable) where MODEL : class
+        {
+
+            List<DTO> retList = new List<DTO>();
+            if (queryable == null) return null;
+            foreach (var item in queryable)
+            {
+                DTO dto =Mapper<MODEL, DTO>.convertToDto(item);
+                retList.Add(dto);
+            }
+            return retList.AsQueryable();
+        }
     }
 }

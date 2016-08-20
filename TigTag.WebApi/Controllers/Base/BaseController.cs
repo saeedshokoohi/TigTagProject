@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
+using System.Web.OData;
 using TigTag.DataModel.model;
 using TigTag.DTO.ModelDTO.Base;
 using TigTag.Repository;
@@ -45,6 +46,13 @@ namespace TigTag.WebApi.Controllers
             }
             return ResultDto.successResult(id.ToString(), "entity with given id deleted successfully...");
 
+        }
+
+        [EnableQueryAttribute]
+        public IQueryable<DTO> query()
+        {
+           var retValues=  Mapper<MODEL, DTO>.convertIquerybleToDto(getRepository().query());
+            return retValues;
         }
         public List<DTO> getAll()
         {

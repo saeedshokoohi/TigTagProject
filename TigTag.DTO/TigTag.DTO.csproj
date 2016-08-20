@@ -59,6 +59,7 @@
     <Compile Include="ModelDTO\PageSettingDto.cs" />
     <Compile Include="ModelDTO\PageAdminDto.cs" />
     <Compile Include="ModelDTO\PageScoreDto.cs" />
+    <Compile Include="ModelDTO\PageStatsDto.cs" />
     <Compile Include="ModelDTO\ParticipantDto.cs" />
     <Compile Include="ModelDTO\RequestDto\BaseRequestDto.cs" />
     <Compile Include="ModelDTO\TotalScoreDto.cs" />
@@ -73,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -12,6 +12,8 @@ using TiTag.Repository;
 using TigTag.Repository;
 using TigTag.DTO.ModelDTO.RequestDto;
 using TigTag.Common.Enumeration;
+using System.Web.OData;
+using TigTag.Common.util;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -35,7 +37,7 @@ namespace TigTag.WebApi.Controllers
         /// <returns></returns>
         public ResultDto CreateMasterProfile([FromBody]PageDto page)
         {
-            if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
+            if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be a json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
             else
             {
                 page.PageType = enmPageTypes.PROFILE.GetHashCode();
@@ -66,6 +68,37 @@ namespace TigTag.WebApi.Controllers
             Page page = pageRepo.getPageByUser(userid);
             return Mapper<Page, PageDto>.convertToDto(page);
         }
+        [EnableQueryAttribute]
+        public IQueryable<PageDto> queryByMenuList(String menuList)
+        {
+            Guid[] menuidlist = JsonUtil.convertToGuidArray(menuList);
+            var retValues = pageRepo.queryByMenuList(menuidlist);
+            addFollowingInfo(retValues);
+            return retValues;
+        }
+
+        private void addFollowingInfo(IQueryable<PageDto> pages)
+        {
+            foreach (var p in pages)
+            {
+                Guid currentUser = getCurrentProfileId();
+                 p.IsFollowingByCurrentUser=pageRepo.isFollowingByCurentUser(currentUser, p);
+                if(p.IsFollowingByCurrentUser)
+                p.newPostCount = pageRepo.getNewPostCountByFollowerPageIdAndFollowingPageId(currentUser,p.Id);
+
+            }
+        }
+        private void addFollowingInfo(PageDto p)
+        {
+           
+                Guid currentUser = getCurrentProfileId();
+                p.IsFollowingByCurrentUser = pageRepo.isFollowingByCurentUser(currentUser, p);
+                if (p.IsFollowingByCurrentUser)
+                    p.newPostCount = pageRepo.getNewPostCountByFollowerPageIdAndFollowingPageId(currentUser, p.Id);
+
+            
+        }
+
         /// <summary>
         /// create profile for user
         /// </summary>
@@ -249,11 +282,34 @@ namespace TigTag.WebApi.Controllers
         {
             return pageRepo.getNewPostCountOnFollowingMenuByFollowerPageId(followerPageId);
         }
+        public PageDto getPageStats(string pageId)
+        {
+            try
+            {
+                Guid Id = Guid.Parse(pageId);
+                PageDto retPage= getById(Id);
+                retPage.PageStats= pageRepo.getPageStats(retPage);
+                addFollowingInfo(retPage);
+                addMenuInfo(retPage);
+                return retPage;
+                  }
+            catch {
+                return null;
+
+            }
+        }
+
+        private void addMenuInfo(PageDto retPage)
+        {
+            retPage.Menulist = pageRepo.getMenuList(retPage.Id);
+        }
+
         public List<PageDto> findPostsByFollowerAndFollowingPageId([FromBody]BaseRequestDto request)
         {
 
             Guid followingPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followingPageId");
             Guid followerPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followerPageId");
+            pageRepo.checkFollowingPageAsVisited(followerPageId, followingPageId);
             return pageRepo.getNewPostByFollowerAndFollowingPageId(followerPageId, followingPageId, request);
         }
         public List<PageDto> findPostsByFollowerAndFollowingMenuId([FromBody]BaseRequestDto request)
@@ -261,6 +317,7 @@ namespace TigTag.WebApi.Controllers
 
             Guid followingPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followingMenuId");
             Guid followerPageId = BaseRequestDto.extractParameterValueAsGuid(request, "followerPageId");
+            pageRepo.checkFollowingMenuAsVisited(followerPageId, followingPageId);
             return pageRepo.getNewPostByFollowerAndFollowingMenuId(followerPageId, followingPageId, request);
         }
         public ResultDto checkFollowingPageAsVisited([FromBody]BaseRequestDto request)

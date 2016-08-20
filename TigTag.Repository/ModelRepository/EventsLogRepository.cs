@@ -261,6 +261,9 @@ namespace TigTag.Repository.ModelRepository
         {
             ResultDto result = new ResultDto();
             EventsLog newEventsLog = new EventsLog();
+            
+            if(actorId==null)
+
             if (!isPageIdValid(actorId))
             {
                 result.addValidationMessages("actor page id is not valid!");

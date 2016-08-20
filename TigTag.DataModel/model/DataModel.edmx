@@ -86,6 +86,7 @@
           <Property Name="Score" Type="bigint" Nullable="false" />
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -878,6 +879,7 @@
           <NavigationProperty Name="FollowMenuPackages" Relationship="tigtag_dbModel.FK_FollowMenuPackage_Menu" FromRole="Menu" ToRole="FollowMenuPackage" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Menu_Page" FromRole="Menu" ToRole="Page" />
           <NavigationProperty Name="PageMenus" Relationship="tigtag_dbModel.FK_PageMenu_Menu" FromRole="Menu" ToRole="PageMenu" />
+          <Property Name="Category" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -1427,6 +1429,7 @@
           <EntitySetMapping Name="Menus">
             <EntityTypeMapping TypeName="tigtag_dbModel.Menu">
               <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="Score" ColumnName="Score" />

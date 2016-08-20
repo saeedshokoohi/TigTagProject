@@ -17,5 +17,7 @@ namespace TiTag.Repository
         void Edit(T entity);
         void Save();
         bool isValidId(Guid id);
+          IQueryable<T> query();
+      
     }
 }

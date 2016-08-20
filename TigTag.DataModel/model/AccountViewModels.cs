@@ -33,6 +33,7 @@ namespace TigTag.DataModel.Models
         public DateTime? lastLoginDate { get; set; }
         public string LoginProvider { get; set; }
         public string phoneNumber { get; set; }
+        public Guid? profileId { get; set; }
         public Guid userId { get; set; }
         public string userName { get; set; }
     }

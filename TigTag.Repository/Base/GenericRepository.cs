@@ -83,7 +83,10 @@ namespace TiTag.Repository.Base{
 
             _entities.SaveChanges();
         }
-
+        public virtual IQueryable<T> query()
+        {
+            return _entities.Set<T>().AsQueryable();
+        }
         private bool disposed = false;
 
         protected virtual void Dispose(bool disposing) {

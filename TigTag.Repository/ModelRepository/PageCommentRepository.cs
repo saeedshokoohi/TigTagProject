@@ -48,12 +48,31 @@ namespace TigTag.Repository.ModelRepository {
             {
                 PageCommentDto dto = Mapper<PageComment, PageCommentDto>.convertToDto(c);
                 int rc=Context.CommentReplys.Count(r => r.PageCommentId == c.Id);
+                if (rc > 0)
+                {
+                    CommentReplyDto lastCommentReply = getLastCommentReply(c.Id);
+                    dto.lastCommentReply = lastCommentReply;
+                }
                 dto.repliesCount = rc;
                 retList.Add(dto);
 
             }
             return retList;
 
+
+        }
+
+        private CommentReplyDto getLastCommentReply(Guid id)
+        {
+            try
+            {
+                var lastReply = Context.CommentReplys.Where(cr => cr.PageCommentId == id).OrderByDescending(cr => cr.CreateDate).FirstOrDefault();
+                return Mapper<CommentReply, CommentReplyDto>.convertToDto(lastReply);
+            }
+            catch
+            {
+                return null;
+            }
 
         }
     }

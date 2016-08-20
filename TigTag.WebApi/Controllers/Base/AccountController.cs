@@ -72,19 +72,30 @@ namespace TigTag.WebApi.Controllers
             if (user != null)
                 return new UserInfoViewModel
                 {
-                    Email=user.EmailAddress,
+                    Email = user.EmailAddress,
                     userName = User.Identity.GetUserName(),
                     HasRegistered = externalLogin == null,
                     LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,
                     userId = user.Id,
-                    phoneNumber=user.PhoneNumber,
-                    lastLoginDate=user.LastLoginDate
-                   
+                    phoneNumber = user.PhoneNumber,
+                    lastLoginDate = user.LastLoginDate,
+                    profileId = getCurrentProfileId()
+
                 };
             else
                 return null;
         }
 
+        public Guid? getCurrentProfileId()
+        {
+
+            PageRepository pageRepo = new PageRepository();
+            Page p = pageRepo.findByUserName(User.Identity.Name);
+            if (p != null) return p.Id;
+            else return null;
+
+            ;
+        }
         // POST api/Account/Logout
         [Route("Logout")]
         public IHttpActionResult Logout()
