@@ -323,6 +323,27 @@ namespace TigTag.Repository.ModelRepository {
             return retList;
         }
 
+        public IQueryable<PageDto> getNewPostCountByFollowerPageId(Guid followerPageId, Guid[] menuidlist)
+        {
+            List<PageDto> retList = new List<PageDto>();
+
+            //pages which current user is following
+            List<Page> followingpages = null;
+            if (menuidlist!=null)
+             followingpages = Context.Follows.Where(f => f.FollowerUserId == followerPageId && menuidlist.All(mi=>f.Page.PageMenus.Any(pm=>mi==pm.MenuId))).Select(f => f.Page).Distinct().ToList();
+            else
+                 followingpages = Context.Follows.Where(f => f.FollowerUserId == followerPageId ).Select(f => f.Page).Distinct().ToList();
+            //for every page
+            foreach (var fp in followingpages)
+            {
+                PageDto newPageDto = Mapper<Page, PageDto>.convertToDto(fp);
+                retList.Add(newPageDto);
+                newPageDto.newPostCount = getNewPostCountByFollowerPageIdAndFollowingPageId(followerPageId, fp.Id);
+            }
+
+            return retList.AsQueryable();
+        }
+
         public PageStatsDto getPageStats(PageDto retPage)
         {
             PageStatsDto pageStats = new PageStatsDto();
