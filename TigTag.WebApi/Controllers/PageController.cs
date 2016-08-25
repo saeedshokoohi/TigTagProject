@@ -274,6 +274,26 @@ namespace TigTag.WebApi.Controllers
             return pageRepo.getNewPostCountByFollowerPageId(followerPageId);
         }
         /// <summary>
+        /// return the pages which user is following and also filter them by given menuidList 
+        /// if menuidList is null or empty no filtering will be applied
+        /// </summary>
+        /// <param name="followerPageId"></param>
+        /// <param name="menuList"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [EnableQueryAttribute]
+        public IQueryable<PageDto> queryNewPostCountByFollowerPageIdAndmenuList(String followerPageId, String menuList)
+        {
+            Guid[] menuidlist = JsonUtil.convertToGuidArray(menuList);
+            Guid followerid = Guid.NewGuid();
+            try
+            {
+                 followerid = Guid.Parse(followerPageId);
+            }
+            catch { return null; }
+            return pageRepo.getNewPostCountByFollowerPageId(followerid, menuidlist);
+        }
+        /// <summary>
         /// return the followingPackageMenu List and the count of new posts for current user
         /// </summary>
         /// <param name="followerPageId"></param>
