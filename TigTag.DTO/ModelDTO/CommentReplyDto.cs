@@ -13,6 +13,7 @@ namespace TigTag.DTO.ModelDTO
         public System.Guid PageCommentId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string ReplyText { get; set; }
-
+        
+       public string AutherName { get; set; }
     }
 }

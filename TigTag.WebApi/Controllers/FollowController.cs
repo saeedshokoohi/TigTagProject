@@ -12,6 +12,8 @@ using TigTag.Repository.ModelRepository;
 using TiTag.Repository;
 using TigTag.Repository;
 using TigTag.Common.Enumeration;
+using TigTag.Common.util;
+using System.Web.OData;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -112,9 +114,22 @@ namespace TigTag.WebApi.Controllers
         {
             return followRepo.getFollowingRequestForProfile(pageId);
         }
-        List<FollowDto> getPageFollowers(Guid pageid)
+        public List<FollowDto> getPageFollowers(Guid pageid)
         {
             return followRepo.getPageFollowers(pageid);
+        }
+        [HttpGet]
+        [EnableQueryAttribute]
+        public IQueryable<PageDto> queryPageFollowersByMenuList(String pageId, String menuList)
+        {
+            Guid[] menuidlist = JsonUtil.convertToGuidArray(menuList);
+            Guid pageuId = Guid.NewGuid();
+            try
+            {
+                pageuId = Guid.Parse(pageId);
+            }
+            catch { return null; }
+            return followRepo.getPageFollowers(pageuId, menuidlist);
         }
     }
 }

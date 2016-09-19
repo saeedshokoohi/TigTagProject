@@ -15,6 +15,7 @@ namespace TigTag.DTO.ModelDTO
         public string CommentText { get; set; }
         public int repliesCount { get; set; }
         public CommentReplyDto lastCommentReply { get; set; }
+        public string AutherName { get; set; }
         public Nullable<bool> IsPublic { get; set; }
     }
 }

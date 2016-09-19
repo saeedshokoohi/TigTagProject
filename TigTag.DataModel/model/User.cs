@@ -31,6 +31,7 @@ namespace TigTag.DataModel.model
         public Nullable<System.Guid> ProfileImageId { get; set; }
         public Nullable<bool> Gender { get; set; }
         public string ApplicationUserId { get; set; }
+        public Nullable<System.DateTime> BirthDate { get; set; }
     
         public virtual ImageTable ImageTable { get; set; }
         public virtual ICollection<Page> Pages { get; set; }

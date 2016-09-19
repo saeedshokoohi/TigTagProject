@@ -246,6 +246,17 @@ namespace TigTag.Repository.ModelRepository {
             return retList;
         }
 
+        public void setPageColor(Page pageModel)
+        {
+            try
+            {
+                if ((pageModel.Color == null || pageModel.Color.Trim().Length == 0) && pageModel.PageId != null)
+                    pageModel.Color = GetSingle((Guid)pageModel.PageId).Color;
+            }
+            catch { }
+
+        }
+
         public ResultDto checkFollowingMenuAsVisited(Guid followerPageId, Guid followingMenuId)
         {
             try
@@ -342,6 +353,18 @@ namespace TigTag.Repository.ModelRepository {
             }
 
             return retList.AsQueryable();
+        }
+
+        public List<MenuDto> getPublicMenuDtoList(Guid pageid)
+        {
+            List<Menu> pmenus=Context.PageMenus.Where(pm => pm.PageId == pageid && pm.Menu.Page.IsMasterPage == true).Select(pm => pm.Menu).ToList();
+            return Mapper<Menu, MenuDto>.convertListToDto(pmenus);
+        }
+
+        public List<MenuDto> getCustomMenuDtoList(Guid pageid)
+        {
+            List<Menu> pmenus = Context.PageMenus.Where(pm => pm.PageId == pageid && pm.Menu.Page.IsMasterPage != true).Select(pm => pm.Menu).ToList();
+            return Mapper<Menu, MenuDto>.convertListToDto(pmenus);
         }
 
         public PageStatsDto getPageStats(PageDto retPage)
@@ -462,6 +485,12 @@ namespace TigTag.Repository.ModelRepository {
                 return ConvertPageListToDtoList(pagelist);
             }
                 return null;
+        }
+
+        public IQueryable<PageDto> getParticipantsByPageId(Guid pageId, Guid[] menuidlist)
+        {
+            var pl = Context.Participants.Where(p => p.PageId == pageId && menuidlist.All(mi => p.Page1.PageMenus.Any(pm => mi == pm.MenuId))).Select(pr => pr.Page1).Distinct().AsQueryable();
+            return  Mapper<Page,PageDto>.convertIquerybleToDto(pl);
         }
 
         private List<PageDto> ConvertPageListToDtoList(List<Page> pl)

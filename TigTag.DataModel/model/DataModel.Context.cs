@@ -41,5 +41,9 @@ namespace TigTag.DataModel.model
         public DbSet<PageSetting> PageSettings { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<ContactInfo> ContactInfoes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
     }
 }

@@ -121,5 +121,24 @@ namespace TigTag.Repository.ModelRepository {
         {
             return Context.PageMenus.Where(pm => pm.PageId == pageid).Select(p => p.Menu).Distinct().ToList();
         }
+
+        public Guid addOrGetMenuByTitle(string menuTitle,Guid pageid)
+        {
+           List<Menu> menus=  Context.Menus.Where(m => m.MenuTitle.ToLower().Equals(menuTitle.ToLower())).ToList();
+            if (menus.Count > 0)
+                return menus[0].Id;
+            else
+            {
+                Menu newMenu = new Menu();
+                newMenu.Id = Guid.NewGuid();
+                newMenu.MenuTitle = menuTitle;
+                newMenu.PageId = pageid;
+                newMenu.Score = 0;
+                newMenu.CreateDate = DateTime.Now;
+                Context.Menus.Add(newMenu);
+                Context.SaveChanges();
+                return newMenu.Id;
+            }
+        }
     }
 }

@@ -53,10 +53,30 @@ namespace TigTag.Repository.ModelRepository
             return AddSingleLog(profleId, p, enmEventsActionType.TAKE_PARTICIPATE);
         }
 
+        public ResultDto AddOrderEvent(Guid profileId, Order orderModel)
+        {
+            return AddSingleLog(profileId, orderModel, enmEventsActionType.CREATE_ORDER);
+        }
+
+        public ResultDto AddOrderItemEvent(Guid profileId, OrderItem orderItemModel)
+        {
+            return AddSingleLog(profileId, orderItemModel, enmEventsActionType.ADD_ORDER_ITEM);
+        }
+
         public ResultDto addPageAdminEvent(Guid profileId, PageAdmin pageAdminModel)
         {
             return AddSingleLog(profileId, pageAdminModel, enmEventsActionType.ROLE_AS_ADMIN
                 );
+        }
+
+        public ResultDto AddContactInfoEvent(Guid profileId, ContactInfo contactInfoModel)
+        {
+            return AddSingleLog(profileId, contactInfoModel, enmEventsActionType.ADD_CONTACT_INFO);
+        }
+
+        public ResultDto AddTicketEvent(Guid profileId, Ticket ticketModel)
+        {
+            return AddSingleLog(profileId, ticketModel, enmEventsActionType.CREATE_TICKET);
         }
 
         public ResultDto AddFollowPageEvent(Guid profleId, Follow p)
@@ -86,9 +106,9 @@ namespace TigTag.Repository.ModelRepository
             {
                 case enmEventsActionType.CREATE_PROFILE:
                 //    retResultDto = addGeneralEvent(page.Id, page.Id, page.Id, enmEventsActionType.CREATE_PROFILE);
-                    Page masterPage= pageRepo.getMasterPage();
-                    if(masterPage!=null)
-                    retResultDto = addGeneralEvent(page.Id, page.Id, masterPage.Id, enmEventsActionType.CREATE_PROFILE);
+                  //  Page masterPage= pageRepo.getMasterPage();
+                //    if(masterPage!=null)
+                    retResultDto = addGeneralEvent(page.Id, page.Id, page.Id, enmEventsActionType.CREATE_PROFILE);
                     break;
                 case enmEventsActionType.ROLE_AS_ADMIN:
                 case enmEventsActionType.CREATE_PAGE:
@@ -133,6 +153,78 @@ namespace TigTag.Repository.ModelRepository
                 case enmEventsActionType.TAKE_PARTICIPATE:
                     retResultDto=addGeneralEventWithParent(actorProfileId, participant.Id, participant.ParticipantPageId, actionType);
                     retResultDto = addGeneralEventWithParent(actorProfileId, participant.Id, actorProfileId, actionType);
+
+                    break;
+                default:
+                    break;
+            }
+            return retResultDto;
+        }
+        private ResultDto AddSingleLog(Guid actorProfileId, Order order, enmEventsActionType actionType)
+        {
+            ResultDto retResultDto = new ResultDto();
+
+            switch (actionType)
+            {
+
+                case enmEventsActionType.CREATE_ORDER:
+                    retResultDto = addGeneralEventWithParent(actorProfileId, order.Id, order.CustomerPageId, actionType);
+                    retResultDto = addGeneralEventWithParent(actorProfileId, order.Id, order.PageId, actionType);
+       
+
+                    break;
+                default:
+                    break;
+            }
+            return retResultDto;
+        }
+        private ResultDto AddSingleLog(Guid actorProfileId, OrderItem order, enmEventsActionType actionType)
+        {
+            ResultDto retResultDto = new ResultDto();
+
+            switch (actionType)
+            {
+
+                case enmEventsActionType.ADD_ORDER_ITEM:
+                    retResultDto = addGeneralEventWithParent(actorProfileId, order.Id, actorProfileId, actionType);
+                  
+
+
+                    break;
+                default:
+                    break;
+            }
+            return retResultDto;
+        }
+        private ResultDto AddSingleLog(Guid actorProfileId, ContactInfo contactInfo, enmEventsActionType actionType)
+        {
+            ResultDto retResultDto = new ResultDto();
+
+            switch (actionType)
+            {
+
+                case enmEventsActionType.ADD_CONTACT_INFO:
+                    retResultDto = addGeneralEventWithParent(actorProfileId, contactInfo.Id, contactInfo.PageId, actionType);
+
+
+
+                    break;
+                default:
+                    break;
+            }
+            return retResultDto;
+        }
+        private ResultDto AddSingleLog(Guid actorProfileId, Ticket ticket, enmEventsActionType actionType)
+        {
+            ResultDto retResultDto = new ResultDto();
+
+            switch (actionType)
+            {
+
+                case enmEventsActionType.CREATE_TICKET:
+                    retResultDto = addGeneralEventWithParent(actorProfileId, ticket.Id, ticket.PageId, actionType);
+
+
 
                     break;
                 default:

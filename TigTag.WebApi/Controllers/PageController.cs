@@ -193,28 +193,62 @@ namespace TigTag.WebApi.Controllers
             {
                 try
                 {
+                    pageRepo.setPageColor(pageModel);
                     pageRepo.Add(pageModel);
                     pageRepo.Save();
                     //adding menu list to page
-                    if (page.Menulist != null)
-                        foreach (var menuid in page.Menulist)
-                        {
-                            //var menu= menuRepo.GetSingle(menuid);
-                            PageMenu pageMenu = new PageMenu();
-                            ResultDto tempResult = new ResultDto();
-
-                            pageMenu.Id = Guid.NewGuid();
-                            pageMenu.MenuId = menuid;
-                            pageMenu.PageId = pageModel.Id;
-                            menuRepo.checkUnquness(pageMenu, tempResult);
-                            if (tempResult.validationMessages != null && tempResult.validationMessages.Count() == 0)
+                    
+                   
+                        if (page.Menulist != null)
+                            foreach (var menuid in page.Menulist)
                             {
-                                pageMenuRepo.Add(pageMenu);
-                                menuRepo.increaseScore(pageMenu.MenuId);
-                                pageMenuRepo.Save();
-                            }
+                            try
+                            {
+                                //var menu= menuRepo.GetSingle(menuid);
+                                PageMenu pageMenu = new PageMenu();
+                                ResultDto tempResult = new ResultDto();
 
+                                pageMenu.Id = Guid.NewGuid();
+                                pageMenu.MenuId = menuid;
+                                pageMenu.PageId = pageModel.Id;
+                                menuRepo.checkUnquness(pageMenu, tempResult);
+                                if (tempResult.validationMessages != null && tempResult.validationMessages.Count() == 0)
+                                {
+                                    pageMenuRepo.Add(pageMenu);
+                                    menuRepo.increaseScore(pageMenu.MenuId);
+                                    pageMenuRepo.Save();
+                                }
+                            }
+                            catch { }
+
+                            }
+                 
+                    try
+                    {
+                        if (page.newMenuTitleList != null)
+                        {
+                            foreach (var menuTitle in page.newMenuTitleList)
+                            {
+                                Guid menuid = menuRepo.addOrGetMenuByTitle(menuTitle, pageModel.Id);
+                                PageMenu pageMenu = new PageMenu();
+                                ResultDto tempResult = new ResultDto();
+
+                                pageMenu.Id = Guid.NewGuid();
+                                pageMenu.MenuId = menuid;
+                                pageMenu.PageId = pageModel.Id;
+                                menuRepo.checkUnquness(pageMenu, tempResult);
+                                if (tempResult.validationMessages != null && tempResult.validationMessages.Count() == 0)
+                                {
+                                    pageMenuRepo.Add(pageMenu);
+                                    menuRepo.increaseScore(pageMenu.MenuId);
+                                    pageMenuRepo.Save();
+                                }
+
+                            }
                         }
+                    }
+                    catch { }
+                    
                     //adding page setting
                     if (pageModel.PageType != enmPageTypes.POST.GetHashCode())
                     {
@@ -322,6 +356,8 @@ namespace TigTag.WebApi.Controllers
         private void addMenuInfo(PageDto retPage)
         {
             retPage.Menulist = pageRepo.getMenuList(retPage.Id);
+            retPage.PublicMenuDtoList = pageRepo.getPublicMenuDtoList(retPage.Id);
+            retPage.CustomMenuDtoList = pageRepo.getCustomMenuDtoList(retPage.Id);
         }
 
         public List<PageDto> findPostsByFollowerAndFollowingPageId([FromBody]BaseRequestDto request)
@@ -377,6 +413,19 @@ namespace TigTag.WebApi.Controllers
         public List<PageDto> getParticipantsByPageId(Guid pageId)
         {
             return pageRepo.getParticipantsByPageId(pageId, 100);
+        }
+        [HttpGet]
+        [EnableQueryAttribute]
+        public IQueryable<PageDto> queryParticipantsByPageIdAndmenuList(String pageId, String menuList)
+        {
+            Guid[] menuidlist = JsonUtil.convertToGuidArray(menuList);
+            Guid pageuId = Guid.NewGuid();
+            try
+            {
+                pageuId = Guid.Parse(pageId);
+            }
+            catch { return null; }
+            return pageRepo.getParticipantsByPageId(pageuId, menuidlist);
         }
         public PageSettingDto getPageSetting(Guid pageId)
         {

@@ -45,9 +45,12 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ModelDTO\BaseDto.cs" />
     <Compile Include="ModelDTO\CommentReplyDto.cs" />
+    <Compile Include="ModelDTO\ContactInfoDto.cs" />
     <Compile Include="ModelDTO\FollowDto.cs" />
     <Compile Include="ModelDTO\FollowConditionDto.cs" />
     <Compile Include="ModelDTO\EventsLogDto.cs" />
+    <Compile Include="ModelDTO\OrderDto.cs" />
+    <Compile Include="ModelDTO\OrderItemDto.cs" />
     <Compile Include="ModelDTO\PageCommentDto.cs" />
     <Compile Include="ModelDTO\FollowMenuPackageDto.cs" />
     <Compile Include="ModelDTO\FollowMenuDto.cs" />
@@ -62,6 +65,7 @@
     <Compile Include="ModelDTO\PageStatsDto.cs" />
     <Compile Include="ModelDTO\ParticipantDto.cs" />
     <Compile Include="ModelDTO\RequestDto\BaseRequestDto.cs" />
+    <Compile Include="ModelDTO\TicketDto.cs" />
     <Compile Include="ModelDTO\TotalScoreDto.cs" />
     <Compile Include="ModelDTO\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

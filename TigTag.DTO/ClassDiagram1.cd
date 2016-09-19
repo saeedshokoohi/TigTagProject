@@ -3,7 +3,7 @@
   <Class Name="TigTag.DTO.ModelDTO.CommentReplyDto">
     <Position X="3.5" Y="4.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>CAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAACABAAAAAAA=</HashCode>
+      <HashCode>CAAgBAAAAAAAAAAAAAAAAAAAAAAAAAAAACABAAAAAAA=</HashCode>
       <FileName>ModelDTO\CommentReplyDto.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -29,7 +29,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.FollowMenuPackageDto">
-    <Position X="5.75" Y="10.25" Width="1.5" />
+    <Position X="5.75" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEAAAAAA=</HashCode>
       <FileName>ModelDTO\FollowMenuPackageDto.cs</FileName>
@@ -53,19 +53,19 @@
   <Class Name="TigTag.DTO.ModelDTO.PageCommentDto">
     <Position X="1.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAECBAAABAAAAAAAAAAAAAAAACAAAAAAAAABAAAAAgA=</HashCode>
+      <HashCode>AAEiBAAABAAAAAAAAAAAAAAAACAAAAAAAAABAAAAAgA=</HashCode>
       <FileName>ModelDTO\PageCommentDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageDto">
     <Position X="5.5" Y="6.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>QAACAAAAAAAhAAAAEAAAAAgAASAAAgEEAAABAIAAAAA=</HashCode>
+      <HashCode>QAACAAgAAAAhAAAgEAAAAAgAASAAAgEEAAABgIAQAAA=</HashCode>
       <FileName>ModelDTO\PageDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageMenuDto">
-    <Position X="1.75" Y="10" Width="1.5" />
+    <Position X="1.75" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
       <FileName>ModelDTO\PageMenuDto.cs</FileName>
@@ -79,7 +79,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.PageScoreDto">
-    <Position X="1.75" Y="8" Width="1.5" />
+    <Position X="1.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAgABAAAAgAA=</HashCode>
       <FileName>ModelDTO\PageScoreDto.cs</FileName>
@@ -89,7 +89,7 @@
   <Class Name="TigTag.DTO.ModelDTO.UserDto">
     <Position X="8" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAkEAACAEAAAQAAAAAAAAAACAQABAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAkEAACAEAAAQAQAAAAAAAACAQABAgAAAAA=</HashCode>
       <FileName>ModelDTO\UserDto.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -130,6 +130,34 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAIAAAAAIAAAAAABAAAAAAAIAAAAAA=</HashCode>
       <FileName>ModelDTO\ImageTableDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TigTag.DTO.ModelDTO.ContactInfoDto">
+    <Position X="11.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAEAAAAEAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>ModelDTO\ContactInfoDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TigTag.DTO.ModelDTO.OrderDto">
+    <Position X="11.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAADAAIAAAAgAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModelDTO\OrderDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TigTag.DTO.ModelDTO.OrderItemDto">
+    <Position X="11.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAgAAAAAAAAQAQAAAAAQBAAAAAAAgAAAAA=</HashCode>
+      <FileName>ModelDTO\OrderItemDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TigTag.DTO.ModelDTO.TicketDto">
+    <Position X="11.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgAEAAAAIAAAACAAAAAIACAAAABCABAAA=</HashCode>
+      <FileName>ModelDTO\TicketDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="TigTag.DTO.ModelDTO.Base.enm_STATUS_CODE">

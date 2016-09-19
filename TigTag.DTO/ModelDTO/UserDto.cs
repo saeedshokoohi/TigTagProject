@@ -19,6 +19,7 @@ namespace TigTag.DTO.ModelDTO
         public string ProfileInfo { get; set; }
         public Nullable<System.Guid> ProfileImageId { get; set; }
         public Nullable<bool> Gender { get; set; }
+        public Nullable<System.DateTime> BirthDate { get; set; } 
         public string ApplicationUserId { get; set; }
 
     }

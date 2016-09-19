@@ -34,6 +34,10 @@ namespace TigTag.DataModel.model
             this.PageMenus = new HashSet<PageMenu>();
             this.Participants = new HashSet<Participant>();
             this.Participants1 = new HashSet<Participant>();
+            this.ContactInfoes = new HashSet<ContactInfo>();
+            this.Orders = new HashSet<Order>();
+            this.Orders1 = new HashSet<Order>();
+            this.Tickets = new HashSet<Ticket>();
         }
     
         public System.Guid Id { get; set; }
@@ -46,6 +50,7 @@ namespace TigTag.DataModel.model
         public Nullable<System.Guid> ImageId { get; set; }
         public string URL { get; set; }
         public Nullable<bool> IsMasterPage { get; set; }
+        public string Color { get; set; }
     
         public virtual ICollection<CommentReply> CommentReplies { get; set; }
         public virtual ICollection<EventsLog> EventsLogs { get; set; }
@@ -68,5 +73,9 @@ namespace TigTag.DataModel.model
         public virtual ICollection<PageMenu> PageMenus { get; set; }
         public virtual ICollection<Participant> Participants { get; set; }
         public virtual ICollection<Participant> Participants1 { get; set; }
+        public virtual ICollection<ContactInfo> ContactInfoes { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders1 { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

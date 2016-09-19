@@ -49,6 +49,16 @@
         <AssociationConnector Association="tigtag_dbModel.FK_PageMenu_Page" />
         <AssociationConnector Association="tigtag_dbModel.FK_Participant_Page" />
         <AssociationConnector Association="tigtag_dbModel.FK_Participant_Page1" />
+        <EntityTypeShape EntityType="tigtag_dbModel.ContactInfo" Width="1.5" PointX="7.5" PointY="18.625" />
+        <EntityTypeShape EntityType="tigtag_dbModel.Order" Width="1.5" PointX="7.5" PointY="60" />
+        <EntityTypeShape EntityType="tigtag_dbModel.OrderItem" Width="1.5" PointX="9.75" PointY="57.75" />
+        <EntityTypeShape EntityType="tigtag_dbModel.Ticket" Width="1.5" PointX="7.5" PointY="55.625" />
+        <AssociationConnector Association="tigtag_dbModel.FK_ContactInfo_Page" />
+        <AssociationConnector Association="tigtag_dbModel.FK_Order_CustomerPage" />
+        <AssociationConnector Association="tigtag_dbModel.FK_Order_Page" />
+        <AssociationConnector Association="tigtag_dbModel.FK_OrderItem_Order" />
+        <AssociationConnector Association="tigtag_dbModel.FK_OrderItem_Ticket" />
+        <AssociationConnector Association="tigtag_dbModel.FK_Ticket_Page" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

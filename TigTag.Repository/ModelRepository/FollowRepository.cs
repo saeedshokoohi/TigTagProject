@@ -90,5 +90,11 @@ namespace TigTag.Repository.ModelRepository {
          var fls=   Context.Follows.Where(f => f.FollowingPageId == pageid).ToList();
             return Mapper<Follow, FollowDto>.convertListToDto(fls);
         }
+        public IQueryable<PageDto> getPageFollowers(Guid pageid,Guid[] menulist)
+        {
+            if (menulist == null) menulist = new Guid[0];
+            var fls = Context.Follows.Where(f => f.FollowingPageId == pageid && menulist.All(mi => f.Page1.PageMenus.Any(pm => mi == pm.MenuId))).Select(fp=>fp.Page1).AsQueryable();
+            return Mapper<Page, PageDto>.convertIquerybleToDto(fls);
+        }
     }
 }

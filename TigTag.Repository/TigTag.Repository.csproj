@@ -110,6 +110,10 @@
     <Compile Include="Base\IGenericRepository.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Common\Mapper.cs" />
+    <Compile Include="IModelRepository\IOrderRepository.cs" />
+    <Compile Include="IModelRepository\IOrderItemRepository.cs" />
+    <Compile Include="IModelRepository\IContactInfoRepository.cs" />
+    <Compile Include="IModelRepository\ITicketRepository.cs" />
     <Compile Include="IModelRepository\IPageScoreRepository.cs" />
     <Compile Include="IModelRepository\IPageAdminRepository.cs" />
     <Compile Include="IModelRepository\IEventsLogRepository.cs" />
@@ -127,6 +131,10 @@
     <Compile Include="IModelRepository\IFollowMenuPackageRepository.cs" />
     <Compile Include="IModelRepository\IUserRepository.cs" />
     <Compile Include="ModelRepository\EventsLogRepository.cs" />
+    <Compile Include="ModelRepository\OrderRepository.cs" />
+    <Compile Include="ModelRepository\OrderItemRepository.cs" />
+    <Compile Include="ModelRepository\ContactInfoRepository.cs" />
+    <Compile Include="ModelRepository\TicketRepository.cs" />
     <Compile Include="ModelRepository\PageAdminRepository.cs" />
     <Compile Include="ModelRepository\PageScoreRepository.cs" />
     <Compile Include="ModelRepository\ParticipantRepository.cs" />

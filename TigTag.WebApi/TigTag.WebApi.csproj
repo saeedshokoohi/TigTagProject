@@ -231,6 +231,10 @@
     <Compile Include="Controllers\Base\AccountController.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\Base\IBaseController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrderItemController.cs" />
+    <Compile Include="Controllers\ContactInfoController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\PageAdminController.cs" />
     <Compile Include="Controllers\PageScoreController.cs" />
     <Compile Include="Controllers\EventsLogController.cs" />

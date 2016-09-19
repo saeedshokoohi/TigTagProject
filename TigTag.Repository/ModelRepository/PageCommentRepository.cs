@@ -52,7 +52,14 @@ namespace TigTag.Repository.ModelRepository {
                 {
                     CommentReplyDto lastCommentReply = getLastCommentReply(c.Id);
                     dto.lastCommentReply = lastCommentReply;
+                    dto.lastCommentReply.AutherName = Context.Pages.Where(p => p.Id == lastCommentReply.AutherId).Select(p => p.PageTitle).First();
+
                 }
+                try
+                {
+                    dto.AutherName = Context.Pages.Where(p => p.Id == c.AutherId).Select(p => p.PageTitle).First();
+                }
+                catch { }
                 dto.repliesCount = rc;
                 retList.Add(dto);
 

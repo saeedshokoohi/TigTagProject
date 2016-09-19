@@ -34,7 +34,16 @@ namespace TigTag.Repository.ModelRepository {
 
         public List<CommentReplyDto> getCommentReplysByCommentId(Guid pageCommentId)
         {
-            return Mapper<CommentReply,CommentReplyDto>.convertListToDto( Context.CommentReplys.Where(cr => cr.PageCommentId == pageCommentId).OrderByDescending(c=>c.CreateDate ).ToList());
+            List<CommentReplyDto> retList= Mapper<CommentReply,CommentReplyDto>.convertListToDto( Context.CommentReplys.Where(cr => cr.PageCommentId == pageCommentId).OrderByDescending(c=>c.CreateDate ).ToList());
+            try
+            {
+                foreach (var cr in retList)
+                {
+                    cr.AutherName = Context.Pages.Where(p => p.Id == cr.AutherId).Select(p => p.PageTitle).First();
+                }
+            }
+            catch { }
+            return retList;
         }
         private void checkPageCommentId(CommentReply commentReply, ResultDto retResult)
         {

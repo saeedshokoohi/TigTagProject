@@ -15,6 +15,16 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="ReplyText" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="ContactInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ContactType" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Value" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="EventsLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -88,6 +98,30 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="Category" Type="nvarchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerPageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderNumber" Type="bigint" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AttachmentId" Type="uniqueidentifier" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="500" />
+          <Property Name="EmailAddress" Type="nchar" MaxLength="100" />
+          <Property Name="TicketId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Page">
           <Key>
             <PropertyRef Name="Id" />
@@ -102,6 +136,7 @@
           <Property Name="ImageId" Type="uniqueidentifier" />
           <Property Name="URL" Type="nvarchar" MaxLength="500" />
           <Property Name="IsMasterPage" Type="bit" />
+          <Property Name="Color" Type="nchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PageAdmins">
           <Key>
@@ -160,6 +195,23 @@
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RequestStatus" Type="int" />
         </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Capacity" Type="int" />
+          <Property Name="Price" Type="float" />
+          <Property Name="FromDate" Type="datetime" />
+          <Property Name="ToDate" Type="datetime" />
+          <Property Name="DeadlineDate" Type="datetime" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="Location" Type="varchar" MaxLength="500" />
+          <Property Name="SoldCapacity" Type="int" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -176,6 +228,7 @@
           <Property Name="ProfileImageId" Type="uniqueidentifier" />
           <Property Name="Gender" Type="bit" />
           <Property Name="ApplicationUserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="BirthDate" Type="date" />
         </EntityType>
         <Association Name="FK_CommentReply_Page">
           <End Role="Page" Type="Self.Page" Multiplicity="1" />
@@ -198,6 +251,18 @@
             </Principal>
             <Dependent Role="CommentReply">
               <PropertyRef Name="PageCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactInfo_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="ContactInfo" Type="Self.ContactInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContactInfo">
+              <PropertyRef Name="PageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -330,6 +395,54 @@
             </Principal>
             <Dependent Role="Menu">
               <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_CustomerPage">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CustomerPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Ticket">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="TicketId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -501,6 +614,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Ticket_Page">
+          <End Role="Page" Type="Self.Page" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_ImageTable">
           <End Role="ImageTable" Type="Self.ImageTable" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -515,6 +640,7 @@
         </Association>
         <EntityContainer Name="tigtag_dbModelStoreContainer">
           <EntitySet Name="CommentReply" EntityType="Self.CommentReply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactInfo" EntityType="Self.ContactInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventsLog" EntityType="Self.EventsLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Follow" EntityType="Self.Follow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FollowCondition" EntityType="Self.FollowCondition" Schema="dbo" store:Type="Tables" />
@@ -522,6 +648,8 @@
           <EntitySet Name="FollowMenuPackage" EntityType="Self.FollowMenuPackage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImageTable" EntityType="Self.ImageTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageAdmins" EntityType="Self.PageAdmins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageComment" EntityType="Self.PageComment" Schema="dbo" store:Type="Tables" />
@@ -529,6 +657,7 @@
           <EntitySet Name="PageScore" EntityType="Self.PageScore" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageSetting" EntityType="Self.PageSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Participant" EntityType="Self.Participant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CommentReply_Page" Association="Self.FK_CommentReply_Page">
             <End Role="Page" EntitySet="Page" />
@@ -537,6 +666,10 @@
           <AssociationSet Name="FK_CommentReply_PageComment" Association="Self.FK_CommentReply_PageComment">
             <End Role="PageComment" EntitySet="PageComment" />
             <End Role="CommentReply" EntitySet="CommentReply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactInfo_Page" Association="Self.FK_ContactInfo_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="ContactInfo" EntitySet="ContactInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_EventsLog_ActorPage" Association="Self.FK_EventsLog_ActorPage">
             <End Role="Page" EntitySet="Page" />
@@ -581,6 +714,22 @@
           <AssociationSet Name="FK_Menu_Page" Association="Self.FK_Menu_Page">
             <End Role="Page" EntitySet="Page" />
             <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_CustomerPage" Association="Self.FK_Order_CustomerPage">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Page" Association="Self.FK_Order_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Order" Association="Self.FK_OrderItem_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderItem" EntitySet="OrderItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Ticket" Association="Self.FK_OrderItem_Ticket">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="OrderItem" EntitySet="OrderItem" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_ImageTable" Association="Self.FK_Page_ImageTable">
             <End Role="ImageTable" EntitySet="ImageTable" />
@@ -637,6 +786,10 @@
           <AssociationSet Name="FK_Participant_Page1" Association="Self.FK_Participant_Page1">
             <End Role="Page" EntitySet="Page" />
             <End Role="Participant" EntitySet="Participant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_Page" Association="Self.FK_Ticket_Page">
+            <End Role="Page" EntitySet="Page" />
+            <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
           <AssociationSet Name="FK_User_ImageTable" Association="Self.FK_User_ImageTable">
             <End Role="ImageTable" EntitySet="ImageTable" />
@@ -775,6 +928,34 @@
           <AssociationSet Name="FK_Participant_Page1" Association="tigtag_dbModel.FK_Participant_Page1">
             <End Role="Page" EntitySet="Pages" />
             <End Role="Participant" EntitySet="Participants" />
+          </AssociationSet>
+          <EntitySet Name="ContactInfoes" EntityType="tigtag_dbModel.ContactInfo" />
+          <EntitySet Name="Orders" EntityType="tigtag_dbModel.Order" />
+          <EntitySet Name="OrderItems" EntityType="tigtag_dbModel.OrderItem" />
+          <EntitySet Name="Tickets" EntityType="tigtag_dbModel.Ticket" />
+          <AssociationSet Name="FK_ContactInfo_Page" Association="tigtag_dbModel.FK_ContactInfo_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="ContactInfo" EntitySet="ContactInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_CustomerPage" Association="tigtag_dbModel.FK_Order_CustomerPage">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Page" Association="tigtag_dbModel.FK_Order_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Order" Association="tigtag_dbModel.FK_OrderItem_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Ticket" Association="tigtag_dbModel.FK_OrderItem_Ticket">
+            <End Role="Ticket" EntitySet="Tickets" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_Page" Association="tigtag_dbModel.FK_Ticket_Page">
+            <End Role="Page" EntitySet="Pages" />
+            <End Role="Ticket" EntitySet="Tickets" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CommentReply">
@@ -916,6 +1097,11 @@
           <NavigationProperty Name="PageMenus" Relationship="tigtag_dbModel.FK_PageMenu_Page" FromRole="Page" ToRole="PageMenu" />
           <NavigationProperty Name="Participants" Relationship="tigtag_dbModel.FK_Participant_Page" FromRole="Page" ToRole="Participant" />
           <NavigationProperty Name="Participants1" Relationship="tigtag_dbModel.FK_Participant_Page1" FromRole="Page" ToRole="Participant" />
+          <Property Name="Color" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ContactInfoes" Relationship="tigtag_dbModel.FK_ContactInfo_Page" FromRole="Page" ToRole="ContactInfo" />
+          <NavigationProperty Name="Orders" Relationship="tigtag_dbModel.FK_Order_CustomerPage" FromRole="Page" ToRole="Order" />
+          <NavigationProperty Name="Orders1" Relationship="tigtag_dbModel.FK_Order_Page" FromRole="Page" ToRole="Order" />
+          <NavigationProperty Name="Tickets" Relationship="tigtag_dbModel.FK_Ticket_Page" FromRole="Page" ToRole="Ticket" />
         </EntityType>
         <EntityType Name="PageAdmin">
           <Key>
@@ -1004,6 +1190,7 @@
           <NavigationProperty Name="ImageTable" Relationship="tigtag_dbModel.FK_User_ImageTable" FromRole="User" ToRole="ImageTable" />
           <NavigationProperty Name="Pages" Relationship="tigtag_dbModel.FK_Page_User" FromRole="User" ToRole="Page" />
           <Property Name="ApplicationUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK_CommentReply_Page">
           <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
@@ -1341,6 +1528,137 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ContactInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="ContactType" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_ContactInfo_Page" FromRole="ContactInfo" ToRole="Page" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="CustomerPageId" Type="Guid" Nullable="false" />
+          <Property Name="OrderNumber" Type="Int64" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Order_CustomerPage" FromRole="Order" ToRole="Page" />
+          <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Order_Page" FromRole="Order" ToRole="Page" />
+          <NavigationProperty Name="OrderItems" Relationship="tigtag_dbModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="AttachmentId" Type="Guid" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="TicketId" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Guid" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="tigtag_dbModel.FK_OrderItem_Order" FromRole="OrderItem" ToRole="Order" />
+          <NavigationProperty Name="Ticket" Relationship="tigtag_dbModel.FK_OrderItem_Ticket" FromRole="OrderItem" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Capacity" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
+          <Property Name="DeadlineDate" Type="DateTime" Precision="3" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SoldCapacity" Type="Int32" />
+          <NavigationProperty Name="OrderItems" Relationship="tigtag_dbModel.FK_OrderItem_Ticket" FromRole="Ticket" ToRole="OrderItem" />
+          <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Ticket_Page" FromRole="Ticket" ToRole="Page" />
+        </EntityType>
+        <Association Name="FK_ContactInfo_Page">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.ContactInfo" Role="ContactInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContactInfo">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_CustomerPage">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CustomerPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Page">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Order">
+          <End Type="tigtag_dbModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="tigtag_dbModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Ticket">
+          <End Type="tigtag_dbModel.Ticket" Role="Ticket" Multiplicity="1" />
+          <End Type="tigtag_dbModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_Page">
+          <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
+          <End Type="tigtag_dbModel.Ticket" Role="Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1441,6 +1759,7 @@
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="tigtag_dbModel.Page">
               <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="Color" ColumnName="Color" />
                 <ScalarProperty Name="IsMasterPage" ColumnName="IsMasterPage" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="ImageId" ColumnName="ImageId" />
@@ -1520,6 +1839,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="tigtag_dbModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="ApplicationUserId" ColumnName="ApplicationUserId" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="ProfileImageId" ColumnName="ProfileImageId" />
@@ -1531,6 +1851,61 @@
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactInfoes">
+            <EntityTypeMapping TypeName="tigtag_dbModel.ContactInfo">
+              <MappingFragment StoreEntitySet="ContactInfo">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ContactType" ColumnName="ContactType" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="tigtag_dbModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="CustomerPageId" ColumnName="CustomerPageId" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="tigtag_dbModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItem">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AttachmentId" ColumnName="AttachmentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="tigtag_dbModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="SoldCapacity" ColumnName="SoldCapacity" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="DeadlineDate" ColumnName="DeadlineDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -18,7 +18,10 @@ namespace TigTag.Common.Enumeration
         FOLLOWING_PAGE=7,
         FOLLOWING_MENU=8,
         ADD_COMMENT=9,
-        ADD_COMMENTREPLY=10
-
+        ADD_COMMENTREPLY=10,
+        CREATE_ORDER = 11,
+        CREATE_TICKET = 12,
+        ADD_ORDER_ITEM = 13,
+        ADD_CONTACT_INFO = 14
     }
 }
