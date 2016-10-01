@@ -264,7 +264,7 @@ namespace TigTag.Repository.ModelRepository {
                 Context.FollowMenus.Where(f => f.FollowerUserId == followerPageId && f.Id == followingMenuId).ToList().ForEach(f => f.lastVisitDate = DateTime.Now);
                 Context.SaveChanges();
                 return ResultDto.successResult("", "last visited date set => " + DateTime.Now);
-
+                
             }
             catch (Exception ex)
             {
@@ -381,6 +381,30 @@ namespace TigTag.Repository.ModelRepository {
 
         }
 
+
+        public UserDto getPageCReatorUser(Guid id)
+        {
+           var users= Context.Pages.Where(p => p.Id == id).Select(p => p.User).ToList();
+            if (users.Count() > 0)
+                return Mapper<User, UserDto>.convertToDto(users[0]);
+            else
+                return null;
+        }
+
+        public List<TicketDto> getTicketList(Guid id)
+        {
+            List<TicketDto> retList = null;
+            var ciList = Context.Tickets.Where(ci => ci.PageId == id).ToList();
+            return Mapper<Ticket, TicketDto>.convertListToDto(ciList);
+        }
+
+        public List<ContactInfoDto> getContactInfoList(Guid id)
+        {
+            List<ContactInfoDto> retList = null;
+            var ciList= Context.ContactInfos.Where(ci => ci.PageId == id).ToList();
+            return Mapper<ContactInfo, ContactInfoDto>.convertListToDto(ciList);
+        }
+
         public Guid[] getMenuList(Guid id)
         {
             return Context.PageMenus.Where(pm => pm.PageId == id).Select(pm => pm.MenuId).ToArray();
@@ -431,9 +455,12 @@ namespace TigTag.Repository.ModelRepository {
 
         public PageDto getParentPage(Guid pageid)
         {
-            var parentPage = Context.Pages.Where(p => p.Id == pageid).Select(p => p.Page1).ToList();
-            if (parentPage != null && parentPage.Count > 0)
-                return Mapper<Page, PageDto>.convertToDto(parentPage[0]);
+            var parentPageid = Context.Pages.Where(p => p.Id == pageid).Select(p => p.PageId).ToList();
+            if (parentPageid != null && parentPageid.Count > 0 && parentPageid[0]!=null)
+            {
+             
+                return Mapper<Page, PageDto>.convertToDto(GetSingle((Guid)parentPageid[0]));
+            }
             else return null;
         }
 

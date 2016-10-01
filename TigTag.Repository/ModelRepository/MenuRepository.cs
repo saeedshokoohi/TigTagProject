@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TigTag.DataModel.model;
+using TigTag.DTO.ModelDTO;
 using TigTag.DTO.ModelDTO.Base;
 using TigTag.Repository.IModelRepository;
 using TiTag.Repository.Base;
@@ -139,6 +140,37 @@ namespace TigTag.Repository.ModelRepository {
                 Context.SaveChanges();
                 return newMenu.Id;
             }
+        }
+
+        public List<MenuDto> queryUsedMenuListByPageId(int searchType,Guid pageid,Guid[] selectedMenuIds)
+        {
+          
+            List<MenuDto> retList = new List<MenuDto>();
+            //if(selectedMenuIds!=null && selectedMenuIds.Count()>0)
+            //{
+            //    Context.PageMenus.Where()
+            //}
+            var result = Context.PageMenus.Where(pm =>
+              pm.Page.PageType == searchType &&
+             (pageid == Guid.Empty || pm.Page.PageId == pageid || (pm.Page.Page1.Any(p => p.PageId == pageid))) &&
+             ( selectedMenuIds.All(mi => pm.Page.PageMenus.Any(pm2 => pm2.MenuId == mi)))).GroupBy(pm => pm.MenuId)
+             .Select(g => new GroupClass { Id = g.Key, count = g.Count() }).OrderByDescending(g=>g.count);
+            foreach (var item in result)
+            {
+                MenuDto newMenuDto = new MenuDto();
+                newMenuDto = Mapper<MenuDto, MenuDto>.convertToDto(GetSingle(item.Id));
+                newMenuDto.usedCount = item.count;
+                retList.Add(newMenuDto);
+            }
+
+            return retList;
+
+
+        }
+        class GroupClass
+        {
+            public Guid Id { get; set; }
+            public int count { get; set; }
         }
     }
 }

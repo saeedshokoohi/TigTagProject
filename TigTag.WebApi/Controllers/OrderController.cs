@@ -49,8 +49,7 @@ namespace TigTag.WebApi.Controllers
                         returnResult.isDone = true;
                         returnResult.message = "new Order created successfully";
                         returnResult.returnId = OrderModel.Id.ToString();
-                        if (Order.ProfileId == Guid.Empty) Order.ProfileId = getCurrentProfileId();
-                        eventLogRepo.AddOrderEvent(Order.ProfileId, OrderModel);
+                      
                         
                         if(returnResult.isDone)
                         {
@@ -73,6 +72,8 @@ namespace TigTag.WebApi.Controllers
                             participantDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
                             
                             participantController.addParticipant(participantDto);
+                            if (Order.ProfileId == Guid.Empty) Order.ProfileId = getCurrentProfileId();
+                            eventLogRepo.AddOrderEvent(Order.ProfileId, OrderModel);
                         }
                     }
                     catch (Exception ex)

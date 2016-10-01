@@ -345,12 +345,35 @@ namespace TigTag.WebApi.Controllers
                 retPage.PageStats= pageRepo.getPageStats(retPage);
                 addFollowingInfo(retPage);
                 addMenuInfo(retPage);
+                addPageDetail(retPage);
+                addContactInfoDetail(retPage);
+                addTicketList(retPage);
                 return retPage;
                   }
-            catch {
+            catch(Exception ex) {
                 return null;
 
             }
+        }
+
+        private void addTicketList(PageDto retPage)
+        {
+            PageRepository pageRepo = new PageRepository();
+            retPage.TicketList = pageRepo.getTicketList(retPage.Id);
+        }
+
+        private void addContactInfoDetail(PageDto retPage)
+        {
+            PageRepository pageRepo = new PageRepository();
+            retPage.ContactInfoList=pageRepo.getContactInfoList(retPage.Id);
+        }
+
+        private void addPageDetail(PageDto retPage)
+        {
+            PageRepository pageRepo = new PageRepository();
+            
+            retPage.ParentPageDto = pageRepo.getParentPage(retPage.Id);
+            retPage.CreatedByUserDto = pageRepo.getPageCReatorUser(retPage.Id);
         }
 
         private void addMenuInfo(PageDto retPage)

@@ -16,5 +16,11 @@ namespace TigTag.Common.util
             retList= JsonConvert.DeserializeObject<Guid[]>(menuList);
             return retList;
         }
+        public static List<Guid> convertToGuidList(string menuList)
+        {
+            Guid[] retList = null;
+            retList = JsonConvert.DeserializeObject<Guid[]>(menuList);
+            return retList.ToList();
+        }
     }
 }

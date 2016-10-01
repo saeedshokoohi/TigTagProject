@@ -28,7 +28,31 @@ namespace TigTag.WebApi.Controllers
         {
             return TicketRepo;
         }
+        public ResultDto addTicketList(TicketDto[] tickets)
+        {
+            ResultDto returnResult = new ResultDto();
+            if (tickets!=null)
+            {
+                foreach (var item in tickets)
+                {
+                    Ticket ticketModel = Mapper<Ticket, TicketDto>.convertToModel(item);
+                    returnResult = TicketRepo.validateTicket(ticketModel);
+                    if (!returnResult.isDone)
+                        return returnResult;
+                }
+                List<string> retIdList = new List<string>();
 
+                foreach (var item in tickets)
+                {
+                  returnResult=addTicket(item);
+                    if (returnResult.isDone)
+                        retIdList.Add(returnResult.returnId);
+                }
+                returnResult.returnIdList = retIdList;
+               
+           }
+            return returnResult;
+        }
         public ResultDto addTicket(TicketDto ticket)
         {
             if (ticket == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object  ");

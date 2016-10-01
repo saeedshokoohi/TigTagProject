@@ -30,9 +30,15 @@ namespace TigTag.Repository.ModelRepository {
 
         private void checkTicketCapacity(OrderItem orderItemModel, ResultDto retResult)
         {
-           var c = Context.Tickets.First(p => p.Id == orderItemModel.TicketId);
-           if(c.SoldCapacity+1>=c.Capacity)
-                retResult.addValidationMessages("No Available Capacity!! for TicketId : "+orderItemModel.TicketId);
+            try
+            {
+                var c = Context.Tickets.First(p => p.Id == orderItemModel.TicketId);
+                if (c.SoldCapacity + 1 >= c.Capacity)
+                    retResult.addValidationMessages("No Available Capacity!! for TicketId : " + orderItemModel.TicketId);
+            }catch(Exception ex)
+            {
+                retResult.addValidationMessages("ticketId is not valid!!");
+            }
         }
 
         private void checkOrderId(OrderItem orderModel, ResultDto retResult)

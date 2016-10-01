@@ -12,6 +12,8 @@ using TigTag.Repository.ModelRepository;
 using TiTag.Repository;
 using TigTag.Repository;
 using TigTag.Common.Enumeration;
+using TigTag.Common.util;
+using System.Web.OData;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -106,6 +108,21 @@ namespace TigTag.WebApi.Controllers
             List<Menu> menus= menuRepo.findByPageId(pageid);
            List<MenuDto> retList=  Mapper<Menu, MenuDto>.convertListToDto(menus);
             return retList;
+        }
+        [HttpGet]
+        [EnableQueryAttribute]
+        public IQueryable<MenuDto> queryUsedMenuListByPageId(string searchType, string pageid, string selectedMenuIds)
+        {
+            Guid[] menuidlist = JsonUtil.convertToGuidArray(selectedMenuIds);
+            Guid pageuId = Guid.Empty;
+            int searchTypeInt = 0;
+            try
+            {
+                pageuId = Guid.Parse(pageid);
+                searchTypeInt = Int32.Parse(searchType);
+            }
+            catch { }
+            return menuRepo.queryUsedMenuListByPageId(searchTypeInt, pageuId, menuidlist).AsQueryable();
         }
         public override IGenericRepository<Menu> getRepository()
         {

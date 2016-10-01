@@ -32,7 +32,7 @@ namespace TigTag.Repository.ModelRepository {
             if (images.Count > 0)
                 return new ImageTable( images[0].Id,images[0].ImageName,images[0].ImageType,images[0].ThumbnailData);
             else
-                return new ImageTable();
+                return null;
 
         }
     }
