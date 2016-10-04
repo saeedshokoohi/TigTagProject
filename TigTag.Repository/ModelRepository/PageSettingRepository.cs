@@ -34,6 +34,11 @@ namespace TigTag.Repository.ModelRepository {
 
         }
 
-       
+        public void DeleteByPageid(Guid pageid)
+        {
+           var psl=  Context.PageSettings.Where(ps => ps.PageId == pageid);
+            Context.PageSettings.RemoveRange(psl);
+            Save();
+        }
     }
 }

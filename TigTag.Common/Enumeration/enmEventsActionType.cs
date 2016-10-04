@@ -22,6 +22,10 @@ namespace TigTag.Common.Enumeration
         CREATE_ORDER = 11,
         CREATE_TICKET = 12,
         ADD_ORDER_ITEM = 13,
-        ADD_CONTACT_INFO = 14
+        ADD_CONTACT_INFO = 14,
+        EDIT_PROFILE = 101,
+        EDIT_POST = 102,
+        EDIT_TEAM = 103,
+        EDIT_PAGE = 105
     }
 }

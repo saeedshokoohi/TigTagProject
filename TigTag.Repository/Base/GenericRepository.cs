@@ -73,12 +73,15 @@ namespace TiTag.Repository.Base{
                 Delete(item);
             }
         }
-
+        
         public virtual void Edit(T entity) {
 
             _entities.Entry(entity).State =EntityState.Modified;
         }
-
+     public virtual void Detach(T entity)
+        {
+            Context.Entry(entity).State = EntityState.Detached;
+        }
         public virtual void Save() {
 
             _entities.SaveChanges();

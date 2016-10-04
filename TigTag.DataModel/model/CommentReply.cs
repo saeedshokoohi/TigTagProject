@@ -19,6 +19,9 @@ namespace TigTag.DataModel.model
         public System.Guid PageCommentId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string ReplyText { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.Guid> ModifiedBy { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Page Page { get; set; }
         public virtual PageComment PageComment { get; set; }

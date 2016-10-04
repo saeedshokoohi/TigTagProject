@@ -14,6 +14,9 @@
           <Property Name="PageCommentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="ReplyText" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="ContactInfo">
           <Key>
@@ -108,6 +111,9 @@
           <Property Name="OrderNumber" Type="bigint" Nullable="false" />
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -121,6 +127,9 @@
           <Property Name="TicketId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -137,6 +146,9 @@
           <Property Name="URL" Type="nvarchar" MaxLength="500" />
           <Property Name="IsMasterPage" Type="bit" />
           <Property Name="Color" Type="nchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="PageAdmins">
           <Key>
@@ -158,6 +170,9 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CommentText" Type="nvarchar(max)" Nullable="false" />
           <Property Name="IsPublic" Type="bit" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="PageMenu">
           <Key>
@@ -211,6 +226,9 @@
           <Property Name="Address" Type="nvarchar" MaxLength="500" />
           <Property Name="Location" Type="varchar" MaxLength="500" />
           <Property Name="SoldCapacity" Type="int" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -969,6 +987,9 @@
           <Property Name="ReplyText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_CommentReply_Page" FromRole="CommentReply" ToRole="Page" />
           <NavigationProperty Name="PageComment" Relationship="tigtag_dbModel.FK_CommentReply_PageComment" FromRole="CommentReply" ToRole="PageComment" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="EventsLog">
           <Key>
@@ -1102,6 +1123,9 @@
           <NavigationProperty Name="Orders" Relationship="tigtag_dbModel.FK_Order_CustomerPage" FromRole="Page" ToRole="Order" />
           <NavigationProperty Name="Orders1" Relationship="tigtag_dbModel.FK_Order_Page" FromRole="Page" ToRole="Order" />
           <NavigationProperty Name="Tickets" Relationship="tigtag_dbModel.FK_Ticket_Page" FromRole="Page" ToRole="Ticket" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="PageAdmin">
           <Key>
@@ -1128,6 +1152,9 @@
           <NavigationProperty Name="CommentReplies" Relationship="tigtag_dbModel.FK_CommentReply_PageComment" FromRole="PageComment" ToRole="CommentReply" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_PageComment_Page" FromRole="PageComment" ToRole="Page" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_PageComment_Page1" FromRole="PageComment" ToRole="Page" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="PageMenu">
           <Key>
@@ -1552,6 +1579,9 @@
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Order_CustomerPage" FromRole="Order" ToRole="Page" />
           <NavigationProperty Name="Page1" Relationship="tigtag_dbModel.FK_Order_Page" FromRole="Order" ToRole="Page" />
           <NavigationProperty Name="OrderItems" Relationship="tigtag_dbModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -1567,6 +1597,9 @@
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Order" Relationship="tigtag_dbModel.FK_OrderItem_Order" FromRole="OrderItem" ToRole="Order" />
           <NavigationProperty Name="Ticket" Relationship="tigtag_dbModel.FK_OrderItem_Ticket" FromRole="OrderItem" ToRole="Ticket" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="Ticket">
           <Key>
@@ -1586,6 +1619,9 @@
           <Property Name="SoldCapacity" Type="Int32" />
           <NavigationProperty Name="OrderItems" Relationship="tigtag_dbModel.FK_OrderItem_Ticket" FromRole="Ticket" ToRole="OrderItem" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_Ticket_Page" FromRole="Ticket" ToRole="Page" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <Association Name="FK_ContactInfo_Page">
           <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
@@ -1668,6 +1704,9 @@
           <EntitySetMapping Name="CommentReplies">
             <EntityTypeMapping TypeName="tigtag_dbModel.CommentReply">
               <MappingFragment StoreEntitySet="CommentReply">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ReplyText" ColumnName="ReplyText" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="PageCommentId" ColumnName="PageCommentId" />
@@ -1759,6 +1798,9 @@
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="tigtag_dbModel.Page">
               <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
                 <ScalarProperty Name="IsMasterPage" ColumnName="IsMasterPage" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
@@ -1787,6 +1829,9 @@
           <EntitySetMapping Name="PageComments">
             <EntityTypeMapping TypeName="tigtag_dbModel.PageComment">
               <MappingFragment StoreEntitySet="PageComment">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
                 <ScalarProperty Name="CommentText" ColumnName="CommentText" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -1869,6 +1914,9 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="tigtag_dbModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -1881,6 +1929,9 @@
           <EntitySetMapping Name="OrderItems">
             <EntityTypeMapping TypeName="tigtag_dbModel.OrderItem">
               <MappingFragment StoreEntitySet="OrderItem">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="TicketId" ColumnName="TicketId" />
@@ -1895,6 +1946,9 @@
           <EntitySetMapping Name="Tickets">
             <EntityTypeMapping TypeName="tigtag_dbModel.Ticket">
               <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="SoldCapacity" ColumnName="SoldCapacity" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Address" ColumnName="Address" />

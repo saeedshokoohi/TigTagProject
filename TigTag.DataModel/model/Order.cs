@@ -25,6 +25,9 @@ namespace TigTag.DataModel.model
         public long OrderNumber { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
         public string Description { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.Guid> ModifiedBy { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Page Page { get; set; }
         public virtual Page Page1 { get; set; }

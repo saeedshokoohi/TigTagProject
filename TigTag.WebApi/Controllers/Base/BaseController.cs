@@ -72,8 +72,26 @@ namespace TigTag.WebApi.Controllers
             if (p != null) return p.Id;
             else return Guid.Empty;
             
-            ;
         }
+        public Guid getCurrentUserId()
+        {
+
+            UserRepository userRepo = new UserRepository();
+            User p = userRepo.findByUserName(User.Identity.Name);
+            if (p != null) return p.Id;
+            else return Guid.Empty;
+
+        }
+        public void throwException(string msg)
+        {
+            var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                Content = new StringContent(msg),
+            };
+            resp.StatusCode = HttpStatusCode.BadRequest;
+            throw new HttpResponseException(resp);
+        }
+
 
     }
 }

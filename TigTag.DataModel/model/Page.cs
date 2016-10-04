@@ -51,6 +51,9 @@ namespace TigTag.DataModel.model
         public string URL { get; set; }
         public Nullable<bool> IsMasterPage { get; set; }
         public string Color { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.Guid> ModifiedBy { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual ICollection<CommentReply> CommentReplies { get; set; }
         public virtual ICollection<EventsLog> EventsLogs { get; set; }

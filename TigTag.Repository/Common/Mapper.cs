@@ -48,5 +48,13 @@ namespace TigTag.Repository
             }
             return retList.AsQueryable();
         }
+
+        public static MODEL convertToModel(DTO dto, MODEL baseModel)
+        {
+            if (dto == null) return null;
+            AutoMapper.Mapper.CreateMap<DTO, MODEL>();
+            baseModel = AutoMapper.Mapper.Map<MODEL>(dto);
+            return baseModel;
+        }
     }
 }

@@ -31,6 +31,9 @@ namespace TigTag.DataModel.model
         public string Address { get; set; }
         public string Location { get; set; }
         public Nullable<int> SoldCapacity { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.Guid> ModifiedBy { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual Page Page { get; set; }

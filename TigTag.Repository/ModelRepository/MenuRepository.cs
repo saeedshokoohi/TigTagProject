@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TigTag.Common.Enumeration;
 using TigTag.DataModel.model;
 using TigTag.DTO.ModelDTO;
 using TigTag.DTO.ModelDTO.Base;
@@ -99,6 +100,17 @@ namespace TigTag.Repository.ModelRepository {
                 Save();
             }
         }
+        public void DecreaseScore(Guid menuId)
+        {
+            var me = GetSingle(menuId);
+            if (me != null)
+            {
+                if (me.Score == null) me.Score = 0;
+                me.Score = me.Score - 1;
+                Edit(me);
+                Save();
+            }
+        }
 
         public ResultDto validatePageMenu(PageMenu pagemenumodel)
         {
@@ -150,11 +162,54 @@ namespace TigTag.Repository.ModelRepository {
             //{
             //    Context.PageMenus.Where()
             //}
-            var result = Context.PageMenus.Where(pm =>
-              pm.Page.PageType == searchType &&
-             (pageid == Guid.Empty || pm.Page.PageId == pageid || (pm.Page.Page1.Any(p => p.PageId == pageid))) &&
-             ( selectedMenuIds.All(mi => pm.Page.PageMenus.Any(pm2 => pm2.MenuId == mi)))).GroupBy(pm => pm.MenuId)
-             .Select(g => new GroupClass { Id = g.Key, count = g.Count() }).OrderByDescending(g=>g.count);
+            enmSearchType searchTypeenm = enmSearchType.SEARCH_ON_EVENTS;
+            Enum.TryParse(searchType.ToString(), out searchTypeenm);
+            List<GroupClass> result = new List<GroupClass>();
+            switch (searchTypeenm)
+            {
+                case enmSearchType.SEARCH_ON_EVENTS:
+                    result = Context.PageMenus.Where(pm =>
+             pm.Page.PageType == 1 &&
+            (pageid == Guid.Empty || pm.Page.PageId == pageid || (pm.Page.Page1.Any(p => p.PageId == pageid))) &&
+            (selectedMenuIds.All(mi => pm.Page.PageMenus.Any(pm2 => pm2.MenuId == mi)))).GroupBy(pm => pm.MenuId)
+            .Select(g => new GroupClass { Id = g.Key, count = g.Count() }).OrderByDescending(g => g.count).ToList();
+                    break;
+                case enmSearchType.SEARCH_ON_POSTS:
+                    result = Context.PageMenus.Where(pm =>
+             pm.Page.PageType == 3 &&
+            (pageid == Guid.Empty || pm.Page.PageId == pageid || (pm.Page.Page1.Any(p => p.PageId == pageid))) &&
+            (selectedMenuIds.All(mi => pm.Page.PageMenus.Any(pm2 => pm2.MenuId == mi)))).GroupBy(pm => pm.MenuId)
+            .Select(g => new GroupClass { Id = g.Key, count = g.Count() }).OrderByDescending(g => g.count).ToList();
+                    break;
+                case enmSearchType.SEARCH_ON_TEAMS:
+                    result = Context.PageMenus.Where(pm =>
+             pm.Page.PageType == 2 &&
+            (pageid == Guid.Empty || pm.Page.PageId == pageid || (pm.Page.Page1.Any(p => p.PageId == pageid))) &&
+            (selectedMenuIds.All(mi => pm.Page.PageMenus.Any(pm2 => pm2.MenuId == mi)))).GroupBy(pm => pm.MenuId)
+            .Select(g => new GroupClass { Id = g.Key, count = g.Count() }).OrderByDescending(g => g.count).ToList();
+                    break;
+                case enmSearchType.SEARCH_ON_FOLLOWERS:
+                    result = Context.PageMenus.Where(pm =>
+           pm.Page.Follows1.Any(f=>f.FollowingPageId==pageid) &&
+          (selectedMenuIds.All(mi => pm.Page.PageMenus.Any(pm2 => pm2.MenuId == mi)))).GroupBy(pm => pm.MenuId)
+          .Select(g => new GroupClass { Id = g.Key, count = g.Count() }).OrderByDescending(g => g.count).ToList();
+                    break;
+                case enmSearchType.SEARCH_ON_FOLLOWINGS:
+                    result = Context.PageMenus.Where(pm =>
+   pm.Page.Follows.Any(f => f.FollowerUserId == pageid) &&
+  (selectedMenuIds.All(mi => pm.Page.PageMenus.Any(pm2 => pm2.MenuId == mi)))).GroupBy(pm => pm.MenuId)
+  .Select(g => new GroupClass { Id = g.Key, count = g.Count() }).OrderByDescending(g => g.count).ToList();
+                    break;
+                case enmSearchType.SEARCH_ON_PARTICIPANTS:
+                    result = Context.PageMenus.Where(pm =>
+pm.Page.Participants1.Any(f => f.PageId == pageid) &&
+(selectedMenuIds.All(mi => pm.Page.PageMenus.Any(pm2 => pm2.MenuId == mi)))).GroupBy(pm => pm.MenuId)
+.Select(g => new GroupClass { Id = g.Key, count = g.Count() }).OrderByDescending(g => g.count).ToList();
+                    break;
+                default:
+                    break;
+            }
+            
             foreach (var item in result)
             {
                 MenuDto newMenuDto = new MenuDto();

@@ -165,6 +165,8 @@ namespace TigTag.WebApi.Controllers
         /// <returns></returns>
         private ResultDto CreateGeneralPage(PageDto page)
         {
+            if (page.Id != null && page.Id != Guid.Empty)
+                return UpdateGeneralPage(page);
 
             if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
             ResultDto returnResult = new ResultDto();
@@ -297,6 +299,152 @@ namespace TigTag.WebApi.Controllers
             }
             return returnResult;
         }
+
+        /// <summary>
+        /// this service update given page
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        private ResultDto UpdateGeneralPage(PageDto page)
+        {
+
+            if (page == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object like : {UserId:'',PageTitle:'testPage',Description:'page description ' , URL:'testUrl'} ");
+            ResultDto returnResult = new ResultDto();
+            Page oldPage=pageRepo.GetSingle(page.Id);
+         
+            if(oldPage==null)
+                return ResultDto.failedResult("Invalid Page Id  :"+page.Id);
+            pageRepo.Detach(oldPage);
+            if (!currentUserCanEditPage(oldPage))
+                return ResultDto.failedResult("current user have not sufficient permission to edit this page.");
+            Page pageModel = Mapper<Page, PageDto>.convertToModel(page,oldPage);
+            pageModel.PageId = oldPage.PageId;
+            pageModel.CreateDate = oldPage.CreateDate;
+            pageModel.UserId = oldPage.UserId;
+
+            pageModel.ModifiedBy = getCurrentUserId();
+            pageModel.ModifiedDate = DateTime.Now;
+            enmPageTypes pageType = (enmPageTypes)page.PageType;
+            switch (pageType)
+            {
+                case enmPageTypes.PROFILE:
+
+                    returnResult = pageRepo.validatePage(pageModel);
+                    break;
+                case enmPageTypes.PAGE:
+                case enmPageTypes.TEAM:
+                case enmPageTypes.POST:
+                    returnResult = pageRepo.validatePost(pageModel);
+                    break;
+                default:
+                    break;
+            }
+
+
+
+            if (returnResult.isDone)
+            {
+                try
+                {
+                    pageRepo.setPageColor(pageModel);
+                    pageRepo.Edit(pageModel);
+                    pageRepo.Save();
+                    //adding menu list to page
+
+
+                    if (page.Menulist != null)
+                        pageMenuRepo.UpagePageMenuListForPage(page);
+
+                    try
+                    {
+                        if (page.newMenuTitleList != null)
+                        {
+                            foreach (var menuTitle in page.newMenuTitleList)
+                            {
+                                Guid menuid = menuRepo.addOrGetMenuByTitle(menuTitle, pageModel.Id);
+                                PageMenu pageMenu = new PageMenu();
+                                ResultDto tempResult = new ResultDto();
+
+                                pageMenu.Id = Guid.NewGuid();
+                                pageMenu.MenuId = menuid;
+                                pageMenu.PageId = pageModel.Id;
+                                menuRepo.checkUnquness(pageMenu, tempResult);
+                                if (tempResult.validationMessages != null && tempResult.validationMessages.Count() == 0)
+                                {
+                                    pageMenuRepo.Add(pageMenu);
+                                    menuRepo.increaseScore(pageMenu.MenuId);
+                                    pageMenuRepo.Save();
+                                }
+
+                            }
+                        }
+                    }
+                    catch { }
+
+                    //adding page setting
+                    if (pageModel.PageType != enmPageTypes.POST.GetHashCode())
+                    {
+                        PageSettingRepo.DeleteByPageid(page.Id);
+                        PageSetting pageSetting = new PageSetting();
+                        pageSetting.Id = Guid.NewGuid();
+                        if (page.IsPublic == null) page.IsPublic = true;
+                        pageSetting.IsPublic = page.IsPublic;
+                        pageSetting.PageId = pageModel.Id;
+                        PageSettingRepo.Add(pageSetting);
+                        PageSettingRepo.Save();
+                    }
+                    if (page.ProfileId == Guid.Empty) page.ProfileId = getCurrentProfileId();
+                    switch (pageType)
+                    {
+                        case enmPageTypes.PROFILE:
+                            eventRepo.EditProfileEvent(page.ProfileId, pageModel);
+                            break;
+                        case enmPageTypes.PAGE:
+                            eventRepo.EditPageEvent(page.ProfileId, pageModel);
+                            break;
+                        case enmPageTypes.TEAM:
+                            eventRepo.EditTeamEvent(page.ProfileId, pageModel);
+                            break;
+                        case enmPageTypes.POST:
+                            eventRepo.EditPostEvent(page.ProfileId, pageModel);
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                    returnResult.isDone = true;
+                    returnResult.message = "new page/post updated successfully pageid:"+page.Id;
+                    returnResult.returnId = pageModel.Id.ToString();
+                }
+                catch (Exception ex)
+                {
+                    returnResult = ResultDto.exceptionResult(ex);
+
+
+                }
+            }
+            else
+            {
+                returnResult.message = "input is not valid. check the validation messages";
+            }
+            return returnResult;
+        }
+
+        private bool currentUserCanEditPage(Page oldPage)
+        {
+            Guid currentUserid = getCurrentUserId();
+
+            if (oldPage.UserId == currentUserid) return true;
+            if(oldPage.PageType==enmPageTypes.POST.GetHashCode() && oldPage.PageId!=null)
+            {
+                if (pageRepo.isPageAdmin(currentUserid, (Guid)oldPage.PageId)) return true;
+            }
+            else
+            if(pageRepo.isPageAdmin(currentUserid,oldPage.Id))return true;
+            return false;
+        }
+
         /// <summary>
         /// return the pages and number of new posts for given user
         /// based on his following conditions

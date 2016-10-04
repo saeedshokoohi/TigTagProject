@@ -22,6 +22,9 @@ namespace TigTag.DataModel.model
         public System.Guid TicketId { get; set; }
         public System.Guid OrderId { get; set; }
         public string Description { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.Guid> ModifiedBy { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Order Order { get; set; }
         public virtual Ticket Ticket { get; set; }

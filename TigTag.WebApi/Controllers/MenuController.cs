@@ -119,11 +119,23 @@ namespace TigTag.WebApi.Controllers
             try
             {
                 pageuId = Guid.Parse(pageid);
-                searchTypeInt = Int32.Parse(searchType);
+               
             }
-            catch { }
+            catch {
+                throwException("pageid is not valid!!");
+            }
+            try
+            {
+                searchTypeInt = Int32.Parse(searchType);
+           
+            }
+            catch {
+                throwException("searchType is not valid!!");
+            }
             return menuRepo.queryUsedMenuListByPageId(searchTypeInt, pageuId, menuidlist).AsQueryable();
         }
+
+      
         public override IGenericRepository<Menu> getRepository()
         {
             return menuRepo;

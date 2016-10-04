@@ -22,6 +22,7 @@ namespace TigTag.Repository.ModelRepository {
         public Page GetSingle(Guid Id) {
 
             var query = Context.Pages.FirstOrDefault(x => x.Id ==Id );
+           
             return query;
         }
 
@@ -514,6 +515,11 @@ namespace TigTag.Repository.ModelRepository {
                 return null;
         }
 
+        public bool isPageAdmin(Guid currentUserid, Guid pageId)
+        {
+          return  Context.PageAdmins.Any(pa => pa.Page.UserId == currentUserid && pa.PageId == pageId && pa.IsActive==true );
+        }
+
         public IQueryable<PageDto> getParticipantsByPageId(Guid pageId, Guid[] menuidlist)
         {
             var pl = Context.Participants.Where(p => p.PageId == pageId && menuidlist.All(mi => p.Page1.PageMenus.Any(pm => mi == pm.MenuId))).Select(pr => pr.Page1).Distinct().AsQueryable();
@@ -656,7 +662,7 @@ namespace TigTag.Repository.ModelRepository {
             }
             else
             {
-                var c = Context.Pages.Count(u =>u!=null && u.URL == page.URL);
+                var c = Context.Pages.Count(u =>u!=null && u.URL == page.URL && u.Id!=page.Id);
                 if (c > 0)
                 {
                     retResult.isDone = false;

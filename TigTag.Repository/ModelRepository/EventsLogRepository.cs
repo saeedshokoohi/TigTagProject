@@ -411,6 +411,24 @@ namespace TigTag.Repository.ModelRepository
 
         }
 
+        public ResultDto EditProfileEvent(Guid profleId, Page page)
+        {
+            return AddSingleLog(profleId, page, enmEventsActionType.EDIT_PROFILE);
+        }
 
+        public ResultDto EditPageEvent(Guid profleId, Page page)
+        {
+            return AddSingleLog(profleId, page, enmEventsActionType.EDIT_PAGE);
+        }
+
+        public ResultDto EditTeamEvent(Guid profileId, Page pageModel)
+        {
+            return AddSingleLog(profileId, pageModel, enmEventsActionType.EDIT_TEAM);
+        }
+
+        public ResultDto EditPostEvent(Guid profileId, Page pageModel)
+        {
+            return AddSingleLog(profileId, pageModel, enmEventsActionType.EDIT_POST);
+        }
     }
 }
