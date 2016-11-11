@@ -234,6 +234,7 @@
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\OrderItemController.cs" />
     <Compile Include="Controllers\ContactInfoController.cs" />
+    <Compile Include="Controllers\PayRequestController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\PageAdminController.cs" />
     <Compile Include="Controllers\PageScoreController.cs" />
@@ -276,6 +277,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Image\" />
+    <Folder Include="Views\PayRequest\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TigTag.Common\TigTag.Common.csproj">

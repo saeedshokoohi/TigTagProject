@@ -9,6 +9,7 @@ using TigTag.DTO.ModelDTO.Base;
 using TigTag.DTO.ModelDTO;
 using TigTag.Repository.ModelRepository;
 using TiTag.Repository;
+using TigTag.Repository;
 
 namespace TigTag.WebApi.Controllers
 {
@@ -60,12 +61,52 @@ namespace TigTag.WebApi.Controllers
             }
             return returnResult;
         }
+        public ResultDto EditUser([FromBody]UserDto user)
+        {
+            if (user.Id == null || user.Id == Guid.Empty || user.Id != getCurrentUserId())
+                throwException("User id is not valid or the current user has not access to edit given user id");
+            ResultDto returnResult = new ResultDto();
+             User oldUser= userRepo.GetSingle(user.Id);
+            userRepo.Detach(oldUser);
+            if(oldUser==null) throwException("user id is not valid! there is no user with given id.");
+
+            User UserModel=Mapper<User, UserDto>.convertToModel(user);
+            UserModel.CreateDate = oldUser.CreateDate;
+            UserModel.ModifiedDate = DateTime.Now;
+            UserModel.UserName = oldUser.UserName;
+            UserModel.ModifiedBy = getCurrentUserId();
+            returnResult = userRepo.validateUser(UserModel);
+            if (returnResult.isDone)
+            {
+                try
+                {
+                    UserModel.Password = "";
+                    userRepo.Edit(UserModel);
+                    userRepo.Save();
+                    returnResult.isDone = true;
+                    returnResult.message = " user edited successfully";
+                    returnResult.returnId = UserModel.Id.ToString();
+                }
+                catch (Exception ex)
+                {
+                    returnResult.isDone = false;
+                    returnResult.message = ex.Message;
+
+                }
+            }
+            else
+            {
+                returnResult.message = "input is not valid. check the validation messages";
+            }
+            return returnResult;
+        }
         /// <summary>
         /// this service return the list of all registered users
         /// </summary>
         /// <returns> list of users </returns>
         ///
-         public ResultDto validateUser(UserDto user)
+
+        public ResultDto validateUser(UserDto user)
         {
             ResultDto returnResult = new ResultDto();
             AutoMapper.Mapper.CreateMap<UserDto, User>();

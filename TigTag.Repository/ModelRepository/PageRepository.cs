@@ -146,6 +146,20 @@ namespace TigTag.Repository.ModelRepository {
             }
             return newPostCount;
         }
+        public int getNewEventsCountByFollowerPageIdAndFollowingPageId(Guid followerPageId, Guid followingPageId)
+        {
+            int newPostCount = 0;
+
+            //for every follow of this page
+            var follows = Context.Follows.Where(f => f.FollowerUserId == followerPageId && f.FollowingPageId == followingPageId);
+            foreach (var f in follows)
+            {
+                newPostCount = Context.EventsLogs.Count(p => p.OwnerPageId == f.FollowingPageId && (p.CreateDate > f.lastVisitDate || f.lastVisitDate == null));
+                break;
+            }
+            return newPostCount;
+        }
+
         public List<PageDto>  getNewPostCountByFollowerPageId(Guid followerPageId)
         {
             List<PageDto> retList = new List<PageDto>();
@@ -372,6 +386,7 @@ namespace TigTag.Repository.ModelRepository {
         {
             PageStatsDto pageStats = new PageStatsDto();
             pageStats.postCount = getTotalPostCountOfPage(retPage.Id);
+         //   pageStats.newEventLogsCount = getnewEventLogsCount(retPage.Id);
             pageStats.pagesCount = getTotalPagesCountOfPage(retPage.Id);
             pageStats.followersCount = getTotalFollowersCountOfPage(retPage.Id);
             pageStats.followingsCount = getTotalFollowingsCountOfPage(retPage.Id);
@@ -382,12 +397,21 @@ namespace TigTag.Repository.ModelRepository {
 
         }
 
+        private int getnewEventLogsCount(Guid pageid)
+        {
+            EventsLogRepository eventRepo = new EventsLogRepository();
+        return    eventRepo.getNewEventsCount(pageid);
+        }
 
-        public UserDto getPageCReatorUser(Guid id)
+        public PageDto getPageCReatorUser(Guid id)
         {
            var users= Context.Pages.Where(p => p.Id == id).Select(p => p.User).ToList();
+           
             if (users.Count() > 0)
-                return Mapper<User, UserDto>.convertToDto(users[0]);
+            {
+              Page p=  getPageByUser(users[0].Id);
+                return Mapper<Page, PageDto>.convertToDto(p);
+            }
             else
                 return null;
         }

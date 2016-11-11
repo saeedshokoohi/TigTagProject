@@ -96,6 +96,37 @@ namespace TigTag.WebApi.Controllers
             }
             return returnResult;
         }
+
+        public ResultDto UnfollowProfile([FromBody]FollowDto follow)
+        {
+            EventsLogRepository evRepo = new EventsLogRepository();
+            evRepo.Context = followRepo.Context;
+            if (follow == null) return ResultDto.failedResult("Invalid Raw Payload data, it must be an json object");
+            ResultDto returnResult = new ResultDto();
+            Follow followModel = Mapper<Follow, FollowDto>.convertToModel(follow);
+           
+
+            returnResult = followRepo.validateFollow(followModel);
+            if(returnResult.isDone)
+            {
+                if (follow.ProfileId == Guid.Empty) follow.ProfileId = getCurrentProfileId();
+                eventLogRepo.RemoveFollowPageEvent(follow.ProfileId, followModel);
+                followRepo.unFollow(followModel);
+             
+
+
+            }
+            try
+            {
+                followRepo.Save();
+            }
+            catch(Exception ex)
+            {
+                return ResultDto.exceptionResult(ex);
+            }
+            return ResultDto.successResult("", "unfollow done successfully!!");
+        }
+
         /// <summary>
         /// return the list of following which are following given profile or sub pages
         /// </summary>

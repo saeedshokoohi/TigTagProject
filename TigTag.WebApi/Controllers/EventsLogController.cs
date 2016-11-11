@@ -28,7 +28,14 @@ namespace TigTag.WebApi.Controllers
         {
             return EventsLogRepo.geProfileEvents(pageId);
         }
+        [HttpGet]
+        public List<EventsLogDto> visitNewEvents()
+        {
+            var pageId = getCurrentProfileId();
 
-     
+            return EventsLogRepo.visitNewEvents(pageId);
+        }
+
+
     }
 }

@@ -15,12 +15,15 @@ namespace TiTag.Repository.Base{
         public int postTypeCode = enmPageTypes.POST.GetHashCode();
         public int pageTypeCode = enmPageTypes.PAGE.GetHashCode();
         public int teamTypeCode = enmPageTypes.TEAM.GetHashCode();
+        public bool contextChanged = false;
         private C _entities = new C();
-        protected C Context {
+        public C Context {
 
             get { return _entities; }
-            set { _entities = value; }
+            set { _entities = value; contextChanged = true; }
         }
+  
+
         public virtual T GetSingle(Guid Id)
         {
            
@@ -66,6 +69,7 @@ namespace TiTag.Repository.Base{
 
             _entities.Set<T>().Remove(entity);
         }
+    
         public void DeleteList(List<T> delList)
         {
             foreach (var item in delList)
@@ -83,7 +87,7 @@ namespace TiTag.Repository.Base{
             Context.Entry(entity).State = EntityState.Detached;
         }
         public virtual void Save() {
-
+            if(!contextChanged)
             _entities.SaveChanges();
         }
         public virtual IQueryable<T> query()

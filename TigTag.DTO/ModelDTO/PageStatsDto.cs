@@ -13,5 +13,6 @@ namespace TigTag.DTO.ModelDTO
         public int followersCount { get; set; }
         public int followingsCount { get; set; }
         public int participantsCount { get; set; }
+        //public int newEventLogsCount { get; set; }
     }
 }

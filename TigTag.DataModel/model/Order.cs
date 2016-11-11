@@ -28,6 +28,7 @@ namespace TigTag.DataModel.model
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<System.Guid> ModifiedBy { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<double> TotalPrice { get; set; }
     
         public virtual Page Page { get; set; }
         public virtual Page Page1 { get; set; }

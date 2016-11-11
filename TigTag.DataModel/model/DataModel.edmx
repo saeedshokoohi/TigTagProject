@@ -27,6 +27,9 @@
           <Property Name="ContactType" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="255" />
           <Property Name="Value" Type="nvarchar" MaxLength="500" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="EventsLog">
           <Key>
@@ -114,6 +117,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" />
+          <Property Name="TotalPrice" Type="float" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -247,6 +251,9 @@
           <Property Name="Gender" Type="bit" />
           <Property Name="ApplicationUserId" Type="nvarchar" MaxLength="128" />
           <Property Name="BirthDate" Type="date" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <Association Name="FK_CommentReply_Page">
           <End Role="Page" Type="Self.Page" Multiplicity="1" />
@@ -1218,6 +1225,9 @@
           <NavigationProperty Name="Pages" Relationship="tigtag_dbModel.FK_Page_User" FromRole="User" ToRole="Page" />
           <Property Name="ApplicationUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <Association Name="FK_CommentReply_Page">
           <End Type="tigtag_dbModel.Page" Role="Page" Multiplicity="1" />
@@ -1565,6 +1575,9 @@
           <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Value" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Page" Relationship="tigtag_dbModel.FK_ContactInfo_Page" FromRole="ContactInfo" ToRole="Page" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -1582,6 +1595,7 @@
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="TotalPrice" Type="Double" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -1884,6 +1898,9 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="tigtag_dbModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="ApplicationUserId" ColumnName="ApplicationUserId" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
@@ -1903,6 +1920,9 @@
           <EntitySetMapping Name="ContactInfoes">
             <EntityTypeMapping TypeName="tigtag_dbModel.ContactInfo">
               <MappingFragment StoreEntitySet="ContactInfo">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ContactType" ColumnName="ContactType" />
@@ -1914,6 +1934,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="tigtag_dbModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />

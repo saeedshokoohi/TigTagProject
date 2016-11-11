@@ -55,8 +55,11 @@ namespace TigTag.WebApi.Controllers
                         {
                             //adding orderItems
                             OrderItemController orderItemController = new OrderItemController();
-                            ResultDto ItemResult= orderItemController.addOrderItemList(OrderModel.Id, Order.OrderItemList);
-                            if(!ItemResult.isDone)
+                            double totalPrice = 0;
+                            ResultDto ItemResult= orderItemController.addOrderItemList(OrderModel.Id, Order.OrderItemList,out totalPrice);
+                            OrderModel.TotalPrice = totalPrice;
+                            OrderRepo.Save();
+                            if (!ItemResult.isDone)
                             {
                                 //rollBack 
                                 //removing order
@@ -72,6 +75,16 @@ namespace TigTag.WebApi.Controllers
                             participantDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
                             
                             participantController.addParticipant(participantDto);
+
+                            FollowController followController = new FollowController();
+                            FollowDto followDto = new FollowDto();
+                            followDto.FollowingPageId = OrderModel.PageId;
+                            followDto.FollowerUserId = OrderModel.CustomerPageId;
+                            followDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
+
+                            followController.followProfile(followDto);
+
+
                             if (Order.ProfileId == Guid.Empty) Order.ProfileId = getCurrentProfileId();
                             eventLogRepo.AddOrderEvent(Order.ProfileId, OrderModel);
                         }

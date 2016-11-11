@@ -29,8 +29,9 @@ namespace TigTag.DTO.ModelDTO
         public List<MenuDto> CustomMenuDtoList { get; set; }
         public List<string> newMenuTitleList { get; set; }
         public PageDto ParentPageDto { get; set; }
-        public UserDto CreatedByUserDto { get; set; }
+        public PageDto CreatedByUserDto { get; set; }
         public List<ContactInfoDto> ContactInfoList { get; set; }
         public List<TicketDto> TicketList { get; set; }
+        public int newEventsCount { get; set; }
     }
 }

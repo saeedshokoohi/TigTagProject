@@ -36,6 +36,16 @@ namespace TigTag.Repository.ModelRepository
             return Mapper<EventsLog, EventsLogDto>.convertListToDto(List);
         }
 
+        public List<EventsLogDto> visitNewEvents(Guid pageId)
+        {
+            var List = Context.EventsLogs.Where(el => el.OwnerPageId == pageId && el.Status==0).OrderByDescending(el => el.CreateDate).ToList();
+            List.ForEach(ev => ev.Status = 1);
+           
+           var retList= Mapper<EventsLog, EventsLogDto>.convertListToDto(List);
+            Save();
+            return retList;
+        }
+
         public ResultDto AddPageEvent(Guid profleId, Page page)
         {
             return AddSingleLog(profleId, page, enmEventsActionType.CREATE_PAGE);
@@ -68,20 +78,45 @@ namespace TigTag.Repository.ModelRepository
             return AddSingleLog(profileId, pageAdminModel, enmEventsActionType.ROLE_AS_ADMIN
                 );
         }
+        public ResultDto removePageAdminEvent(Guid profileId, PageAdmin pageAdminModel)
+        {
+            return AddSingleLog(profileId, pageAdminModel, enmEventsActionType.REMOVE_ROLE_AS_ADMIN
+                );
+        }
 
         public ResultDto AddContactInfoEvent(Guid profileId, ContactInfo contactInfoModel)
         {
             return AddSingleLog(profileId, contactInfoModel, enmEventsActionType.ADD_CONTACT_INFO);
+        }
+        public ResultDto EditContactInfoEvent(Guid profileId, ContactInfo contactInfoModel)
+        {
+            return AddSingleLog(profileId, contactInfoModel, enmEventsActionType.EDIT_CONTACT_INFO);
+        }
+        public ResultDto RemoveContactInfoEvent(Guid profileId, ContactInfo contactInfoModel)
+        {
+            return AddSingleLog(profileId, contactInfoModel, enmEventsActionType.REMOVE_CONTACT_INFO);
         }
 
         public ResultDto AddTicketEvent(Guid profileId, Ticket ticketModel)
         {
             return AddSingleLog(profileId, ticketModel, enmEventsActionType.CREATE_TICKET);
         }
+        public ResultDto EditTicketEvent(Guid profileId, Ticket ticketModel)
+        {
+            return AddSingleLog(profileId, ticketModel, enmEventsActionType.EDIT_TICKET);
+        }
+        public ResultDto RemoveTicketEvent(Guid profileId, Ticket ticketModel)
+        {
+            return AddSingleLog(profileId, ticketModel, enmEventsActionType.REMOVE_TICKET);
+        }
 
         public ResultDto AddFollowPageEvent(Guid profleId, Follow p)
         {
             return AddSingleLog(profleId, p, enmEventsActionType.FOLLOWING_PAGE);
+        }
+        public ResultDto RemoveFollowPageEvent(Guid profleId, Follow p)
+        {
+            return AddSingleLog(profleId, p, enmEventsActionType.REMOVE_FOLLOWING_PAGE);
         }
         public ResultDto AddFollowMenuEvent(Guid profleId, FollowMenu p)
         {
@@ -131,7 +166,10 @@ namespace TigTag.Repository.ModelRepository
 
             switch (actionType)
             {
-               
+                case enmEventsActionType.REMOVE_ROLE_AS_ADMIN:
+                    retResultDto = addGeneralEvent(actorProfileId, page.PageId, actorProfileId, actionType);
+                    retResultDto = addGeneralEventWithParent(actorProfileId, page.PageId, (Guid)page.PageId, actionType);
+                    break;
                 case enmEventsActionType.ROLE_AS_ADMIN:
                     retResultDto = addGeneralEvent(actorProfileId, page.Id, actorProfileId, actionType);
                     retResultDto = addGeneralEventWithParent(actorProfileId, page.Id, (Guid)page.PageId, actionType);
@@ -202,7 +240,8 @@ namespace TigTag.Repository.ModelRepository
 
             switch (actionType)
             {
-
+                case enmEventsActionType.REMOVE_CONTACT_INFO:
+                case enmEventsActionType.EDIT_CONTACT_INFO:
                 case enmEventsActionType.ADD_CONTACT_INFO:
                     retResultDto = addGeneralEventWithParent(actorProfileId, contactInfo.Id, contactInfo.PageId, actionType);
 
@@ -220,7 +259,8 @@ namespace TigTag.Repository.ModelRepository
 
             switch (actionType)
             {
-
+                case enmEventsActionType.REMOVE_TICKET:
+                case enmEventsActionType.EDIT_TICKET:
                 case enmEventsActionType.CREATE_TICKET:
                     retResultDto = addGeneralEventWithParent(actorProfileId, ticket.Id, ticket.PageId, actionType);
 
@@ -241,8 +281,9 @@ namespace TigTag.Repository.ModelRepository
 
         
                 case enmEventsActionType.FOLLOWING_PAGE:
-                    retResultDto = addGeneralEvent(actorProfileId, follow.Id, actorProfileId, actionType);
-                    retResultDto = addGeneralEventWithParent(actorProfileId, follow.Id, follow.FollowingPageId, actionType);
+                case enmEventsActionType.REMOVE_FOLLOWING_PAGE:
+               //     retResultDto = addGeneralEvent(actorProfileId, follow.FollowingPageId, actorProfileId, actionType);
+                    retResultDto = addGeneralEventWithParent(actorProfileId, follow.FollowerUserId, follow.FollowingPageId, actionType);
                  
                     break;
             
@@ -387,6 +428,11 @@ namespace TigTag.Repository.ModelRepository
                 }
             }
             return result;
+        }
+
+        internal int getNewEventsCount(Guid pageId)
+        {
+            return  Context.EventsLogs.Count(el => el.OwnerPageId == pageId && el.Status == 0);
         }
 
         private bool isPageIdValid(Guid actorId)

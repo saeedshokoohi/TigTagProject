@@ -60,6 +60,11 @@ namespace TigTag.Repository.ModelRepository {
             }
           
         }
+
+        public List<Ticket> getTicketByPage(Guid id)
+        {
+            return Context.Tickets.Where(t => t.PageId == id).ToList();
+        }
     }
        
 }

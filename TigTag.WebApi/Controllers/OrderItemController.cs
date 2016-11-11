@@ -69,20 +69,27 @@ namespace TigTag.WebApi.Controllers
             }
         }
 
-        internal ResultDto addOrderItemList(Guid orderid, List<OrderItemDto> orderItems)
+        internal ResultDto addOrderItemList(Guid orderid, List<OrderItemDto> orderItems,out double totalPrice)
         {
+            totalPrice = 0;
             ResultDto retResult = new ResultDto();
+
            if(orderItems!=null)
                 foreach (var item in orderItems)
                 {
                     item.OrderId = orderid;
                     OrderItem itemModel = Mapper<OrderItem, OrderItemDto>.convertToModel(item);
                     retResult = OrderItemRepo.validateOrderItem(itemModel);
+                  
                     if (!retResult.isDone) return retResult;
                 }
+            TicketRepository ticketRepo = new TicketRepository();
             foreach (var item in orderItems)
             {
                 retResult= addOrderItem(item);
+               Ticket t = ticketRepo.GetSingle(item.TicketId);
+                if(t!=null && t.Price!=null)
+                totalPrice+= ((double)t.Price);
             }
           
             return retResult;

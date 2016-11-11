@@ -93,10 +93,14 @@ namespace TigTag.WebApi.Controllers
            
                 Guid currentUser = getCurrentProfileId();
                 p.IsFollowingByCurrentUser = pageRepo.isFollowingByCurentUser(currentUser, p);
-                if (p.IsFollowingByCurrentUser)
-                    p.newPostCount = pageRepo.getNewPostCountByFollowerPageIdAndFollowingPageId(currentUser, p.Id);
+            if (p.IsFollowingByCurrentUser)
+            {
+                p.newPostCount = pageRepo.getNewPostCountByFollowerPageIdAndFollowingPageId(currentUser, p.Id);
+                p.newEventsCount = pageRepo.getNewEventsCountByFollowerPageIdAndFollowingPageId(currentUser, p.Id);
+            }
 
-            
+
+
         }
 
         /// <summary>
@@ -496,6 +500,7 @@ namespace TigTag.WebApi.Controllers
                 addPageDetail(retPage);
                 addContactInfoDetail(retPage);
                 addTicketList(retPage);
+              
                 return retPage;
                   }
             catch(Exception ex) {

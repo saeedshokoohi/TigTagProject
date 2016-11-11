@@ -23,9 +23,17 @@ namespace TigTag.Common.Enumeration
         CREATE_TICKET = 12,
         ADD_ORDER_ITEM = 13,
         ADD_CONTACT_INFO = 14,
+        //edit
         EDIT_PROFILE = 101,
         EDIT_POST = 102,
         EDIT_TEAM = 103,
-        EDIT_PAGE = 105
+        EDIT_PAGE = 105,
+        EDIT_TICKET = 112,
+        EDIT_CONTACT_INFO = 114,
+        //delete
+        REMOVE_ROLE_AS_ADMIN = 206,
+        REMOVE_TICKET = 212,
+        REMOVE_CONTACT_INFO = 214,
+        REMOVE_FOLLOWING_PAGE = 217
     }
 }

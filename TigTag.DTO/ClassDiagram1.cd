@@ -29,7 +29,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.FollowMenuPackageDto">
-    <Position X="5.75" Y="11" Width="1.5" />
+    <Position X="5.5" Y="12" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEAAAAAA=</HashCode>
       <FileName>ModelDTO\FollowMenuPackageDto.cs</FileName>
@@ -46,7 +46,7 @@
   <Class Name="TigTag.DTO.ModelDTO.MenuDto">
     <Position X="8" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAiAAAAAAAAAAAAAAAAAAAABAAAACAA=</HashCode>
+      <HashCode>AAACAQAAAAAAAAiAAAAAAAAAAAAAAAAAAAABAAAACAA=</HashCode>
       <FileName>ModelDTO\MenuDto.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -60,7 +60,7 @@
   <Class Name="TigTag.DTO.ModelDTO.PageDto">
     <Position X="5.5" Y="6.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>QAACAAgAAAAhAAAgEAAAAAgAASAAAgEEAAABgIAQAAA=</HashCode>
+      <HashCode>QAACAAgAAAAhAAAgFggAAAgAASAAAgEEgAABgIAQAAA=</HashCode>
       <FileName>ModelDTO\PageDto.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -87,7 +87,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.UserDto">
-    <Position X="8" Y="9" Width="1.5" />
+    <Position X="8.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAkEAACAEAAAQAQAAAAAAAACAQABAgAAAAA=</HashCode>
       <FileName>ModelDTO\UserDto.cs</FileName>
@@ -99,7 +99,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAQAEAIAAAAIAABAAAAAAADAAAACAAACA=</HashCode>
+      <HashCode>IAAAAAAAAAAAQAEIIAAAAIAABAAAAAAADAAAACAAACA=</HashCode>
       <FileName>ModelDTO\Base\ResultDto.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -142,26 +142,26 @@
   <Class Name="TigTag.DTO.ModelDTO.OrderDto">
     <Position X="11.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAADAAIAAAAgAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>CAADAAIAAAAgAAAAAAAAACIAAAAAQAAAAAEAAAAAAAA=</HashCode>
       <FileName>ModelDTO\OrderDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.OrderItemDto">
-    <Position X="11.75" Y="7" Width="1.5" />
+    <Position X="11.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAACAAAAAAAgAAAAAAAAQAQAAAAAQBAAAAAAAgAAAAA=</HashCode>
+      <HashCode>EIACAAAAAAAgAAAAAAAAQAQAAAAAQBAAAAAAAgAAAAA=</HashCode>
       <FileName>ModelDTO\OrderItemDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.TicketDto">
-    <Position X="11.75" Y="9.5" Width="1.5" />
+    <Position X="11.75" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAQAgAEAAAAIAAAACAAAAAIACAAAABCABAAA=</HashCode>
       <FileName>ModelDTO\TicketDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="TigTag.DTO.ModelDTO.Base.enm_STATUS_CODE">
-    <Position X="10" Y="7.25" Width="1.5" />
+    <Position X="10" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAAAAAAQAAJAAAAAAAAAAAAAAAACgAAAAAA=</HashCode>
       <FileName>ModelDTO\Base\ResultDto.cs</FileName>

@@ -28,7 +28,7 @@ namespace TigTag.DataModel.Models
     public class UserInfoViewModel
     {
         public string Email { get; set; }
-
+        public bool? gender { get; set; }
         public bool HasRegistered { get; set; }
         public DateTime? lastLoginDate { get; set; }
         public string LoginProvider { get; set; }

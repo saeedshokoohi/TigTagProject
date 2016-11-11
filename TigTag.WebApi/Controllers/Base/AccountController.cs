@@ -79,6 +79,7 @@ namespace TigTag.WebApi.Controllers
                     userId = user.Id,
                     phoneNumber = user.PhoneNumber,
                     lastLoginDate = user.LastLoginDate,
+                    gender=user.Gender,
                     profileId = getCurrentProfileId()
 
                 };
@@ -388,6 +389,8 @@ namespace TigTag.WebApi.Controllers
             
             return Ok(validateResult);
         }
+
+    
 
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]

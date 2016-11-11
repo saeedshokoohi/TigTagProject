@@ -19,6 +19,9 @@ namespace TigTag.DataModel.model
         public int ContactType { get; set; }
         public string Title { get; set; }
         public string Value { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.Guid> ModifiedBy { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Page Page { get; set; }
     }

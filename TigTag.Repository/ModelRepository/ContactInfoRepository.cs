@@ -33,6 +33,9 @@ namespace TigTag.Repository.ModelRepository {
             return retResult;
 
         }
+
+     
+
         private void checkPageId(ContactInfo ContactInfo, ResultDto retResult)
         {
             var c = Context.Pages.Count(p => p.Id == ContactInfo.PageId);
@@ -42,6 +45,11 @@ namespace TigTag.Repository.ModelRepository {
             }
 
 
+        }
+
+        public List<ContactInfo> getContactInfoByPage(Guid id)
+        {
+            return Context.ContactInfos.Where(ci => ci.PageId == id).ToList();
         }
     }
        

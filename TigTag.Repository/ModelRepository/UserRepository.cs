@@ -48,7 +48,7 @@ namespace TigTag.Repository.ModelRepository {
             }
             else
             {
-                var c = Context.Users.Count(u => u.PhoneNumber == userModel.PhoneNumber);
+                var c = Context.Users.Count(u => u.PhoneNumber == userModel.PhoneNumber && u.Id != userModel.Id);
                 if (c > 0)
                 {
                     retResult.isDone = false;
@@ -78,7 +78,7 @@ namespace TigTag.Repository.ModelRepository {
             }
             else
             {
-                var c = Context.Users.Count(u => u.EmailAddress == userModel.EmailAddress);
+                var c = Context.Users.Count(u => u.EmailAddress == userModel.EmailAddress && u.Id != userModel.Id);
                 if (c > 0)
                 {
                     retResult.isDone = false;
@@ -123,7 +123,7 @@ namespace TigTag.Repository.ModelRepository {
             }
             else
             {
-                var c = Context.Users.Count(u => u.UserName == userModel.UserName);
+                var c = Context.Users.Count(u => u.UserName == userModel.UserName && u.Id!=userModel.Id);
                 if (c > 0)
                 {
                     retResult.isDone = false;

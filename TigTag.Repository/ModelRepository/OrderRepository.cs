@@ -83,12 +83,16 @@ namespace TigTag.Repository.ModelRepository {
 
         private OrderDto addDetailToOrderDto(OrderDto order)
         {
+            PageRepository pageRepo = new PageRepository();
+            order.pageDto = Mapper<Page, PageDto>.convertToDto(pageRepo.GetSingle(order.PageId));
+            order.CustomerPageDto = Mapper<Page, PageDto>.convertToDto(pageRepo.GetSingle(order.CustomerPageId));
             List<OrderItem> items= Context.OrderItems.Where(oi => oi.OrderId == order.Id).ToList();
             List<OrderItemDto> itemsDto = new List<OrderItemDto>();
             foreach (var item in items)
             {
                 OrderItemDto orderItemDto = Mapper<OrderItem, OrderItemDto>.convertToDto(item);
                 orderItemDto.TicketDto = Mapper<Ticket, TicketDto>.convertToDto(item.Ticket);
+
                 itemsDto.Add(orderItemDto);
             }
             order.OrderItemList = itemsDto;

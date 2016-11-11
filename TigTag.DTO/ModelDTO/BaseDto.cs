@@ -10,6 +10,8 @@ namespace TigTag.DTO
     {
         public Guid Id { get; set; }
         public Guid ProfileId { get; set; }
-       
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.Guid> ModifiedBy { get; set; }
+
     }
 }

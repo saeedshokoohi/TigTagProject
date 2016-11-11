@@ -33,7 +33,7 @@ namespace TigTag.Repository.ModelRepository {
             try
             {
                 var c = Context.Tickets.First(p => p.Id == orderItemModel.TicketId);
-                if (c.SoldCapacity + 1 >= c.Capacity)
+                if (c.SoldCapacity  >= c.Capacity)
                     retResult.addValidationMessages("No Available Capacity!! for TicketId : " + orderItemModel.TicketId);
             }catch(Exception ex)
             {
