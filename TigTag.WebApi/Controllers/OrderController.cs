@@ -21,6 +21,7 @@ namespace TigTag.WebApi.Controllers
     {
 
         OrderRepository OrderRepo = new OrderRepository();
+        InvoiceRepository invoiceRepo = new InvoiceRepository();
         MenuRepository menuRepo = new MenuRepository();
         PageRepository pageRepo = new PageRepository();
 
@@ -67,24 +68,41 @@ namespace TigTag.WebApi.Controllers
                                 OrderRepo.Save();
                                 return ItemResult;
                             }
-                            //add participant
-                            ParticipantController participantController = new ParticipantController();
-                            ParticipantDto participantDto = new ParticipantDto();
-                            participantDto.PageId = OrderModel.PageId;
-                            participantDto.ParticipantPageId = OrderModel.CustomerPageId;
-                            participantDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
-                            
-                            participantController.addParticipant(participantDto);
 
-                            FollowController followController = new FollowController();
-                            FollowDto followDto = new FollowDto();
-                            followDto.FollowingPageId = OrderModel.PageId;
-                            followDto.FollowerUserId = OrderModel.CustomerPageId;
-                            followDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
-
-                            followController.followProfile(followDto);
+                            //add new Invoice for Order
+                            if (OrderModel.TotalPrice > 0)
+                            {
+                                InvoiceController invoiceController = new InvoiceController();
+                                ResultDto invoiceResult= invoiceController.addNewInvoiceForOrder(OrderModel);
+                                if(invoiceResult.isDone)
+                                {
+                                    OrderModel.InvoiceId = Guid.Parse(invoiceResult.returnId);
+                                    OrderRepo.Save();
+                                }
 
 
+                            }
+                            else
+                            {
+
+                                //add participant
+                                ParticipantController participantController = new ParticipantController();
+                                ParticipantDto participantDto = new ParticipantDto();
+                                participantDto.PageId = OrderModel.PageId;
+                                participantDto.ParticipantPageId = OrderModel.CustomerPageId;
+                                participantDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
+
+                                participantController.addParticipant(participantDto);
+
+                                FollowController followController = new FollowController();
+                                FollowDto followDto = new FollowDto();
+                                followDto.FollowingPageId = OrderModel.PageId;
+                                followDto.FollowerUserId = OrderModel.CustomerPageId;
+                                followDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
+
+                                followController.followProfile(followDto);
+
+                            }
                             if (Order.ProfileId == Guid.Empty) Order.ProfileId = getCurrentProfileId();
                             eventLogRepo.AddOrderEvent(Order.ProfileId, OrderModel);
                         }
@@ -101,6 +119,31 @@ namespace TigTag.WebApi.Controllers
                 return returnResult;
             }
         }
+
+        public void confirmOrder(Guid invoiceId)
+        {
+            Order OrderModel = OrderRepo.getOrderByInvoiceId(invoiceId);
+            if(OrderModel != null)
+            {
+                //add participant
+                ParticipantController participantController = new ParticipantController();
+                ParticipantDto participantDto = new ParticipantDto();
+                participantDto.PageId = OrderModel.PageId;
+                participantDto.ParticipantPageId = OrderModel.CustomerPageId;
+                participantDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
+
+                participantController.addParticipant(participantDto);
+
+                FollowController followController = new FollowController();
+                FollowDto followDto = new FollowDto();
+                followDto.FollowingPageId = OrderModel.PageId;
+                followDto.FollowerUserId = OrderModel.CustomerPageId;
+                followDto.RequestStatus = enmFollowRequestStatus.APPROVED.GetHashCode();
+
+                followController.followProfile(followDto);
+            }
+        }
+
         [HttpGet]
         [EnableQueryAttribute]
         public IQueryable<OrderDto> queryByPageId(String pageId)
@@ -111,8 +154,23 @@ namespace TigTag.WebApi.Controllers
                 pageid = Guid.Parse(pageId);
             }
             catch { return null; }
-            return OrderRepo.queryByPageId(pageid);
+            var orders= OrderRepo.queryByPageId(pageid);
+            foreach (var or in orders)
+            {
+                addInvoiceDetail(or);
+            }
+            return orders;
         }
+
+        private void addInvoiceDetail(OrderDto or)
+        {
+            if (or.InvoiceId != null)
+            {
+                Invoice inv= invoiceRepo.GetSingle((Guid)or.InvoiceId);
+                or.invoiceDto = Mapper<Invoice, InvoiceDto>.convertToDto(inv);
+            }
+        }
+
         [HttpGet]
         [EnableQueryAttribute]
         public IQueryable<OrderDto> queryByCustomerPageId(String customerPageId)
@@ -123,7 +181,13 @@ namespace TigTag.WebApi.Controllers
                 pageid = Guid.Parse(customerPageId);
             }
             catch { return null; }
-            return OrderRepo.queryByCustomerPageId(pageid);
+          
+            var orders = OrderRepo.queryByCustomerPageId(pageid);
+            foreach (var or in orders)
+            {
+                addInvoiceDetail(or);
+            }
+            return orders;
         }
     }
 }

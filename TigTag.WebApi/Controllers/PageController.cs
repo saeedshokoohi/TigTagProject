@@ -74,6 +74,12 @@ namespace TigTag.WebApi.Controllers
             Guid[] menuidlist = JsonUtil.convertToGuidArray(menuList);
             var retValues = pageRepo.queryByMenuList(menuidlist);
             addFollowingInfo(retValues);
+            foreach (PageDto p in retValues)
+            {
+                addPageStat(p);
+                addPageDetail(p);
+            }
+
             return retValues;
         }
 
@@ -477,7 +483,13 @@ namespace TigTag.WebApi.Controllers
                  followerid = Guid.Parse(followerPageId);
             }
             catch { return null; }
-            return pageRepo.getNewPostCountByFollowerPageId(followerid, menuidlist);
+            var retPages= pageRepo.getNewPostCountByFollowerPageId(followerid, menuidlist);
+            foreach (var p in retPages)
+            {
+                addPageStat(p);
+                addPageDetail(p);
+            }
+            return retPages;
         }
         /// <summary>
         /// return the followingPackageMenu List and the count of new posts for current user
@@ -508,7 +520,10 @@ namespace TigTag.WebApi.Controllers
 
             }
         }
-
+        private void addPageStat(PageDto page)
+        {
+            page.PageStats= pageRepo.getPageStats(page);
+        }
         private void addTicketList(PageDto retPage)
         {
             PageRepository pageRepo = new PageRepository();

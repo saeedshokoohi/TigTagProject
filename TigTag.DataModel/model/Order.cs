@@ -29,9 +29,11 @@ namespace TigTag.DataModel.model
         public Nullable<System.Guid> ModifiedBy { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public Nullable<double> TotalPrice { get; set; }
+        public Nullable<System.Guid> InvoiceId { get; set; }
     
         public virtual Page Page { get; set; }
         public virtual Page Page1 { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual Invoice Invoice { get; set; }
     }
 }

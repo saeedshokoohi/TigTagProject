@@ -60,7 +60,7 @@
   <Class Name="TigTag.DTO.ModelDTO.PageDto">
     <Position X="5.5" Y="6.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>QAACAAgAAAAhAAAgFggAAAgAASAAAgEEgAABgIAQAAA=</HashCode>
+      <HashCode>QAQCAAgAAAAhAAAgFggAAAgAASAAAgEEgAABgIAQAAA=</HashCode>
       <FileName>ModelDTO\PageDto.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -99,7 +99,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAQAEIIAAAAIAABAAAAAAADAAAACAAACA=</HashCode>
+      <HashCode>IAAAAAAgAAAAQAEIIAAAAIAABAAAAAAADAAAACAAACA=</HashCode>
       <FileName>ModelDTO\Base\ResultDto.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -140,14 +140,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.OrderDto">
-    <Position X="11.75" Y="4.75" Width="1.5" />
+    <Position X="11.75" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAADAAIAAAAgAAAAAAAAACIAAAAAQAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>CAADIgIAAAAgAAAAAAAAACIAAAAAQAAAAAEAAAAAAAA=</HashCode>
       <FileName>ModelDTO\OrderDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TigTag.DTO.ModelDTO.OrderItemDto">
-    <Position X="11.75" Y="7.75" Width="1.5" />
+    <Position X="11.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EIACAAAAAAAgAAAAAAAAQAQAAAAAQBAAAAAAAgAAAAA=</HashCode>
       <FileName>ModelDTO\OrderItemDto.cs</FileName>
@@ -158,6 +158,27 @@
     <TypeIdentifier>
       <HashCode>AAACAAAAAQAgAEAAAAIAAAACAAAAAIACAAAABCABAAA=</HashCode>
       <FileName>ModelDTO\TicketDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TigTag.DTO.ModelDTO.PaymentInfo">
+    <Position X="13.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAACAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModelDTO\PaymentInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TigTag.DTO.ModelDTO.InvoiceDto">
+    <Position X="13.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAgAAAACAAAAACAQAAQAQAAAAABAAAAAAA=</HashCode>
+      <FileName>ModelDTO\InvoiceDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TigTag.DTO.ModelDTO.InvoiceTransactionDto">
+    <Position X="13.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAEAAAAAAAAAAAAAAQAAAAAAAAAIAABAAAAAAA=</HashCode>
+      <FileName>ModelDTO\InvoiceTransactionDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="TigTag.DTO.ModelDTO.Base.enm_STATUS_CODE">

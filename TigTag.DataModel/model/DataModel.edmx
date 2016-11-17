@@ -93,6 +93,33 @@
           <Property Name="ImageData" Type="varbinary(max)" />
           <Property Name="ThumbnailData" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="IsPaid" Type="bit" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="500" />
+          <Property Name="CustomerPhone" Type="varchar" MaxLength="20" />
+          <Property Name="CustomerEmailAddress" Type="varchar" MaxLength="50" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="InvoiceTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="StatusCode" Type="int" />
+          <Property Name="TransactionCode" Type="nvarchar" MaxLength="500" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="500" />
+          <Property Name="InvoiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Authority" Type="nvarchar" MaxLength="50" />
+          <Property Name="RefId" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Menu">
           <Key>
             <PropertyRef Name="Id" />
@@ -118,6 +145,7 @@
           <Property Name="ModifiedBy" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="TotalPrice" Type="float" />
+          <Property Name="InvoiceId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -411,6 +439,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_InvoiceTransaction_Invoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceTransaction" Type="Self.InvoiceTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceTransaction">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Menu_Page">
           <End Role="Page" Type="Self.Page" Multiplicity="1" />
           <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
@@ -432,6 +472,18 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="CustomerPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Invoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="InvoiceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -672,6 +724,8 @@
           <EntitySet Name="FollowMenu" EntityType="Self.FollowMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FollowMenuPackage" EntityType="Self.FollowMenuPackage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImageTable" EntityType="Self.ImageTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceTransaction" EntityType="Self.InvoiceTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
@@ -736,12 +790,20 @@
             <End Role="Menu" EntitySet="Menu" />
             <End Role="FollowMenuPackage" EntitySet="FollowMenuPackage" />
           </AssociationSet>
+          <AssociationSet Name="FK_InvoiceTransaction_Invoice" Association="Self.FK_InvoiceTransaction_Invoice">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvoiceTransaction" EntitySet="InvoiceTransaction" />
+          </AssociationSet>
           <AssociationSet Name="FK_Menu_Page" Association="Self.FK_Menu_Page">
             <End Role="Page" EntitySet="Page" />
             <End Role="Menu" EntitySet="Menu" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_CustomerPage" Association="Self.FK_Order_CustomerPage">
             <End Role="Page" EntitySet="Page" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Invoice" Association="Self.FK_Order_Invoice">
+            <End Role="Invoice" EntitySet="Invoice" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Page" Association="Self.FK_Order_Page">
@@ -981,6 +1043,16 @@
           <AssociationSet Name="FK_Ticket_Page" Association="tigtag_dbModel.FK_Ticket_Page">
             <End Role="Page" EntitySet="Pages" />
             <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <EntitySet Name="Invoices" EntityType="tigtag_dbModel.Invoice" />
+          <EntitySet Name="InvoiceTransactions" EntityType="tigtag_dbModel.InvoiceTransaction" />
+          <AssociationSet Name="FK_InvoiceTransaction_Invoice" Association="tigtag_dbModel.FK_InvoiceTransaction_Invoice">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvoiceTransaction" EntitySet="InvoiceTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Invoice" Association="tigtag_dbModel.FK_Order_Invoice">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CommentReply">
@@ -1596,6 +1668,8 @@
           <Property Name="ModifiedBy" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="TotalPrice" Type="Double" />
+          <Property Name="InvoiceId" Type="Guid" />
+          <NavigationProperty Name="Invoice" Relationship="tigtag_dbModel.FK_Order_Invoice" FromRole="Order" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -1706,6 +1780,60 @@
             </Principal>
             <Dependent Role="Ticket">
               <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerEmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="InvoiceTransactions" Relationship="tigtag_dbModel.FK_InvoiceTransaction_Invoice" FromRole="Invoice" ToRole="InvoiceTransaction" />
+          <NavigationProperty Name="Orders" Relationship="tigtag_dbModel.FK_Order_Invoice" FromRole="Invoice" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="InvoiceTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusCode" Type="Int32" />
+          <Property Name="TransactionCode" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Invoice" Relationship="tigtag_dbModel.FK_InvoiceTransaction_Invoice" FromRole="InvoiceTransaction" ToRole="Invoice" />
+          <Property Name="Authority" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RefId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_InvoiceTransaction_Invoice">
+          <End Type="tigtag_dbModel.Invoice" Role="Invoice" Multiplicity="1" />
+          <End Type="tigtag_dbModel.InvoiceTransaction" Role="InvoiceTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceTransaction">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Invoice">
+          <End Type="tigtag_dbModel.Invoice" Role="Invoice" Multiplicity="0..1" />
+          <End Type="tigtag_dbModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="InvoiceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1934,6 +2062,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="tigtag_dbModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -1981,6 +2110,35 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="tigtag_dbModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CustomerEmailAddress" ColumnName="CustomerEmailAddress" />
+                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceTransactions">
+            <EntityTypeMapping TypeName="tigtag_dbModel.InvoiceTransaction">
+              <MappingFragment StoreEntitySet="InvoiceTransaction">
+                <ScalarProperty Name="RefId" ColumnName="RefId" />
+                <ScalarProperty Name="Authority" ColumnName="Authority" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="TransactionCode" ColumnName="TransactionCode" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

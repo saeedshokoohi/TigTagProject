@@ -64,7 +64,11 @@
     <Compile Include="ModelDTO\PageScoreDto.cs" />
     <Compile Include="ModelDTO\PageStatsDto.cs" />
     <Compile Include="ModelDTO\ParticipantDto.cs" />
+    <Compile Include="ModelDTO\PaymentInfo.cs" />
+    <Compile Include="ModelDTO\PayRequestDto.cs" />
     <Compile Include="ModelDTO\RequestDto\BaseRequestDto.cs" />
+    <Compile Include="ModelDTO\InvoiceTransactionDto.cs" />
+    <Compile Include="ModelDTO\InvoiceDto.cs" />
     <Compile Include="ModelDTO\TicketDto.cs" />
     <Compile Include="ModelDTO\TotalScoreDto.cs" />
     <Compile Include="ModelDTO\UserDto.cs" />

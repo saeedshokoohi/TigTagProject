@@ -106,6 +106,14 @@ namespace TigTag.Repository.ModelRepository {
             orderDtoList = addDetailToOrderDtoList(orderDtoList);
             return orderDtoList.AsQueryable();
         }
+
+       
+        public Order getOrderByInvoiceId(Guid invoiceId)
+        {
+            var or= Context.Orders.Where(o => o.InvoiceId == invoiceId);
+            if (or.Count() > 0) return or.First();
+            else return null;
+        }
     }
        
 }

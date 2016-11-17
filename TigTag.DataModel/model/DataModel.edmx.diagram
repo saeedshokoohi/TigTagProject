@@ -59,6 +59,10 @@
         <AssociationConnector Association="tigtag_dbModel.FK_OrderItem_Order" />
         <AssociationConnector Association="tigtag_dbModel.FK_OrderItem_Ticket" />
         <AssociationConnector Association="tigtag_dbModel.FK_Ticket_Page" />
+        <EntityTypeShape EntityType="tigtag_dbModel.Invoice" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="tigtag_dbModel.InvoiceTransaction" Width="1.5" PointX="3" PointY="1.375" />
+        <AssociationConnector Association="tigtag_dbModel.FK_InvoiceTransaction_Invoice" />
+        <AssociationConnector Association="tigtag_dbModel.FK_Order_Invoice" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

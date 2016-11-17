@@ -16,8 +16,9 @@ namespace TigTag.WebApi
         {
           //to enable the CORS (cross original ...)
             var cors = new EnableCorsAttribute("*", "*", "*");
-        //    config.EnableCors(cors);
-           
+            //    config.EnableCors(cors);
+           config.Routes.IgnoreRoute("webform","Views/*/{resource}.aspx/{*pathInfo}");
+
             config.Routes.MapHttpRoute(
                 name: "ApiById",
                 routeTemplate: "api/{controller}/{id}",

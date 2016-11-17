@@ -2,18 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using System.Web.Http;
+
+using TigTag.DTO.ModelDTO;
+using TigTag.DTO.ModelDTO.Base;
+using TigTag.WebApi.Controllers.Util;
 
 namespace TigTag.WebApi.Controllers
 {
-    public class PayRequestController : Controller
+    public class PayRequestController : ApiController
     {
 
 
-        // GET: PayRequest
-        public ActionResult Index()
+        public ResultDto sendRequest(InvoiceDto payrequest )
         {
-            return View();
+            ResultDto retResult = new ResultDto();
+            PaymentUtil paymentUtil = new PaymentUtil();
+            paymentUtil.sendPaymentRequest(payrequest);
+
+            return retResult;
+
         }
+       
+        [System.Web.Http.HttpGet]
+        public void getResponse()
+        {
+
+            string str = this.Request.ToString();
+
+        }
+       
     }
 }

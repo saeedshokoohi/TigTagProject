@@ -122,7 +122,7 @@ namespace TigTag.WebApi.Controllers
                
             }
             catch {
-                throwException("pageid is not valid!!");
+                pageuId = Guid.Empty;
             }
             try
             {

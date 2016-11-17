@@ -9,12 +9,15 @@ namespace TigTag.DTO.ModelDTO.Base
 {
    public  class ResultDto
     {
+      
+
         public bool isDone { get; set; }
         public enm_STATUS_CODE statusCode { get; set; }
         public string message { get; set; }
         public string returnId { get; set; }
         public List<string> validationMessages { get; set; }
         public List<string> returnIdList { get; set; }
+        public PaymentInfo paymentInfo { get; set; }
 
         public ResultDto()
         {

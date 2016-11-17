@@ -17,5 +17,7 @@ namespace TigTag.DTO.ModelDTO
         public List<OrderItemDto> OrderItemList { get; set; }
         public PageDto pageDto { get; set; }
         public PageDto CustomerPageDto { get; set; }
+        public Nullable<System.Guid> InvoiceId { get; set; }
+        public InvoiceDto invoiceDto { get; set; }
     }
 }

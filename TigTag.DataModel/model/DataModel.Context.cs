@@ -45,5 +45,7 @@ namespace TigTag.DataModel.model
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceTransaction> InvoiceTransactions { get; set; }
     }
 }

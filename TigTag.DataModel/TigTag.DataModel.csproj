@@ -145,6 +145,12 @@
     <Compile Include="model\ImageTable.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="model\Invoice.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="model\InvoiceTransaction.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="model\Menu.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
